@@ -1,0 +1,744 @@
+{% extends '::frontend.html.twig' %}
+{% block title %}Gara{% endblock %}
+  {%  block stylesheets %}
+    {{ parent() }}
+      <link href="{{asset('web/bundles/backend/css/style-index.css')}}" rel="stylesheet">
+      <link href="{{asset('web/bundles/backend/css/style.css')}}" rel="stylesheet">
+      <link href="{{asset('web/bundles/backend/css/style-responsive.css')}}" rel="stylesheet" />
+      <link href="{{asset('web/bundles/backend/assets/JAlert/jquery.alerts.css')}}" rel="StyleSheet" type="text/css" />
+	  <link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/css/chart/jquery.jqChart.css')}}" />
+      <link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/css/chart/jquery.jqRangeSlider.css')}}" />  
+	   <style>
+          
+      </style>
+      <style>
+          .btn-ajax{
+              background: #58c9f3 url("{{asset('web/bundles/backend/img/input-spinner.gif')}}") left no-repeat !important;
+              border-color: #58c9f3 !important;
+              color: #fff !important;
+          }
+          .btn-ajax:after{
+              content: 'Loading....';
+
+          }
+		   .checkboxgroup{
+              width: 100%;
+              overflow: auto;
+              margin-left:25px;
+          }
+          .checkboxgroup p{
+              width: 7em;
+              text-align: right;
+          }
+          .checkboxgroup label{
+              width: 100%;
+              float: right;
+          }
+
+      </style>
+  {%  endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('web/bundles/backend/js/jquery.blockUI.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/JAlert/jquery.ui.draggable.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/JAlert/jquery.alerts.mod.js')}}"></script>
+	<script src="{{asset('web/bundles/backend/js/jquery.chart.js')}}"></script>	
+	<script src="{{asset('web/bundles/backend/js/chartjs/jquery.mousewheel.js')}}" type="text/javascript"></script>
+    <script src="{{asset('web/bundles/backend/js/chartjs/jquery.jqChart.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('web/bundles/backend/js/chartjs/jquery.jqRangeSlider.min.js')}}" type="text/javascript"></script>
+	
+	<script src="{{asset('web/bundles/backend/js/chartnew/fusioncharts.js')}}"></script>
+	<script src="{{asset('web/bundles/backend/js/chartnew/fusioncharts.charts.js')}}"></script>
+	<script src="{{asset('web/bundles/backend/js/chartnew/fusioncharts.theme.zune.js')}}"></script>
+    <script>
+    var arrPartiAll = [];
+    var array = [];
+        $(function() {
+		$(".donutchart").donutChart().width('100%');
+		 var files = {{ result_gara|json_encode|raw }};
+		 var myObject = eval('(' + files + ')');
+		 console.log(myObject);
+		 
+		   /* $.ajax({
+                url: '',
+                type: 'GET',
+                success: function(data) {
+                    //chartData =
+
+                   // for(i = 0;i<myObject.length;i++){
+                        //console.log(myObject);
+                        var chartProperties = {
+                            "caption": "",
+                            "xAxisName": "Player",
+                            "yAxisName": "Wickets Taken",
+                            "rotatevalues": "1",
+                            "theme": "zune"
+                        };
+                        chartData =  [
+                            {
+                                "label": myObject[0][0],
+                                "value": myObject[0][1]
+                            },
+                            {
+                                "label": myObject[1][0],
+                                "value": myObject[1][1]
+                            }
+
+                        ]
+                        apiChart = new FusionCharts({
+                            type: 'doughnut2d',
+                            renderAt: 'chart-container',
+                            width: '550',
+                            height: '350',
+                            dataFormat: 'json',
+                            dataSource: {
+                                "chart": chartProperties,
+                                "data":chartData
+                            }
+                        });
+                        apiChart.render();
+                   // }
+                }
+            });*/
+		 
+		 /*Pie Chart*/
+		      var background = {
+                type: 'linearGradient',
+                x0: 0,
+                y0: 0,
+                x1: 0,
+                y1: 1,
+                colorStops: [{ offset: 0, color: '#d2e6c9' },
+                    { offset: 1, color: 'white' }]
+            };
+
+            $('#jqChart').jqChart({
+                title: { text: 'Completamento' },
+                legend: { title: 'Stato' },
+                border: { strokeStyle: '#6ba851' },
+                background: background,
+                animation: { duration: 1 },
+                shadows: {
+                    enabled: true
+                },
+                series: [
+                    {
+                        type: 'pie',
+                        fillStyles: ['#418CF0', '#FCB441', '#E0400A', '#056492', '#BFBFBF', '#1A3B69', '#FFE382'],
+                        labels: {
+                            stringFormat: '%.1f%%',
+                            valueType: 'percentage',
+                            font: '15px sans-serif',
+                            fillStyle: 'white'
+                        },
+                        explodedRadius: 10,
+                        explodedSlices: [5],
+                        data: myObject
+                    }
+                ]
+            });
+
+           $('#jqChart').bind('tooltipFormat', function (e, data) {
+                var percentage = data.series.getPercentage(data.value);
+                percentage = data.chart.stringFormat(percentage, '%.2f%%');
+
+                return '<b>' + data.dataItem[0] + '</b><br />' +
+                data.value + ' (' + percentage + ')';
+            });
+        
+		
+		
+			//$('.canvasjs-chart-credit').css('display','none');
+            $('.content-form').css('display','block');
+          
+
+            $('#btn-continue').click(function () {
+
+                if($('input[name=chk_categ]:checked').size()!=0 && $('input[name=figure]:checked').size()!=0){
+                    var temp = [];
+                    $('input[name=chk_categ]:checked').each(function () {
+                        //alert($(this).html());
+                        temp.push($(this).val());
+                    });
+                    var url = "{{ path('subcategory_categ') }}";
+                    var data = {
+                        idcateg: temp
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: data,
+                        dataType: "html",
+                        beforeSend: function (request) {
+                            $('.content-form').css('display','none');
+                            $('#btn-continue').css('display','none');
+                            $('#btn-cotinue2').css('display','block');
+                            $('#btn-back-0').css('display','block');
+
+                            // $('#btn-continue').addClass('btn-ajax').text('');
+                            //
+                           // alert("SCEGLI  LE PARTI PROGETTUALI CHE RITIENI DI POTER SVILUPPARE CON ADEGUATA COMPETENZA E RAPIDITA' DI ESECUZIONE");
+                        },
+                        success: function (result, request) {
+                            var parsedData =JSON.parse(result);
+                            if(parsedData.status ==='success') {
+                                $('.content-question').html(parsedData.data);
+                                // $('.content-form').css('display','none');
+                            }
+                        },
+                        complete: function (result) {
+                            //$('.content-form').css('display','none');
+                            //$('#btn-continue').removeClass('btn-ajax').text('Step 2');
+                        }
+
+                    });
+
+                }else{
+                    alert('Seleccione!!!');
+                }
+
+            });
+
+
+            var temp = [];
+            var html="";
+            var arrOpere = new Array();
+            $('#btn-cotinue2').click(function(){
+               //console.log( JSON.stringify(array[0]));
+                  $('input[name=opere]:checked').each(function(i){
+                      //alert($(this).parent().parent().attr('id'));
+                         //temp[i]= $(this).val();
+                      arrOpere.push({'subcategory':$(this).parent().parent().attr('id'),'operes':$(this).val()});
+                });
+
+                //console.log(temp);
+
+                  /*  $('div .check-mark').each(function(j){
+                        var idsub = $(this).attr('id');
+                        var  temp_oper = [];
+                        $(this).find('input[name=opere]:checked').each(function(k){
+                            temp_oper[k] =$(this).val();
+                            alert($(this).parent().val());
+                        });
+                        if(temp_oper.length>0){
+                            arrOpere.push({'subcategory':idsub,'operes':temp_oper});
+                            // temp_oper.length = 0;
+                        }
+                        //console.log(arrOpere);
+                        // temp_oper.length = 0;
+                    });*/
+
+                var url = "{{ path('part_progettuali')}}";
+                var data = {
+                    progettualli:arrOpere
+                }
+
+                //console.log(data);
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: data,
+                    dataType: "html",
+                    beforeSend: function (request) {
+                        $('.content-question').css('display','none');
+                        $('.content-question2').html("");
+                        $('.content-form').css('display','none');
+                        $('#btn-continue').css('display','none');
+                        $('#btn-cotinue2').css('display','none');
+                        $('#btn-cotinue3').css('display','block');
+                        $('#btn-back-0').css('display','none');
+                        $('#btn-back-1').css('display','block');
+                    },
+                    success: function (result, request) {
+                        var parsedData =JSON.parse(result);
+                        if(parsedData.status ==='success') {
+                            $('.content-question2').html(parsedData.data);
+                            // $('.content-form').css('display','none');
+                        }
+                    },
+                    complete: function (result) {
+                        //$('.content-form').css('display','none');
+                        //$('#btn-continue').removeClass('btn-ajax').text('Step 2');
+                    }
+
+                });
+                //console.log(temp);
+
+            });
+
+
+            //step 3
+            $('#btn-cotinue3').click(function(){
+                var arrayOperes = new Array();
+                $('.content-result').each(function(i){
+                   var idopere = $(this).attr('id');
+                    var arrProg = []
+                    $(this).children().find('input[name=typeprogett]:checked').each(function(j){
+                       // alert($(this).val());
+                        arrProg[j] = $(this).val();
+                    });
+
+                    arrayOperes.push({'idopere':idopere,'progettuali':arrProg});
+
+                });
+                var url = "{{ path('data_opere') }}";
+                 var data = {
+                     idfigure:$('input[name=figure]:checked').val(),
+                     createby:$('#email').val(),
+                     idgara:$('#idgara').val(),
+                     operes:arrayOperes
+                    }
+                 $.ajax({
+                     type: "POST",
+                     url: url,
+                     data:data,
+                     dataType: "html",
+                     beforeSend:function(request) {
+                         $('.content-question').css('display','none');
+                         $('.content-question2').html("");
+                         $('.content-form').css('display','none');
+                         $('#btn-continue').css('display','none');
+                         $('#btn-cotinue2').css('display','none');
+                         $('#btn-cotinue3').css('display','none');
+                         $('#btn-cotinue4').css('display','block');
+                         $('.head-text').text("TRA LE PARTI PROGETTUALI COSI' IDENTIFICATE, EVIDENZIA QUELLE CHE SVILUPPI CON PARTICOLARE PASSIONE ED ENTUSIASMO");
+                         $('#btn-back-0').css('display','none');
+                         $('#btn-back-1').css('display','none');
+                         $('#btn-back-2').css('display','block');
+                       // alert("TRA LE PARTI PROGETTUALI COSI' IDENTIFICATE, EVIDENZIA  QUELLE CHE SVILUPPI CON PARTICOLARE PASSIONE ED ENTUSIASMO");
+                     },
+                     success: function(result, request) {
+                         var parsedData =JSON.parse(result);
+                         if(parsedData.status ==='success') {
+                             $('.content-question3').html(parsedData.data);
+                             // $('.content-form').css('display','none');
+                         }
+                     }
+                 });
+
+            });
+
+            //step 4
+            $('#btn-cotinue4').click(function(){
+                var arrayOperes = new Array();
+                $('.content-result2').each(function(i){
+                    var idopere = $(this).attr('id');
+                    var arrProg = []
+                    $(this).children().find('input[name=typeprogett2]:checked').each(function(j){
+                        // alert($(this).val());
+                        arrProg[j] = $(this).val();
+                    });
+
+                    arrayOperes.push({'idopere':idopere,'progettuali':arrProg});
+
+                });
+
+                var data = {
+                    idoperes:arrayOperes,
+                    idformgara:$('#idformgara').val()
+                }
+                var url = "{{ path('insert_operestar') }}";
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data:data,
+                    dataType:"json",
+                    beforeSend:function(request) {
+                        $('.content-question3').css('display','none');
+                        $('.form-upload').css('display','block');
+                        $('#btn-cotinue3').css('display','none');
+                        $('#btn-cotinue4').css('display','none');
+                        $('#btn-finish').css('display','block');
+                        $('.head-text').text("Finish Gara");
+                    },
+                    success: function(response) {
+
+                    }
+                });
+
+            });
+
+            //step finish
+            $('#btn-finish').click(function(e){
+                e.preventDefault();
+                var fd = new FormData();
+                var file = $(document).find('input[type="file"]');
+                var individual_file = file[0].files[0];
+               // var figure =  $('input[name=figure]:checked').val();
+                //var value = $('#idgara').val();
+                var url = "{{ path('create_competencia')}}";
+               // url = url.replace("text1", value);
+
+               // fd.append('idopere',listOpere());
+               fd.append('idgara',$('#idgara').val());
+               fd.append('idformgara',$('#idformgara').val());
+               // fd.append('operestar',listOpereStar());
+                //fd.append('figure',figure);
+                fd.append("file", individual_file);
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data:fd,
+                    dataType:"json",
+                    contentType: false,
+                    processData: false,
+                    beforeSend:function(request) {
+                        $.blockUI({ css: {
+                            border: 'none',
+                            padding: '15px',
+                            backgroundColor: '#000',
+                            '-webkit-border-radius': '10px',
+                            '-moz-border-radius': '10px',
+                            opacity: .5,
+                            color: '#fff'
+                        }});
+                    },
+                    success: function(response) {
+                        //$('#myModal').css('display','none');
+                       // alert(response.mensaje);
+                        jAlert(response.mensaje, 'Alert Dialog');
+                        location.href="{{ path('all_gara') }}"
+                    },
+                    complete: function(data) {
+                        // end of ajax call
+                        $.unblockUI();
+                    }
+                });
+
+            });
+
+            //Parti Progettuali
+            $('#partiprogettuali').change(function(){
+                var id = $(this).val();
+                //buscar checkbox checked
+                var html= "";
+                $.ajax({
+                    type: "POST",
+                    url: "{{path('type_parti_progettuali')}}",
+                    data:{id:id},
+                    dataType:"json",
+                    success: function(response) {
+                        $('.content-parti').html("");
+                        if(response.success){
+                            $.each(response.result,function(i,value){
+                                html+='<div  class="checkbox"><label><input name="typeparti" value="'+value.id+'" type="checkbox">'+value.name+'</label></div>';
+                            });
+                            $('.content-parti').html(html);
+                            isChecked();
+                        }
+                    },
+                    complete: function() {
+
+                    }
+                });
+
+            });
+
+
+            //button back
+            $('#btn-back-0').click(function(e){
+                e.preventDefault();
+                $('.content-form').css('display','block');
+                $('.content-question').css('display','none');
+                $(this).css('display','none')
+                location.reload();
+
+            });
+            $('#btn-back-1').click(function(e){
+                e.preventDefault();
+                $('.content-question').css('display','block');
+                $('.content-question2').css('display','none');
+                $(this).css('display','none');
+                $('#btn-back-0').css('display','block');
+            });
+            $('#btn-back-2').click(function(e){
+                e.preventDefault();
+               // $('.content-question').css('display','block');
+                $('.content-question2').css('display','block');
+                $('.content-question3').css('display','none');
+                $(this).css('display','none');
+                $('#btn-back-1').css('display','block');
+            });
+			
+			   //Grafico
+            //var files = {{ result_gara|json_encode|raw }};
+            //var myObject = eval('(' + files + ')');
+            //alert(myObject);
+            //console.log(myObject);
+            for(i = 0;i<myObject.length;i++) {
+                $.plot($("#graph"), myObject[i].percents,
+                        {
+                            series: {
+                                pie: {
+                                    show: true,
+                                    radius: 1,
+                                    label: {
+                                        show: true,
+                                        radius: 1,
+                                        formatter: function (label, series) {
+                                            console.log(series);
+                                            return '<div style="font-size:8pt;text-align:center;padding:2px;color:white;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';
+                                        },
+                                        background: {opacity: 0.8}
+                                    }
+                                }
+                            },
+                            legend: {
+                                show: false
+                            }
+                        });
+              }
+			
+			
+        });//end function
+        //retorna todas los id opere
+        var listOpere = function(){
+            var result =[];
+            var j = 0;
+            $('div .check-mark').each(function(){
+               //alert( $(this).children().find('input[type=checkbox]:checked').size());
+                var idsubcat = $(this).attr('id');
+                var i = 0;
+                var  arrayOpere =new Array();
+                var  temp =new Array();
+                $(this).children().find('input[type=checkbox]:checked').each(function(){
+                    temp[i] = $(this).val();
+                    i++;
+                });
+                arrayOpere.push(temp);
+                result[j]= {'subcategory':idsubcat,'operes':arrayOpere};
+                j++;
+            });
+
+            return JSON.stringify(result);
+            //return result;
+        }
+
+        var listOpereStar = function(){
+            var arroperes = [];
+            $('input[name=operestar]:checked').each(function(){
+
+                arroperes.push($(this).val());
+
+            });
+
+            return arroperes;
+        }
+
+    var isChecked = function(){
+        var idopere = $('#tex_opere').val();
+        var arrParti = [];
+        //alert($('#tex_opere').val());
+        $('input[name=typeparti]').change(function(){
+            if(this.checked == true){ //if this item is checked
+                if(!isElement(arrParti,$(this).val()))
+                    arrParti.push($(this).val());
+            }else{
+                if(this.checked == false){
+                   // arrParti.removeAttribute($(this).val());
+                    //deleteElement(arrParti,$(this).val());
+                }
+            }
+           //console.log(arrParti);
+        });
+        arrPartiAll.push({'idopere':idopere,'progettuali':arrParti})
+        //return JSON.stringify(arrPartiAll);
+
+    }
+    var isElement = function(elements,value){
+        var esta = false;
+        for(i = 0;i<elements.length && !esta;i++){
+            if(value === elements[i])
+                esta = true;
+        }
+        return esta;
+    }
+    var deleteElement = function(elements,value){
+        var esta = false;
+        for(i = 0;i<elements.length && !esta;i++){
+            if(value === elements[i]){
+                elements[i] = elements[i+1];
+                var pos = i;
+                //if(pos)
+            }
+
+        }
+
+    }
+    </script>
+{% endblock %}
+{% block bodypage %}
+    <!--breadcrumbs start-->
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-sm-4">
+                    <h1>Gara</h1>
+                </div>
+                <div class="col-lg-8 col-sm-8">
+                    <ol class="breadcrumb pull-right">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Pages</a></li>
+                        <li class="active">Contact</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--breadcrumbs end-->
+    <!--container start-->
+    <div class="container">
+        <input type="hidden" id="idgara" value="{{ datos.idgara }}">
+        <div class="row">
+            <div class="col-lg-8">
+                <section class="panel">
+                    <header class="panel-heading register-heading head-text">
+                        SCEGLI LE PARTI PROGETTUALI CHE RITIENI DI POTER SVILUPPARE CON ADEGUATA COMPETENZA E RAPIDITA' DI ESECUZIONE
+                    </header>
+                    <div class="panel-body">
+                            <form class="form-horizontal tasi-form">
+                                <div class="form-upload" style="display:none;">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Upload CV</label>
+                                        <div class="col-lg-8">
+                                            <div class="row">
+                                                <div class="col-lg-8 col1199_6">
+                                                    <input type="text" value="" name="mfile" id="mfile" class="form-control" readonly>
+                                                </div>
+                                                <div class="col-lg-4 col1199_2">
+                                                    <div class="btnfile">
+                                                        <a class='btn btn-primary btn-file' href='javascript:;'>
+                                                            Choose File...
+                                                            <input type="file" class="mfile" name="file_source" onchange='$("#mfile").val($(this).val());'>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content-question">
+                                </div>
+                                <div class="content-question2"></div>
+                                <div class="content-question3"></div>
+                                <div class="content-form" style="display: none;">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Full Name</label>
+                                        <div class="col-md-3 col-xs-11">
+                                            {% if datos.user is defined  %}
+                                            <input type="text" id="username" value="{{ datos.user.name }}"   class="form-control" placeholder="Full Name" readonly>
+                                             {% else %}
+                                            <input type="text" id="username" value=""   class="form-control" placeholder="Full Name">
+                                             {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Email Address</label>
+                                        <div class="col-md-3 col-xs-11">
+                                            {% if datos.user is defined  %}
+                                                <input type="text" id="email" value="{{ datos.user.user }}" class="form-control" placeholder="Email Address" readonly>
+                                            {% else %}
+                                                <input type="text" id="email" value="" class="form-control" placeholder="Email Address">
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Figure Richieste</label>
+                                        <div class="col-lg-10">
+                                            {% for figure in datos.figures %}
+                                                <div class="radio">
+                                                    <label>
+                                                        <input name="figure" id="{{ figure.idfigure }}" value="{{ figure.idfigure }}"  type="radio">
+                                                        {{ figure.name_figure }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+									<div class="form-group">
+                                      <label style="width:100%;" class="col-sm-2 control-label col-lg-2" for="inputSuccess">Seleziona le tue aree di competenza</label>
+                                      <fieldset class="checkboxgroup">
+                                          {% for item in datos.categories %}
+                                              <label><input name="chk_categ" value="{{ item.id }}" type="checkbox"> {{ item.name }}</label>
+                                          {% endfor %}
+                                      </fieldset>
+                                  </div>                                   
+                                </div>
+                                <button id="btn-continue" type="button"  style="float: right;" class="btn btn-info">Step 1</button>
+                                <button id="btn-back-0" type="button"  style="float: left;display: none;" class="btn btn-info">Back</button>
+                                <button id="btn-cotinue2" type="button"  style="float: right; display: none" class="btn btn-info">Step 2</button>
+                                <button id="btn-back-1" type="button"  style="float: left;display: none;" class="btn btn-info">Back</button>
+                                <button id="btn-cotinue3" type="button"  style="float: right; display: none" class="btn btn-info">Step 3</button>
+                                <button id="btn-back-2" type="button"  style="float: left;display: none;" class="btn btn-info">Back</button>
+                                <button id="btn-cotinue4" type="button"  style="float: right; display: none" class="btn btn-info">Step 4</button>
+                                <button id="btn-finish" type="button"  style="float: right; display: none" class="btn btn-info">Finish</button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title">Parti Progettuali</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Parti Progettuali</label>
+                                                    <div class="col-md-6 col-xs-11">
+                                                        <select id="partiprogettuali" class="form-control">
+                                                            <option>-Seleziona la Parti Progettuali-</option>
+                                                            {% for item in datos.partipogettuali %}
+                                                                <option value="{{ item.id }}">{{ item.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-10">
+                                                        <input type="hidden" id="tex_opere" value="">
+                                                        <div class="content-parti">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- modal -->
+
+                            </form>
+                     </div>
+                </section>
+            </div>
+			 <div class="col-lg-4">
+                <!--main content start-->
+                <div class="flot-chart">
+                    <!-- page start-->
+                    <div class="row">
+                            <div class="col-lg-12">
+                                <section class="panel">
+                                    <header class="panel-heading">
+                                    </header>
+                                    <div class="panel-body">
+									 <!--div id="chart-container"></div-->
+									 <div id="jqChart" class="chart"></div>
+										<!--table class="donutchart">
+											<tr><th>sortOrder</th><th>value</th><th>color</th><th>description</th></tr>
+											<tr><td>1</td><td>{{gara[0].percents[0].data}}</td><td>red</td><td>{{gara[0].percents[0].label}}</td></tr>
+											<tr><td>2</td><td>{{gara[0].percents[1].data}}</td><td>blue</td><td>{{gara[0].percents[1].label}}</td></tr>											
+										</table-->
+                                    </div>
+                                </section>
+                            </div>
+						</div>
+                    <!-- page end-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--container end-->
+{% endblock %}

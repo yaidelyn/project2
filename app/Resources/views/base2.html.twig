@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %} | TE.x Ingegneria collaborativa</title>
+    <meta name="description" content="TE.x è una nuova organizzazione che adotta un business model Lean startup ripetibile e scalabile." />
+    <meta name="keywords" content="tex, ingegneria collaborativa, community, veloce, migliore, economica, piattaforme, algoritmi, ripetibile, scalabile" />
+    <link rel="icon"  href="{{ asset('web/bundles/frontend/favicon.ico') }}" />
+    {% block stylesheets %}{% endblock %}
+    {% block javascripts %}
+    {% endblock %}
+</head>
+<body class="demo-5">
+<div id="container" class="container-cont intro-effect-sidefixed">
+    <!-- Top Navigation -->
+    <div class="codrops-top clearfix">
+        <span class="logo-rpm">
+            <img alt="logo" src="{{ asset('web/bundles/frontend/img/logo-tex-engineering.png') }}">
+        </span>
+        <ul class="main-left-nav" id="menu">
+            <li><a href="#home"><strong>> ita</strong></a> | </li>
+            <li><a href="#home">Home</a></li>            
+            <li><a href="#over-wrap">Contattaci</a></li>
+            <li><a href="#map-wrap">Mappa</a></li>
+            <!-- <li><a href="#gallery">GALLERY</a></li>
+             <li><a href="#spec">specification</a></li>
+             <li><a href="#price">PLAN</a></li>
+             <li><a href="#faq">F.A.Q</a></li> -->
+        </ul>
+        <ul class="sub-nav">
+            <li class="pull-left"><a href="tel:+393332418259">+39 070 380 044</a></li>
+            <li class="pull-left">|</li>
+            <li class="pull-left"><a href="mailto:info@te-x.net">info@te-x.net</a></li>
+            <li class="pull-left">|</li>
+        </ul>
+    </div>
+    <!-- End of Top Navigation -->
+    {% block slider %}
+    {% endblock %}
+    <!-- End ofImage Slider -->
+    <button class="trigger bounce" data-info="Scorri verso il basso"><span>Trigger</span></button>
+        <!-- Content Wrapper -->
+        <div class="content">
+            {% block body %}{% endblock %}
+            <!-- Footer -->
+            <footer>
+                <div class="footer-text">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6"><span class="copyright"> Copyright © TE.x S.r.l.2016 | All images under <a href="http://creativecommons.org/publicdomain/zero/1.0/" target=_black">creative commons</a></span> </div>
+                            <div class="col-md-6" style="position:relative">
+                                <ul class="list-inline social-buttons">
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- end of Footer -->
+        </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- /container -->
+</body>
+</html>
+

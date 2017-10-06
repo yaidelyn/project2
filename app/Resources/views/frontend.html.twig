@@ -1,0 +1,33 @@
+{% extends '::baseindex.html.twig' %}
+ {% block stylesheets %}
+     <!-- Bootstrap core CSS -->
+     <link href="{{asset('web/bundles/backend/css/bootstrap.min.css')}}" rel="stylesheet">
+     <link href="{{asset('web/bundles/backend/css/theme.css')}}" rel="stylesheet">
+     <link href="{{asset('web/bundles/backend/css/bootstrap-reset.css')}}" rel="stylesheet">
+     <!--external css-->
+     <link href="{{asset('web/bundles/backend/css/font-awesome.css')}}" rel="stylesheet" />
+     <link href="{{asset('web/bundles/backend/css/flexslider.css')}}" rel="stylesheet"/>
+     <link href="{{asset('web/bundles/backend/assets/bxslider/jquery.bxslider.css')}}" rel="stylesheet" />
+     <link href="{{asset('web/bundles/backend/assets/fancybox/source/jquery.fancybox.css')}}" rel="stylesheet" />
+     <link href="{{asset('web/bundles/backend/assets/revolution_slider/css/rs-style.css')}}" rel="stylesheet" media="screen">
+     <link href="{{asset('web/bundles/backend/assets/revolution_slider/rs-plugin/css/settings.css')}}" rel="stylesheet" media="screen">
+     <!-- Custom styles for this template -->
+     <link href="{{asset('web/bundles/backend/css/style-responsive.css')}}" rel="stylesheet" />
+ {% endblock %}
+{% block javascripts %}
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
+    <script src="{{asset('web/bundles/backend/js/html5shiv.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/respond.min.js')}}"></script>
+
+    <script src="{{asset('web/bundles/backend/js/jquery.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/jquery-1.8.3.min.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/hover-dropdown.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/jquery.flexslider.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/bxslider/jquery.bxslider.min.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/link-hover.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/fancybox/source/jquery.fancybox.pack.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/revolution_slider/rs-plugin/js/jquery.themepunch.plugins.min.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/revolution_slider/rs-plugin/js/jquery.themepunch.revolution.min.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/revulation-slide.js')}}"></script>
+{% endblock %}

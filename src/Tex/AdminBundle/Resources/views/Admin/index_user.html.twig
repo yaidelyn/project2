@@ -1,0 +1,181 @@
+{% extends '::backend.html.twig' %}
+{% block title %}Dashboard User{% endblock %}
+  {%  block stylesheets %}
+      {{ parent() }}
+  {%  endblock %}
+    {% block aside %}
+        <div class="row">
+            <div class="col-lg-4">
+                <!--user info table start-->
+                <section class="panel">
+                    <div class="panel-body">
+                        <a href="#" class="task-thumb">
+                            <img src="img/avatar1.jpg" alt="">
+                        </a>
+                        <div class="task-thumb-details">
+                            <h1><a href="#">{{ datos.fullname }}</a></h1>
+                            <p>{{ datos.formation.nameOcupation }}</p>
+                        </div>
+                    </div>
+                    <table class="table table-hover personal-task">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <i class=" fa fa-tasks"></i>
+                            </td>
+                            <td>Squadra Quantità</td>
+                            <td> {{ cant_team }}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i class="fa fa-exclamation-triangle"></i>
+                            </td>
+                            <td>Numero di offerte</td>
+                            <td> {{ cant_offer }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </section>
+                <!--user info table end-->
+            </div>
+            <div class="col-lg-8">
+                <!--work progress start-->
+                <section class="panel">
+                    <div class="panel-body progress-panel">
+                        <div class="task-progress">
+                            <h1>Gara Progress</h1>
+                            <p>{{ datos.fullname }}</p>
+                        </div>
+                    </div>
+                    <table class="table table-hover personal-task">
+                        <tbody>
+                        {% for item in result_gara %}
+                        <tr>
+                            <td>1</td>
+                            <td>
+                               {{ item.namegara }}
+                            </td>
+                            <td>
+                                <span class="badge bg-important">  {{ item.percent }}%</span>
+                            </td>
+                            <td>
+                                <div id="work-progress1"><canvas style="display: inline-block; width: 47px; height: 20px; vertical-align: top;" width="47" height="20"></canvas></div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </section>
+                <!--work progress end-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <!--work progress start-->
+                <section class="panel">
+                    <div class="panel-body progress-panel">
+                        <div class="task-progress">
+                            <h1>Team</h1>
+                            <p>{{ datos.fullname }}</p>
+                        </div>
+                    </div>
+                    <table class="table table-hover personal-task">
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nome Squadra </th>
+                            <th>Descrizione</th>
+                            <th>Num Persone</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% set i=1 %}
+                        {% for item in datos.team %}
+                        <tr>
+                            <td>{{ i }}</td>
+                            <td>
+                               {{ item.name }}
+                            </td>
+                            <td>
+                                {{ item.description }}
+                            </td>
+                            <td>
+                                <span class="badge bg-important">{{ item.countperson }}</span>
+                            </td>
+                        </tr>
+                            {% set i= i+1 %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </section>
+                <!--work progress end-->
+            </div>
+
+        </div>
+    {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function(){
+          //  setInterval("cargar()",1000);
+
+            $('#btn_send').click(function(){
+
+               var data = {
+                   msg: $('#msg').val()
+               }
+               $.ajax({
+                   type: "POST",
+                   url: "{{path('insert_msg')}}",
+                   data:{data:data},
+                   dataType:"json",
+                   success: function(response) {
+                       $('#msg').val('');
+                       //alert(response.result);
+                      /*$.each(response.result, function(i, item) {
+                           alert(item);
+                       });*/
+                   }
+               });
+
+
+           });
+
+        });
+        function cargar(){
+
+            $.ajax({
+                type: "POST",
+                url: "{{path('load_msg')}}",
+                data:{},
+                dataType:"json",
+                success: function(response) {
+                    var html = "";
+                    $.each(response.result, function(i, item) {
+                       // alert(item.name);
+                        $('.message-all').html('');
+                        var img = '/web/bundles/backend/img/avatars/large/'+item.avatar;
+                       // alert(img);
+                        html+='<div class="msg-time-chat">'+
+                                    '<a href="#" class="message-img">'+
+                                      '<img class="avatar" src="'+img+'" alt="">'+
+                                    '</a>'+
+                                    '<div class="message-body msg-in">'+
+                                        '<span class="arrow"></span>'+
+                                        '<div class="text">'+
+                                            ' <p class="attribution"><a href="#">'+item.name+'</a> at 1:55pm, 13th April 2013</p>'+
+                                            '<p>'+item.text+'</p>'+
+                                         '</div>'+
+                                    '</div>'+
+                                '</div>';
+
+                    });
+                    $('.message-all').html(html);
+
+                }
+            });
+
+        }
+    </script>
+{% endblock %}

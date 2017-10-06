@@ -1,0 +1,23 @@
+Tex\TexnoBundle\Entity\Mansion:
+    type: entity
+    table: mansion
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        nomeMansion:
+            type: string
+            length: 255
+            column: nome_mansion
+        value:
+            type: float
+        juniorSenior:
+            type: integer
+            column: junior_senior
+        idPerson:
+            type: integer
+            column: id_person
+    lifecycleCallbacks: {  }

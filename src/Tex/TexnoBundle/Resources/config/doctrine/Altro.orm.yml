@@ -1,0 +1,31 @@
+Tex\TexnoBundle\Entity\Altro:
+    type: entity
+    table: altro
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        committente:
+            type: string
+            length: 255
+        oggetto:
+            type: string
+            length: 255
+        importo:
+            type: float
+        scadenza:
+            type: date
+        critAggiudi:
+            type: string
+            length: 255
+            column: crit_aggiudi
+        altro:
+            type: string
+            length: 255
+        idPerson:
+            type: integer
+            column: id_person
+    lifecycleCallbacks: {  }

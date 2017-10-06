@@ -1,0 +1,90 @@
+#Rutas relacionadas con el logueo en el sistema
+login:
+    path:     /login
+    defaults: { _controller: UsuarioBundle:Default:login }
+
+login_externo:
+    path:     /login_externo
+    defaults: { _controller: UsuarioBundle:Frontend:loginExterno }
+
+User_index:
+    path:     /index
+    defaults: { _controller: UsuarioBundle:Default:index }
+
+login_check:
+    path: /login_check
+
+User_logout:
+    path: /logout
+    
+create_user:
+    path: /create_user/
+    defaults: { _controller: UsuarioBundle:Usuario:createUser }
+
+edit_profile:
+    path: /edit_profile/
+    defaults: { _controller: UsuarioBundle:Usuario:editProfile }
+
+view_profile:
+    path: /view_profile/
+    defaults: { _controller: UsuarioBundle:Usuario:viewProfile }
+
+edit_formation:
+    path: /edit_formation/
+    defaults: { _controller: UsuarioBundle:Usuario:editFormation }
+
+update_formation:
+    path: /update_formation/
+    defaults: { _controller: UsuarioBundle:Usuario:updateFormation }
+
+matching_password:
+    path: /matching_passw/
+    defaults: { _controller: UsuarioBundle:Usuario:matchingPassword }
+
+edit_avatar:
+    path: /edit_avatar/
+    defaults: { _controller: UsuarioBundle:Usuario:editAvatar }
+
+upload_avatar:
+    path: /upload_avatar/
+    defaults: { _controller: UsuarioBundle:Usuario:uploadAvatar }
+
+crop_image:
+    path: /crop_image/
+    defaults: { _controller: UsuarioBundle:Usuario:cropImage }
+
+list_user:
+    path: /list_user/
+    defaults: { _controller: UsuarioBundle:Usuario:listAllUser }
+
+calendar:
+    path: /calendar/
+    defaults: { _controller: UsuarioBundle:Usuario:calendar }
+
+update_profile:
+    path: /update_profile/
+    defaults: { _controller: UsuarioBundle:Usuario:updateProfile }
+
+change_pwd:
+    path: /change_password/
+    defaults: { _controller: UsuarioBundle:Usuario:changePassword }
+    
+insert_msg:
+    pattern: /insert_msg
+    defaults: { _controller: UsuarioBundle:Chat:insertMsg }
+
+load_msg:
+    pattern: /load_msg
+    defaults: { _controller: UsuarioBundle:Chat:loadMsg }
+
+upload_file_frontend:
+    path: /upload_file_frontend
+    defaults: { _controller: UsuarioBundle:Usuario:uploadFileFrontend }
+
+page_about_tex:
+    path: /page_about_tex
+    defaults: { _controller: UsuarioBundle:Frontend:aboutPage }
+    
+city_per_country:
+   pattern: /city_per_country/{code}
+   defaults: { _controller: UsuarioBundle:Usuario:getCityByCountry }

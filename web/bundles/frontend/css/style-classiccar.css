@@ -1,0 +1,101 @@
+/*
+main color :#e20404;
+*/
+
+@import url(https://fonts.googleapis.com/css?family=Playfair+Display:400,700,900);
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700);
+/*@import url(http://fonts.googleapis.com/css?family=Arizonia);*/
+body {
+    font-family: 'Roboto Slab', serif!important;
+    font-size: 16px!important;
+    color: #666!important;
+    overflow-x: hidden!important;
+    line-height: 1.7em!important;
+    font-weight: 300;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.7em;
+    color: #666;
+    font-weight: normal;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 300;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+}
+/*.somefact-title h2 {
+    margin: 0 0 50px 0;
+    font-size: 35px;
+    position: relative;
+    text-transform: capitalize;
+    font-family: 'Arizonia', cursive;
+}*/
+.knob-circle h4{
+	font-weight: 700!important;
+}
+.intro-effect-sidefixed .codrops-demos a {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.over-title {
+    font-family: 'Roboto Slab', serif!important;
+    font-weight: 100;
+}
+
+.pricing-rate, .pricing-rate-coustom {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 700;
+}
+
+.btn-xl {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 700;
+}
+
+.modify .title h1 strong,
+.spec-car dt:before,
+.knob-circle i,
+.spec-title span,
+.spec-title i,
+.pricing-header h2 span,
+.pricing-list ul li i,
+.pricing-rate-coustom,
+.over-title span {
+    color: #e20404!important;
+}
+
+.somefact-title h2 span:before {
+    border-color: #e20404 transparent transparent transparent!important;
+}
+
+.somefact-title h2:before {
+    background-color: #e20404!important;
+}
+
+.blue-color,
+.btn-custom {
+    background: #e20404!important;
+    border: 1px solid #e20404!important;
+}
+
+.input-sub {
+    border: 1px solid #e20404!important;
+}
+
+.modify .codrops-top a:active,
+.modify .codrops-top a:focus,
+.modify .codrops-top a.active,
+.modify .codrops-top a:hover {
+    background: #e20404!important;
+}

@@ -1,0 +1,52 @@
+<!-- SELECT2 -->
+<link href="{{asset('web/bundles/backend/css/style-index.css')}}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/assets/nestable/jquery.nestable.css')}}" />
+
+<style>
+    .col15{
+        width: 20%;
+    }
+    .content-result{
+        margin-bottom: 5px;
+        border-bottom: 1px solid #eff2f7;
+    }
+    .label-proge{
+        font-weight: 600!important;
+    }
+</style>
+<!--script for this page-->
+<script>
+    $(function(){
+
+
+    });
+</script>
+<input type="hidden" id="idformgara" value="{{ result.idformgara }}">
+<input type="hidden" id="idgara" value="{{ result.data.idgara }}">
+{% for value in result.data %}
+<div id="{{ value.idopere }}" class="content-result2">
+     <div class="row">
+         <div  class="col-lg-12 opere">
+             <label>{{ value.name_opere }}</label>
+         </div>
+     </div>
+    <div class="row">
+        {% for item in value.progettuali %}
+        <div class="col-lg-2 col15">
+            <label id="{{ item.idparti }}" class="control-label label-proge">{{ item.name }}</label>
+                {% for elem in item.type %}
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input name="typeprogett2" value="{{ elem.id }}" type="checkbox">  {{ elem.nametype }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}

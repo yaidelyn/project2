@@ -1,0 +1,346 @@
+{% extends '::frontend.html.twig' %}
+{% block title %}About{% endblock %}
+  {%  block stylesheets %}
+    {{ parent() }}
+  <link href="{{asset('web/bundles/backend/css/style-index.css')}}" rel="stylesheet">
+  {%  endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function(){
+
+            $('[data-zlname = reverse-effect]').mateHover({
+                position: 'y-reverse',
+                overlayStyle: 'rolling',
+                overlayBg: '#fff',
+                overlayOpacity: 0.7,
+                overlayEasing: 'easeOutCirc',
+                rollingPosition: 'top',
+                popupEasing: 'easeOutBack',
+                popup2Easing: 'easeOutBack'
+            });
+
+            $('.flexslider').flexslider({
+                animation: "slide",
+                start: function(slider) {
+                    $('body').removeClass('loading');
+                }
+            });
+
+        });
+    </script>
+
+{% endblock %}
+{% block bodypage %}
+<!--breadcrumbs start-->
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-sm-4">
+                <h1>{% trans %}About{% endtrans %}</h1>
+            </div>
+            <div class="col-lg-8 col-sm-8">
+                <ol class="breadcrumb pull-right">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Pages</a></li>
+                    <li class="active">About</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs end-->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--h3 class="skills">About</h3-->
+            <section class="panel mtop30 tab">
+                <header class="panel-heading service-tab tab-bg-dark-navy-blue" style="background: #f77b6f;">
+                    <ul class="nav nav-tabs nav-justified title-tab">
+                        <li class="active">
+                            <a href="#service1" data-toggle="tab">
+                                {% trans %}Manifesto{% endtrans %}
+                            </a>
+                        </li>
+                        {#<li class="">#}
+                            {#<a href="#service2" data-toggle="tab">#}
+                                {#TE.x#}
+                            {#</a>#}
+                        {#</li>#}
+                        <li class="">
+                            <a href="#service3" data-toggle="tab">
+                                {% trans %}Come contribuire{% endtrans %}
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="#service4" data-toggle="tab">
+                                {% trans %}Autorizzazione{% endtrans %}
+                            </a>
+                        </li>
+                    </ul>
+                </header>
+                <div class="panel-body">
+                    <div class="tab-content tasi-tab">
+                        <div id="service1" class="tab-pane active">
+                            <div class="services">
+                                <div class="content">
+                                    <h4>{% trans %}L’ingegneria accessibile a TUTTI, SEMPRE, OVUNQUE{% endtrans %}</h4>
+                                    <p>
+                                        {% trans %}
+                                        The World Of Collaborative Engineering aspira a innescare una Rivoluzione Creativa per
+                                        cambiare il mondo dell’ingegneria come lo conosciamo. Creare cioè uno spazio OPEN SOURCE
+                                        per la condivisione di idee e progetti, con la finalità di trasformare un sistema
+                                        tradizionalmente chiuso in una piattaforma democratica di discussione partecipata,
+                                        in cui le proposte degli utenti avranno la visibilità e l’importanza che meritano.
+                                        Rendere quindi la progettazione ACCESSIBILE a TUTTI, sfruttando in pieno il
+                                        POTENZIALE INUTILIZZATO di una comunità attiva sempre aggiornata e multidisciplinare,
+                                        incoraggiando ogni membro a esprimersi liberamente in base alle proprie passioni e
+                                        interessi, mettendosi al servizio della comunità con la propria professionalità e
+                                        creatività.
+                                        {% endtrans %}
+                                    </p>
+                                </div>
+                                <div class="content">
+                                    <h4>{% trans %}E’ la comunità a decidere{% endtrans %}</h4>
+                                    <p>
+                                        {% trans %}
+                                        COINVOLGERE gli utenti nelle SCELTE DECISIONALI E PROGETTUALI, condividendo i progetti
+                                        fin dalle prime fasi, fornendo la possibilità, a coloro che sono i principali fruitori
+                                        degli stessi beni, di esprimere le loro opinioni e i loro consigli per rendere ogni
+                                        creazione veramente utile alla comunità, promuovendo l’eco-sostenibilità e il rispetto
+                                        perl’ambiente. Una maggior velocità nel prendere le decisioni e nel problem solving
+                                        consente di abbattere ulteriormente i tempi di realizzazione, evitando di consegnare
+                                        opere già obsolete al momento della realizzazione.
+                                        {% endtrans %}
+                                    </p>
+                                </div>
+                                <div class="content">
+                                    <h4>{% trans %}La TRASPARENZA come base della COLLABORAZIONE{% endtrans %}</h4>
+                                    <p>
+                                       {% trans %} Rendendo il processo decisionale e creativo totalmente pubblico, condiviso globalmente tra utenti, progettisti, amministrazioni ed esperti di ogni settore, ogni utente potrà conoscere in qualsiasi momento l’andamento dei lavori, il perché di eventuali cambiamenti e le motivazioni di determinate scelte tecniche e stilistiche. E' quindi possibile rimuovere gli aspetti “torbidi” talvolta tenuti volutamente sottotraccia e trasformando la realizzazione delle opere di ingegneria e architettura in un processo totalmente trasparente.{% endtrans %}
+                                    </p>
+                                </div>
+                                <div class="content">
+                                    <h4>{% trans %}La Rivoluzione ha bisogno del tuo supporto{% endtrans %}</h4>
+                                    <p>
+                                        {% trans %}La forza della comunità è il suo numero. Più voci si uniscono al coro e migliore può essere il servizio offerto alla stessa comunità, seguendo il modello delle Organizzazioni Esponenziali. Maggiore è il numero di utenti e più veloci saranno le risposte ai dubbi, maggiore sarà il numero delle idee e delle soluzioni proposte, maggiore sarà il fattore di innovazione e creatività. In qualsiasi momento è possibile partecipare attivamente nella gestione della comunità aiutandola a crescere e a diffondere i principi della Collaborative Enginering.{% endtrans %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {#<div id="service2" class="tab-pane">#}
+                            {#<div class="services">#}
+                                {#<div class="content">#}
+                                    {#<p>{% trans %}TE.x è una nuova organizzazione che adotta un business model “Lean startup” ripetibile e scalabile.{% endtrans %}</p>#}
+                                    {#<p>{% trans %}TE.x nasce dall’idea di lanciare una proposta di massiva trasformazione, su scala internazionale, del settore dei servizi di ingegneria e architettura. La proposta si riassume bene appunto nella cosiddetta MTP (massive transformation purpose): “Collaborative Engineering, a revolution for the benefit of humanity”, ovvero realizzare una rivoluzione basata sul concetto di Ingegneria Collaborativa, che aspira a creare un beneficio tangibile per l’intera collettività.{% endtrans %}</p>#}
+                                    {#<p>{% trans %}TE.x mira infatti ad introdurre nel settore dei servizi di ingegneria e architettura metodi e strumenti straordinariamente innovativi, facendo leva su un’intensa attività di ricerca sviluppata da personale altamente qualificato. L’obiettivo di TE.x è quello di diventare una infrastruttura di supporto per tutti i soggetti che intendono operare adottando principi e metodi dei collaborative commons, attraverso l’utilizzo di piattaforme peer to peer, algoritmi e community.{% endtrans %}</p>#}
+                                    {#<p>#}
+                                        {#{% trans %}Nel dettaglio, TE.x nasce dalla combinazione dei seguenti 10 steps:{% endtrans %}#}
+
+                                    {#</p>#}
+                                    {#<ul>#}
+                                        {#<li>#}
+                                           {#<b>Individuazione della MTP</b>#}
+                                        {#</li>#}
+                                        {#<p>"Collaborative Engineering, a revolution for the benefit of humanity"</p>#}
+                                        {#<li>#}
+                                            {#<b>Creazione di una community</b>#}
+                                        {#</li>#}
+                                        {#<p>scalabile, ovvero implementabile nel tempo, in modo da renderla sempre adeguata e performante in relazione a tutti gli obiettivi che il progetto intende raggiungere. La community è stata chiamata “The world of Collaborative Engineering”.</p>#}
+                                        {#<li>#}
+                                            {#<b>Definizione del Core Team.</b>#}
+                                        {#</li>#}
+                                        {#<p>Il Core Team è così composto:</p>#}
+                                        {#<ol>#}
+                                            {#<li><b>CEO</b>(Chief Exponential Manager)</li>#}
+                                            {#<li><b>PM </b>(Project Manager)</li>#}
+                                            {#<li><b>Procurement Manager</b></li>#}
+                                            {#<li><b>BIM Manager</b></li>#}
+                                            {#<li><b>Information Technology Manager</b></li>#}
+                                            {#<li><b>Community Manager</b></li>#}
+                                            {#<li><b>Staff</b></li>#}
+                                        {#</ol>#}
+                                        {#<li>#}
+                                            {#<b>Individuazione della Breakthrough Idea</b>#}
+                                        {#</li>#}
+                                        {#<p>#}
+                                            {#TE.x ha identificato quale idea “dirompente” la costruzione di un sistema che, attraverso l’automazione della gestione dei big data presenti nella rete internet, consente all’azienda di prosperare grazie all’annullamento del costo marginale dei servizi di ingegneria, creando così il proprio Minimum Viable Product (MVP.)#}
+                                        {#</p>#}
+                                        {#<li>#}
+                                            {#<b>Costruzione di un modello di Business</b>#}
+                                        {#</li>#}
+                                        {#<p>#}
+                                            {#TE.x intende adottare come modello di business il Lean Startup (modello CANVAS), caratterizzato dai seguenti principali elementi:#}
+                                        {#</p>#}
+                                        {#<div class="inner-content">#}
+                                            {#<ol>#}
+                                                {#<li>Tempestività (<i>Immediacy</i>)</li>#}
+                                                {#<li>Personalizzazione (<i>Personalization</i>)</li>#}
+                                                {#<li>Interpretazione (<i>Interpretation</i>)</li>#}
+                                                {#<li>Autenticità (<i>Authenticity</i>)</li>#}
+                                                {#<li>Accessibilità (<i>Accesibility</i>)</li>#}
+                                                {#<li>Localizzabilità (<i>Findability</i>)</li>#}
+                                            {#</ol>#}
+
+                                        {#</div>#}
+                                        {#<li>#}
+                                            {#<b>Verifica commerciale e di marketing</b>#}
+                                        {#</li>#}
+                                        {#<p>#}
+                                            {#TE.x ha istituito accurati processi di controllo che assicurano la qualità, l'affidabilità e la commerciabilità dei servizi resi.#}
+                                        {#</p>#}
+                                        {#<img src="{{asset('bundles/backend/img/page-about/1.jpg')}}" alt="" />#}
+                                        {#<li>#}
+                                            {#<b>Implementazione SCALE e IDEAS</b>#}
+                                        {#</li>#}
+                                        {#<p>Tutti i 10 attributi che caratterizzano le organizzazioni esponenziali (ExO) sono stati implementati in questo modo:</p>#}
+                                        {#<h4>S C A L E</h4>#}
+                                        {#<div class="inner-content">#}
+                                            {#<ol>#}
+                                                {#<li>Staff on Demand</li>#}
+                                            {#</ol>#}
+                                            {#<p>TE.x ha una forte dipendenza dallo staff on demand in virtù della potenza creativa che questo può garantire. Sono stati costruiti a questo scopo, per ogni paese target, engineering team multidisciplinari completamente autonomi.</p>#}
+                                            {#<ol>#}
+                                                {#<li>Community e Crowd</li>#}
+                                            {#</ol>#}
+                                            {#<p>#}
+                                                {#Con la creazione della community “The World of collaborative Engineering”, TE.x può avvalersi dell’intera comunità, in modo open source, per lo sviluppo di tutti i vari pacchetti di lavoro per i quali TE.x si propone come infrastruttura di supporto nell’intero mercato mondiale. Per una organizzazione o impresa, la sua community è costituita dai membri del Core Team e da Alumni, Partners, Vendors, Clients, Users e Fan.#}
+                                            {#</p>#}
+                                            {#<p>#}
+                                                {#Il Crowd è tutto ciò che sta al di fuori  di questi livelli.#}
+                                            {#</p>#}
+                                            {#<ol>#}
+                                                {#<li>Algorithms</li>#}
+                                            {#</ol>#}
+                                            {#<p>#}
+                                                {#TE.x utilizza speciali algoritmi di proprietà per trovare e tracciare team multidisciplinari di professionisti nel settore dell'ingegneria e dell'architettura. Altri algoritmi di proprietà sono usati da TE.x per gestire in modo automatizzato le gare d'appalto.#}
+                                            {#</p>#}
+                                            {#<img src="{{asset('bundles/backend/img/page-about/2.jpg')}}" alt="" />#}
+                                            {#<ol>#}
+                                                {#<li>Leverage Assets</li>#}
+                                            {#</ol>#}
+                                            {#<p>#}
+                                                {#Riguardo agli strumenti necessari per la propria azione, all’acquisto TE.x privilegia l’affitto, la condivisione o il ricorso agli strumenti disponibili tramite il web. TE.x utilizza inoltre lo strumento del Cloud computing.#}
+                                            {#</p>#}
+                                            {#<ol>#}
+                                                {#<li>Engagement</li>#}
+                                            {#</ol>#}
+                                            {#<p>TE.x prende in considerazione attentamente la community e il crowd, in quanto molto diretti nel produrre feedback, nuove idee e sperimentazioni. Vengono utilizzate anche le competizioni per creare le sfide, influenzare e motivare la comunità, al fine di sollecitare la nascita di potenziali e radicali breakthrough ideas, cioè idee capaci di avere un effetto dirompente nel settore in cui si affacciano.</p>#}
+                                            {#<h4>I D E A S</h4>#}
+                                            {#<ol>#}
+                                                {#<li>Interfaces</li>#}
+                                            {#</ol>#}
+                                            {#<p>Utilizzando la propria organizzazione interna (Core Team), TE.x utilizza e sviluppa specifici algoritmi che consentono di gestire, catalogare, filtrare e impegnare la community in modo totalmente sistematico e automatico.</p>#}
+                                            {#<ol>#}
+                                                {#<li>Dashboard</li>#}
+                                            {#</ol>#}
+                                            {#<p>TE.x monitora costantemente il raggiugimento degli obiettivi e dei risultati chiave (OKR - Objective adn Key Results). Le informazioni sono disponibile internamente in tempo reale, grazie ad un pannello di controllo sofisticato, adattabile e intuitivo. Anche i flussi di cassa sono tracciati in tempo reale.</p>#}
+                                            {#<ol>#}
+                                                {#<li>Experimentation</li>#}
+                                            {#</ol>#}
+                                            {#<p>TE.x crede fermamente nell’interazione tra clienti e utenti. Grazie alla propria cultura aziendale, decentralizzata e incentrata sulla responsabilità, sulla trasparenza e sull’autonomia organizzativa, esiste un continuo e aperto scambio di nuove idee in ogni team dell’organizzazione. Per impedire la confusione, TE.x ha sviluppato delle piattaforme aperte e facili da utilizzare, capaci di garantire una comunicazione efficace. In questo modo, anche i nuovi membri possono essere produttivi sin dal primo giorno che collaborano a un progetto.</p>#}
+                                            {#<ol>#}
+                                                {#<li>Autonomy</li>#}
+                                            {#</ol>#}
+                                            {#<p>L’autorità e la capacità decisionale è completamente decentralizzata. I Team si organizzano autonomamente e lo staff di ogni progetto prende le decisione chiave riguardo ogni iniziativa del team. Ciò detto, ognuno nella società è incoraggiato a contribuire e ad agire come valutatore/consigliere sulle decisioni assunte in altre parti dell’organizzazione.</p>#}
+                                            {#<ol>#}
+                                                {#<li>Social technologies</li>#}
+                                            {#</ol>#}
+                                            {#<p>Al proprio interno, TE.x fa un uso massiccio dei social media. I dipendenti sono incoraggiati a comunicare mediante piattaforma di collaborazione social, del tipo Asana e Linkedin e a supportare l’organizzazione della community mediante questi account.</p>#}
+                                            {#<p>All’esterno, TE.x utilizza la videoconferenza su Skype al fine di garantire conversazioni veloci finalizzate a cicli di decisione rapidi.</p>#}
+                                        {#</div>#}
+
+                                        {#<li><b>Definizione dei valori culturali</b></li>#}
+                                        {#<p>Il concetto di open source è stato identificato come il valore culturale prioritario.</p>#}
+                                        {#<li><b>Aggiornamento del modello di business</b></li>#}
+                                        {#<p>In un mondo in cui un vantaggio competitivo acquisito ha durata limitata nel tempo, è importante tenere costantemente sotto controllo gli attributi dell’organizzazione. Per questa ragione TE.x revisiona e aggiorna continuamente il proprio modello di business, restando così al passo con le più avanzate organizzazioni esponenziali.</p>#}
+                                        {#<li><b>Costruzione e implementazione di una piattaforma</b></li>#}
+                                        {#<p>La piattaforma aperta implementata da TE.X è stata progettata per facilitare le interazioni peer-to-peer (da pari a pari).</p>#}
+
+                                        {#<p><b>In sintesi, l’intero sistema di funzionamento di TE.x può essere riassunto nello schema seguente:</b></p>#}
+                                        {#<img src="{{asset('bundles/backend/img/page-about/4.jpg')}}" alt="" />#}
+                                    {#</ul>#}
+                                {#</div>#}
+                            {#</div>#}
+
+                        {#</div>#}
+                        <div id="service3" class="tab-pane">
+                            <div class="services">
+                                <div class="content">
+                                    <p>
+                                        A body of persons of common and especially professional interests scattered through a larger society
+                                    </p>
+                                    <p>
+                                        This is the generic definition of “community” according to the Merriam-Webster dictionary. Someone might say it works as it is, but we believe there is more to say about. From our point of view, a community is somewhere we can share opinions, give advice and receive constructive criticism with a positive attitude. A place where everyone is accepted as an individual and, at the same time, part of something bigger, always changing and improving thanks to everyone efforts. From our point of view, “community” is where collaboration happens.
+                                    </p>
+                                    <p>
+                                        You might now ask yourself:
+                                    </p>
+                                    <p>
+                                        Yes, but HOW can I contribute building this community?
+                                    </p>
+                                    <p>
+                                        As we say before, the community needs everyone to grow up strong.To be an active member of this society you can start spreading the word and making it larger or helping us running it making it stronger.
+                                    </p>
+                                    <p>
+                                        We are always searching new active and willing members to join the staff as forum moderator, blogger, group administrators, graphics and programmers.
+                                    </p>
+                                    <p>
+                                        We want this place to be everyone’s community from the very beginning, the better way to do it is giving to who shows true interest and passion the possibility to demonstrate is potential.
+                                    </p>
+                                    <p>
+                                        We might be “scattered” around the world but, thanks to the power of internet, we can easily tear down the walls, reduce the distance between us and finally work together for a better world.
+                                    </p>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="service4" class="tab-pane">
+                            <div class="services">
+                                <div class="content">
+                                    <h3>{% trans %}Creative Commons & Copyright{% endtrans %}</h3>
+                                    <p>
+                                        In CollEngWorld you are free to share your own contributes under Creative Commons lincencing.
+                                    </p>
+                                    <p>
+                                        What is Creative commons? Easy: CC is a nonprofit organization that enables the sharing and use of creativity and knowledge through free legal tools.
+                                    </p>
+                                    <p>
+                                        Their free, easy-to-use copyright licenses provide a simple, standardized way to give the public permission to share and use your creative work — on conditions of your choice. CC licenses let you easily change your copyright terms from the default of “all rights reserved” to “some rights reserved.”
+                                    </p>
+                                    <p>
+                                        Creative Commons licenses are not an alternative to copyright. They work alongside copyright and enable you to modify your copyright terms to best suit your needs.
+                                    </p>
+                                    <h4><a target="_blank" href="https://creativecommons.org/choose/">CHOOSE YOUR OWN LICENCE</a></h4>
+                                    <p>
+                                        Su CollEngWorld sei libero di condividere I tuoi contribute sotto la licenza Creative Commons.
+                                    </p>
+                                    <p>
+                                        Che cosa sono i Creative commons? Facile: CC è un’organizzazione non-profit che dà la possibilità di condividere materiale creativo e conoscenze attraverso strumenti legali gratuiti.
+                                    </p>
+                                    <p>
+                                        Le loro licenze di copyright gratuite e facili da usare, forniscono un modo semplice e standardizzato di dare al pubblico il permesso di condividere e usare il tuo lavoro creativo alle tue condizioni. Le licenze CC ti consentono di cambiare facilmente i tuoi termini di diritto d’autore dalla condizione di base di “tutti i diritti riservati a “alcuni diritti riservati”.
+                                    </p>
+                                    <p>
+                                        Le licenze Creative Commons non sono un’alternativa al diritto d’autore. Lavorano fiano a fianco con il diritto d’autore e ti danno la possibilità di modificare i tuoi termini di copyright per rispondere alle tue necessità.
+                                    </p>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}
+

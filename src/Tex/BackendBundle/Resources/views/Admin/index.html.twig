@@ -1,0 +1,21 @@
+{% extends '::backend.html.twig' %}
+{% block title %}Deshboard{% endblock %}
+{% block aside %}
+<!--state overview start-->
+<div class="row state-overview">
+    <div class="col-lg-3 col-sm-6">
+        <section class="panel">
+            <div class="symbol terques">
+                <i class="fa fa-user"></i>
+            </div>
+            <div class="value">
+                <h1 class="count">
+                   {{ user_cont }}
+                </h1>
+                <p>New Users</p>
+            </div>
+        </section>
+    </div>
+</div>
+<!--state overview end-->
+{% endblock %}

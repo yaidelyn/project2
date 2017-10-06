@@ -1,0 +1,31 @@
+Tex\TexnoBundle\Entity\Person:
+    type: entity
+    table: person
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        nome:
+            type: string
+            length: 255
+        regione:
+            type: string
+            length: 255
+        iva:
+            type: float
+        phone:
+            type: string
+            length: 255
+        cell:
+            type: string
+            length: 255
+        email:
+            type: string
+            length: 255
+        web:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }

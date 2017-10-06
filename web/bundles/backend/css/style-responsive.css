@@ -1,0 +1,196 @@
+@media (max-width: 1199px) {
+    .col1199_1, .col1199_2, .col1199_4, .col1199_3, .col1199_a4, .col1199_a2{ float: left; }
+    .s-align{ width: 15%; }
+    .col1199_1{ width: 10%; }
+    .col1199_2,.col1199_a2{ width: 25%; }
+    .col1199_4,.col1199_a4{ width: 50%; }
+    .col1199_6{ width: 75%; }
+    .colleft{ width: 100%; }
+    .colrigh { margin-right: 15px; }
+}
+
+@media (max-width: 992px) {
+    .user-details{
+        width: calc(50% - 10px);
+    }
+    .col1199_2 {
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 800px) {
+    .user-details{ width: calc(100% - 10px); }
+    .s-align{ width: 100%; margin-top: 0; }
+    .col1199_2 {
+        padding-right: 0;
+        width: 29%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 980px) {
+    .col-4 .item {
+        width: 47%;
+        margin-right: 2%;
+        margin-bottom: 2%;
+    }
+
+    .about h3 {
+        margin-top: 20px;
+    }
+
+    .search {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-toggle {
+        margin-top: 12px;
+    }
+    .header-frontend .navbar-collapse  ul.navbar-nav {
+        float: none;
+        margin-left: 0;
+    }
+    .header-frontend .nav li a:hover,
+    .header-frontend .nav li a:focus,
+    .header-frontend .nav li a.dropdown-toggle:focus,
+    .header-frontend .nav li a.dropdown-toggle .dropdown-menu li a:hover,
+    .header-frontend .nav li.active a,
+    .header-frontend .dropdown-menu li a:hover {
+        color: #fff !important;
+    }
+    .header-frontend .navbar-nav > li {
+        padding: 0;
+        margin-bottom: 2px;
+    }
+    .header-frontend .nav li ul.dropdown-menu li a {
+        margin-left: 0px;
+        color: #999!important; ;
+    }
+    .header-frontend .nav li .dropdown-menu li a:hover, .header-frontend .nav li .dropdown-menu li.active a {
+        color: #fff !important;
+    }
+    .purchase-btn, .about-testimonial {
+        margin-top: 10px;
+    }
+    .breadcrumb.pull-right{
+        padding: 0;
+    }
+    .search, .bx-controls-direction {
+        display: none;
+    }
+    .tweet-box {
+        margin-bottom: 20px;
+    }
+    .property img {
+        width: 80%;
+    }
+    .bx-wrapper {
+        margin-bottom: 60px;
+    }
+    .purchase-btn, .about-testimonial {
+        margin-top: 0;
+    }
+    .purchase-btn {
+        line-height: 98px;
+    }
+    .social-link-footer li a {
+        font-size: 16px;
+        height: 40px;
+        width: 40px;
+    }
+    .navbar-header {
+        float: none;
+        text-align: center;
+        width: 100%;
+        margin: 10px 0;
+    }
+    .navbar-brand {
+        float: none;
+
+    }
+    .carousel-control {
+        font-size: 45px;
+        line-height: 70px;
+    }
+    .btn, .form-control {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 767px) {
+    .flags{
+        display: none;
+    }
+
+    .parallax1 h1{
+        text-align: justify !important;
+        margin: 10px 15px !important;
+    }
+
+    .parallax1{
+        min-height: auto !important;
+    }
+
+    .navbar-brand{
+        float: left;
+        margin-top: 30px !important;
+    }
+
+    .nav-flags{
+        display: block !important;
+        position: relative;
+        float: right;
+        top: 11px; 
+    }
+
+    .nav-flags img{
+        margin-right: 5px;
+    }
+}
+
+@media (max-width: 640px) {
+    .controls1{ display: block; }
+    .controls2{ display: none; }
+    .colrigh{ margin-right: -15px; }
+    .btnsearch{ width: 100%; }
+    .s-align{ width: 30%; margin-top: 7px; }
+    .find-x{ width: calc(70% - 15px); }
+}
+
+@media (max-width: 480px) {
+
+    .header-frontend .navbar {
+        min-height: 60px;
+    }
+
+    .header-frontend .nav li .dropdown-menu li a:hover {
+        color: #f77b6f !important;
+    }
+
+    .col-4 .item {
+        width: 100%;
+        margin-right: 0%;
+        margin-bottom: 2%;
+    }
+
+    .breadcrumb.pull-right{
+        float: left !important;
+        margin-top: 10px;
+        padding: 0;
+    }
+
+    .carousel-control {
+        font-size: 23px;
+        line-height: 38px;
+    }
+}
+
+@media (max-width:320px) {
+
+
+}
+
+
+
+

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% block title %}{% endblock %} | TeX</title>
+    <link rel="icon"  href="{{ asset('bundles/backend/favicon.ico') }}" />
+    {% block stylesheets %}{% endblock %}
+    {% block javascripts %}{% endblock %}
+</head>
+<body>
+<!--header start-->
+<header class="header-frontend">
+    <div class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="fa fa-bars"></span>
+                </button>
+                <a class="navbar-brand" href="{{path('User_index')}}">Te<span>X</span></a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+					<li class="{{ datos.menu_home }}"><a href="{{path('User_index')}}">{% trans %}Home{% endtrans %}</a></li>
+                    <li class="{{ datos.menu_gara }}"><a href="{{path('all_gara')}}">{% trans %}Gare{% endtrans %}</a></li>
+					<li class="dropdown  {{ datos.menu_opportunita }}">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false">{% trans %}Collaborazione{% endtrans %}
+                            <b class=" fa fa-angle-down"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('show_page')}}">{% trans %}Offerte{% endtrans %}</a></li>
+                        </ul>
+					</li>
+                    <li class="{{ datos.menu_work }}"><a href="{{ path('news') }}">{% trans %}Work with us {% endtrans %}</a></li>
+                    <!--li class="{{ datos.menu_home }}"><a href="{{path('User_index')}}">{% trans %}Home{% endtrans %}</a></li-->
+                    {#<li class="{{ datos.menu_about }}"><a href="{{path('page_about')  }}">{% trans %}Chi Siamo{% endtrans %}</a></li>#}
+                    <!--li class="dropdown  {{ datos.menu_opportunita }}">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false">{% trans %}Opportunitá{% endtrans %}
+                            <b class=" fa fa-angle-down"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('show_page',{'id': 1})}}">{% trans %}Edilizia{% endtrans %}</a></li>
+                            <li><a href="{{ path('show_page',{'id': 2})}}">{% trans %}Impianti{% endtrans %}</a></li>
+                            <li><a href="{{ path('show_page',{'id': 3})}}">{% trans %}Strutture{% endtrans %}</a></li>
+                            <li><a href="{{ path('show_page',{'id': 4})}}">{% trans %}Infraestrutture{% endtrans %}</a></li>
+                            <li><a href="{{ path('show_page',{'id': 5})}}">{% trans %}Idraulica{% endtrans %}</a></li>
+                            <li><a href="{{ path('show_page',{'id': 6})}}">{% trans %}Urbanistica-Ambiente e Territorio{% endtrans %}</a></li>
+                        </ul>
+                    </li-->
+                    {#<li class="{{ datos.menu_project }}"><a href="#">{% trans %}Progetto{% endtrans %}</a></li>#}
+                    <li class="{{ datos.menu_contact }}"><a href="{{path('page_contact')  }}">{% trans %}Contatti{% endtrans %}</a></li>
+
+                    <!--<li><input type="text" placeholder=" Search" class="form-control search"></li> -->
+                    <li class="space"></li>
+                    {% if (datos.login == 0) %}
+                        <li><a id="dlogin" class="btn2" href="{{path('login')}}" title="Login"><i class="fa fa-sign-in"></i></a></li>
+                        <li><a id="dregister" class="btn2" href="{{path('create_user')}}"><img id="register" title="Register" style="margin-top:-2px" src="{{asset('bundles/backend/img/register.png')}}"></a></li>
+                    {% else %}
+                        <li><a id="dlogout" class="btn2" href="{{path('User_logout')}}" title="Logout"><i class="fa fa-sign-out"></i></a></li>
+                        <li>
+						<a id="dperfil" class="btn2" href="{{path('edit_profile')}}" style="margin-top:3px;" title="Profile">
+							 {% if (datos.avatar) is defined %}
+								<img src="{{asset('web/bundles/backend/img/avatars/mini')}}/{{datos.avatar}}">
+								{% else %}
+								<img src="{{asset('web/bundles/backend/img/mini-avatar.jpg')}}">
+							{% endif %}
+							<span class="username">Ciao,{{datos.name}}</span>
+						</a>
+						</li>
+                    {% endif %}
+					<div class="flags">
+                        {% set locale = app.request.locale %}
+                        {% if locale == 'it' %}
+                            <span><img src="{{asset('web/bundles/backend/img/it.png')}}"/></span>
+                            <span style="margin:0 2px"></span>
+                            <a href="{{ path('User_index' , { '_locale' : 'en' }) }}"><img src="{{asset('web/bundles/backend/img/en.png')}}"/></a>
+                        {% elseif locale == 'en' %}
+                            <a href="{{ path('User_index' , { '_locale' : 'it' }) }}"><img src="{{asset('web/bundles/backend/img/it.png')}}"/></a>
+                            <span style="margin:0 2px"></span>
+                            <span><img src="{{asset('web/bundles/backend/img/en.png')}}"/></span>
+                        {% endif %}
+                    </div>					 
+                </ul>
+            </div>
+            <!--div class="flags">
+                {% set locale = app.request.locale %}
+                {% if locale == 'it' %}
+                    <span>ITA</span>
+                    <span style="font-size:10px;position:relative;top:-3px;">|</span>
+                    <a href="{{ path('User_index' , { '_locale' : 'en' }) }}">ENG</a>
+                {% elseif locale == 'en' %}
+                    <a href="{{ path('User_index' , { '_locale' : 'it' }) }}">ITA</a>
+                    <span style="font-size:10px;position:relative;top:-3px;">|</span>
+                    <span>ENG</span>
+                {% endif %}
+            </div-->
+        </div>
+    </div>
+</header>
+<!--header end-->
+<!--Body Page-->
+{% block bodypage %}
+{% endblock %}
+<!--End Body-->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-sm-3">
+                <h1>{% trans %}contatto{% endtrans %}</h1>
+                <address>
+                    <p>{% trans %}Indirizzo{% endtrans %}: Via La Palma snc</p>
+                    <p>Cagliari, Italy</p>
+                    <p>{% trans %}Telefono{% endtrans %}: +39 070 380 044</p>
+                    <p>Fax: +39 070 380 044</p>
+                    <p>Email: <a href="javascript:;">info@te-x.net</a></p>
+                </address>
+            </div>
+            <!--div class="col-lg-5 col-sm-5">
+                <h1>latest tweet</h1>
+                <div class="tweet-box">
+                    <i class="fa fa-twitter"></i>
+                    <em>Please follow <a href="javascript:;">@nettus</a> for all future updates of us! <a href="javascript:;">twitter.com/vectorlab</a></em>
+                </div>
+            </div-->
+            <div class="col-lg-3 col-sm-3 col-lg-offset-1">
+                <h1>{% trans %}rimani connesso{% endtrans %}</h1>
+                <ul class="social-link-footer list-unstyled">
+                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>

@@ -1,0 +1,138 @@
+{% extends '::backend.html.twig' %}
+{% block title %}Competenza{% endblock %}
+  {%  block stylesheets %}
+     {{ parent() }}
+      <link href="{{asset('web/bundles/backend/assets/JAlert/jquery.alerts.css')}}" rel="StyleSheet" type="text/css" />
+ {%  endblock %}
+   {% block aside %}
+      <div class="row">
+          <aside class="profile-nav col-lg-3">
+              <section class="panel">
+                  <div class="user-heading round">
+                      <a href="{{path('edit_avatar')}}">
+                          {% if (datos.avatar)is defined %}
+                              <img src="{{asset('web/bundles/backend/img/avatars/large')}}/{{datos.avatar}}">
+                          {% else %}
+                              <img src="{{asset('web/bundles/backend/img/profile-avatar.jpg')}}">
+                          {% endif %}
+                      </a>
+                      <h1>{{datos.fullname}}</h1>
+                      <p>{{datos.email}}</p>
+                  </div>
+              </section>
+              <div class="btn-group" style="width:100%">
+                   {% if competenzas is empty  %}
+                      <a class="btn btn-info"  href="{{ path('new_gara') }}" style="width:100%">Inserisce Competenze</a>
+                      {% else %}
+                            <a class="btn btn-info"  href="{{path('update_competenza',{'id':idcompetenza})}}" style="width:100%;">Update Competenze</a>
+						   <div style="height: 45px;"></div>
+						  <a class="btn btn-danger"  href="{{path('delete_competenza',{'id':idcompetenza})}}" style="width:100%">Delete Competenze</a>
+                  {% endif %}
+              </div>
+          </aside>
+          <aside class="profile-info col-lg-9">
+              <section class="panel">
+                  <input type="hidden" id="iduser" value=""/>
+                  <input type="hidden" id="idformation" value=""/>
+                  <h2 class="register-heading">Competenza</h2>
+                  <div class="panel-body bio-graph-info">
+                      <form class="form-horizontal" role="form">
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Occupation</label>
+                              <div class="col-lg-8">
+                                  <input type="text" name="occupation" id="txt_occupation" class="form-control" value="{{ formation }}" readonly >
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+                  <table  class="display table table-bordered table-striped" id="example">
+                      {% if competenzas is defined %}
+                      {% for item in competenzas %}
+                          <tr>
+                              <th rowspan="1" colspan="2"> {{ item[0].categoria }}</th>
+                                  {% for eleme in item %}
+                                      <td>{{ eleme.indetificazion }}</td>
+                                  {% endfor %}
+                          </tr>
+                      {% endfor %}
+                      {% endif %}
+                  </table>
+              </section>
+
+          </aside>
+      </div>      
+   {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <!--script for this page-->
+    <script src="{{asset('web/bundles/backend/js/input-mask.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/jquery.tagsinput.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/jquery.blockUI.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/JAlert/jquery.alerts.mod.js')}}"></script>
+    <script>
+      $(function(){
+          options = "";
+          $('#skills').tagsInput(options);
+
+          //update formation
+          $('#btn-ok').click(function(e){
+
+              e.preventDefault();
+              var fd = new FormData();
+              var file = $(document).find('input[type="file"]');
+
+              var individual_file = file[0].files[0];
+
+              fd.append('idformation',$('#idformation').val());
+              fd.append('ocupation',$('#txt_occupation').val());
+             // fd.append('education',$('#txt_education').val());
+             // fd.append('start_date',$('#txt_start').val());
+              //fd.append('end_date',$('#txt_end').val());
+              fd.append('abtract',$('#txt_abstract').val());
+              fd.append('skill',searchSkills());
+              fd.append("file", individual_file);
+
+             $.ajax({
+                  type: "POST",
+                  url: "{{path('update_formation')}}",
+                  data:fd,
+                  contentType: false,
+                  processData: false,
+                 beforeSend:function(request) {
+                     $.blockUI({ css: {
+                         border: 'none',
+                         padding: '15px',
+                         backgroundColor: '#000',
+                         '-webkit-border-radius': '10px',
+                         '-moz-border-radius': '10px',
+                         opacity: .5,
+                         color: '#fff'
+                     }});
+                 },
+                  success: function(response) {
+                      //console.log(response);
+                      if(response){
+                          jAlert("La formazione fu aggiornata correttamente", 'Alert Dialog');
+                      }
+                      location.reload();
+                  },
+                 complete: function(data) {
+                     // end of ajax call
+                     $.unblockUI();
+                 }
+              });
+          });
+      });
+
+      /*BUSCAR LAS SKILL*/
+        var searchSkills = function (){
+            var skills = new Array();
+            var dato = $('#skills').val().split(",");
+            for(i=0;i<dato.length;i++){
+                //alert(dato[i]);
+                skills.push(dato[i]);
+            }
+            return skills;
+        }
+    </script>
+{% endblock %}

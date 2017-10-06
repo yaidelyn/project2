@@ -1,0 +1,549 @@
+{% extends '::base_calcolo.html.twig' %}
+{% block title %}Calcolo Preventivo{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('web/bundles/frontend/css/style-wizard.css') }}" rel="stylesheet">
+    <style>
+        .error{
+            background-color: #BC1010;
+            padding: 6px 12px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            margin-left: 200px;
+            margin-top: -30px;
+            position: absolute;
+        }
+        .error:before{ /* Este es un truco para crear una flechita */
+            content: '';
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 8px solid #BC1010;
+            border-left: 8px solid transparent;
+            left: -16px;
+            position: absolute;
+            top: 5px;
+        }
+        .error2{
+            background-color: #bc1010;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            margin-left: -10px;
+            margin-top: -9px;
+            padding: 6px 12px;
+            position: absolute;
+        }
+        .error2:before{ /* Este es un truco para crear una flechita */
+            content: '';
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 8px solid #BC1010;
+            border-left: 8px solid transparent;
+            left: -16px;
+            position: absolute;
+            top: 5px;
+        }
+
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="row">
+    <div class="col-lg-4">
+        <div class="row">
+            <div class="col-lg-12">
+                <a style="margin-top: 0;" class="logo" href="{{path('tex')}}">
+                    <img alt="logo" src="{{ asset('web/bundles/frontend/img/logo-tex-engineering.png') }}">
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="tex-desccription">
+                <p>
+                    Calcola subito un preventivo gratuito per formare il tuo team ideale di progetto
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-7">
+    <section class="panel">
+    <header class="panel-heading">
+        Calcolo Preventivo
+    </header>
+    <div class="panel-body">
+    <div class="stepy-tab">
+        <ul id="default-titles" class="stepy-titles clearfix">
+            <li id="default-title-0" class="current-step">
+                <div>1</div>
+            </li>
+            <li id="default-title-1" class="">
+                <div>2</div>
+            </li>
+            <li id="default-title-2" class="">
+                <div>3</div>
+            </li>
+            <li id="default-title-3" class="">
+                <div>4</div>
+            </li>
+        </ul>
+    </div>
+    <form class="form-horizontal" id="default">
+    <fieldset title="1" class="step" id="default-step-0">
+        <legend>Inserire i dati personali</legend>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Nome e Cognome</label>
+            <div class="col-lg-10">
+                <input type="text" name="nome" placeholder="Nome e Cognome" id="nome" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Ragione sociale</label>
+            <div class="col-lg-10">
+                <input type="text" placeholder="Ragione sociale" id="regione" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Partita IVA o C.F</label>
+            <div class="col-lg-10">
+                <input type="text" placeholder="Partita IVA o C.F" id="iva" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Telefono</label>
+            <div class="col-lg-10">
+                <input type="text" placeholder="Telefono" id="phone" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Cellulare</label>
+            <div class="col-lg-10">
+                <input type="text" placeholder="Cellulare" id="cell" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">E-mail</label>
+            <div class="col-lg-10">
+                <input type="email" placeholder="E-mail" id="email" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Sito web</label>
+            <div class="col-lg-10">
+                <input type="url" placeholder="Sito web" id="web" class="form-control">
+            </div>
+        </div>
+    </fieldset>
+    <fieldset title="2" class="step" id="default-step-1" >
+        <legend>Inserire i dati della gara</legend>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Committente</label>
+            <div class="col-lg-10">
+                <input type="text" placeholder="Committente" id="committente" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Oggetto</label>
+            <div class="col-lg-10">
+                <textarea  name="oggetto" id="oggetto" class="form-control "></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Importo</label>
+            <div class="col-lg-10">
+                <input type="text" placeholder="Importo totale del appalto" id="importo" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="date-content">
+                <label class="col-lg-2 control-label">Scadenza</label>
+                <div data-date-viewmode="years" style="margin-top: -24px; margin-left: 90px;;" data-date-format="yyyy-mm-dd" class="col-lg-10 input-append date date-picker ctrl2">
+                    <input type="text" id="scadenza" value="" readonly="" placeholder="Scadenza" class="form-control">
+                    <span class="add-on"><i class="fa fa-calendar"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Criterio di aggiudicazione</label>
+            <div class="col-lg-10">
+                <select class="form-control" id="criteria">
+                    <option value="1">Offerta economicamente più vantaggiosa</option>
+                    <option value="2">prezzo più basso con taglio delle ali</option>
+                    <option value="3">Altro</option>
+                </select>
+            </div>
+        </div>
+        <div id="content-altro" class="form-group">
+            <label class="col-lg-2 control-label">Altro</label>
+            <div class="col-lg-10">
+                <input type="text" placeholder="Altro" id="altro" class="form-control">
+            </div>
+        </div>
+    </fieldset>
+    <fieldset title="3" class="step" id="default-step-2" >
+    <legend> Importo progettazione base gara </legend>
+    <section class="panel">
+        <header class="panel-heading">
+
+        </header>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel-body">
+                    <label>Seleziona importo per il corrispettivo progettazione</label>
+                    <select id="slect_main" class="form-control input-sm m-bot15">
+                        <option value="1">< 100.000</option>
+                        <option value="2">100.000 - 200.000</option>
+                        <option value="3">200.000 - 500.000</option>
+                        <option value="4">500.000 - 1.000.000</option>
+                        <option value="5">> 1.000.000</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="panel-body">
+                    <label>Inserisci qui l'importo esatto del corrispettivo</label>
+                    <div class="form-group">
+                        <input type="text"  id="campo_principale1" class="form-control">
+                        <input type="hidden" id="txt_value" value="1">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="panel">
+        <div class="panel-body">
+            <header class="panel-heading">
+                Scegli il tuo team
+            </header>
+            <div class="row">
+                <!--Junior-->
+                <div class="col-lg-6">
+                    <label>Junior</label>
+                    <div id="list_junior">
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="idraulico"
+                                       value="1500"/>
+                                Idraulico
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="chimico"
+                                       value="1500"/>
+                                Chimico
+                            </label>
+                        </div>
+
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="strutturista"
+                                       value="1500"/>
+                                Strutturista
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="trasportista"
+                                       value="1500"/>
+                                Trasportista
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="Architetto"
+                                       value="1500"/>
+                                Architetto
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="impianti_meccanici"
+                                       value="1500"/>
+                                Impianti meccanici
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="impianti_elettrici"
+                                       value="1500"/>
+                                Impianti elettrici e affini
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="impianti_idrici"
+                                       value="1500"/>
+                                Impianti idrici e fognari
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="energy_manager"
+                                       value="1500"/>
+                                Energy manager, Bioclimatica
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="ambiente_paesaggio"
+                                       value="1500"/>
+                                Ambiente e paesaggio
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!--End lis junior-->
+                <!--Senior-->
+                <div class="col-lg-6">
+                    <label>Senior</label>
+                    <div id="list_senior">
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="idraulico_s"
+                                       value="2000"/>
+                                Idraulico
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="chimico_s"
+                                       value="2000"/>
+                                Chimico
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="strutturista_s"
+                                       value="2000"/>
+                                Strutturista
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="trasportista_s"
+                                       value="2000"/>
+                                Trasportista
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="Architetto_s"
+                                       value="2000"/>
+                                Architetto
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="impianti_meccanici_s"
+                                       value="2000"/>
+                                Impianti meccanici
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="impianti_elettrici_s"
+                                       value="2000"/>
+                                Impianti elettrici e affini
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="impianti_idrici_s"
+                                       value="2000"/>
+                                Impianti idrici e fognari
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="energy_manager_s"
+                                       value="2000"/>
+                                Energy manager, Bioclimatica
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="check_value" type="checkbox" id="ambiente_paesaggio_s"
+                                       value="2000"/>
+                                Ambiente e paesaggio
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!--End Senior-->
+            </div>
+        </div>
+    </section>
+    <section class="panel">
+        <header class="panel-heading">
+            Servizi aggiuntivi
+        </header>
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="extras">
+                    <div class="checkbox">
+                        <label>
+                            <input name="check_value" type="checkbox" id="intermediario"
+                                   value="2200"/>
+                            Leader intermediario
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input name="check_value" type="checkbox" id="coordinatore"
+                                   value="3500"/>
+                            Coordinatore esperto
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input name="check_value" type="checkbox" id="servizio"
+                                   value="4500"/>
+                            Servizio di verifica
+                        </label>
+                        <input type="hidden" id="txt-check" value="0">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="panel">
+        <header class="panel-heading">
+            Totale
+        </header>
+        <div class="panel-body">
+            <div class="col-lg-10">
+                <input type="text" disabled class="form-control" id="txt_totale" value="0">
+            </div>
+            </br>
+        </div>   <div class="row">
+            <div class="col-lg-6">
+                <label>Privacy Policy (<a class="leggi" href="#">Leggi</a>)*</label>
+                <div class="checkbox"><label><input type="checkbox" id="privacy"> Acconsento al trattamento dei miei dati</label>
+                </div>
+            </div>
+        </div>
+    </section>
+    </fieldset>
+    <input type="button" id="btn-calcula" value="Inviare" name="btn-calcula" class="finish btn btn-danger"/>
+    </form>
+    </div>
+    </section>
+    </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('web/bundles/frontend/js/jquery.stepy.js') }}"></script>
+    <script>
+        //step wizard
+        $(function() {
+            $('#default').stepy({
+                backLabel: 'Precedente',
+                block: false,
+                nextLabel: 'Seguente',
+                titleClick: true,
+                titleTarget: '.stepy-tab'
+            });
+
+
+            //On click button calcula
+            $('#btn-calcula').click(function(){                
+
+               if( $('#privacy').prop('checked') ) {
+
+                    var totalj = $("#list_junior input[type=checkbox]:checked").length;
+                    var totals = $("#list_senior input[type=checkbox]:checked").length;
+
+                    var list_j = new Array();
+                    var list_s = new Array();
+                    var list_extras = new Array();
+
+
+                    $("#list_junior input[type=checkbox]:checked").each(function(){
+
+
+                        list_j.push({'name_prop':$(this).attr('id'),'value_prop':$(this).val()});
+
+                    });
+
+                    $("#list_senior input[type=checkbox]:checked").each(function(){
+
+                        list_s.push({'name_prop':$(this).attr('id'),'value_prop':$(this).val()});
+
+                    });
+
+                    $(".extras input[type=checkbox]:checked").each(function(){
+
+                        list_extras.push({'name_prop':$(this).attr('id'),'value_prop':$(this).val()});
+
+                    });
+
+
+
+                    var data = {
+                        nome:$('#nome').val(),
+                        regione:$('#regione').val(),
+                        iva:$('#iva').val(),
+                        phone:$('#phone').val(),
+                        cell:$('#cell').val(),
+                        email:$('#email').val(),
+                        web:$('#web').val(),
+                        //altro
+                        committente:$('#committente').val(),
+                        oggetto:$('#oggetto').val(),
+                        importo:$('#importo').val(),
+                        scadenza:$('#scadenza').val(),
+                        criteria:$('#criteria').val(),
+                        altro:$('#altro').val(),
+                        //array de valores mansiones
+                        list_j: list_j,
+                        list_s:list_s,
+                        list_extras:list_extras,
+                        'txt_totale':$('#txt_totale').val(),
+                        'txt-check':$('#txt-check').val()
+
+                    }
+
+                    $.ajax({
+                        type : 'POST',
+                        url : "{{path('insert_data')}}",
+                        data : {data:data},
+                        dataType:"json",
+                        beforeSend: function(e){
+                            alert('Hai selezionato:\n Junior Categoria: '+totalj+'\n Categoria Senior: '+totals);
+                        },
+                        success : function(data){
+                            alert('Il tuo inserimento è avvenuto con successo.\n' +
+                            'A breve riceverai una mail con il riepilogo del tuo preventivo');
+
+                            $( "#default" ).submit();
+                          /*  $('#nome').val("");
+                            $('#regione').val("");
+                            $('#iva').val("");
+                            $('#phone').val("");
+                            $('#cell').val("");
+                            $('#email').val("");
+                            $('#web').val("");
+                            //altro
+                            $('#committente').val("");
+                            $('#oggetto').val("");
+                            $('#importo').val("");
+                            $('#scadenza').val("");
+                            $('#criteria').val("");
+                            $('#altro').val("");
+                            $('#txt_totale').val("");
+                            $('#campo_principale1').val("");
+                            $('#slect_main').val(1);
+                            $('input[type=checkbox]').attr('checked', false);*/
+
+
+                        }
+                    });
+                } else{
+                    alert(" Il preventivo non può essere inviato se non si seleziona le legge sulla privacy");
+                }
+
+            });
+        });
+    </script>
+{% endblock %}

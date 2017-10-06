@@ -1,0 +1,11 @@
+tex:
+    path:     /
+    defaults: { _controller: TexnoBundle:Default:index }
+quote:
+   path: /quote
+   defaults: { _controller: TexnoBundle:Default:calcolo  }
+
+
+insert_data:
+   path: /inserdata
+   defaults: { _controller: TexnoBundle:Default:insertData  }

@@ -1,0 +1,168 @@
+{% extends '::backend.html.twig' %}
+{% block title %}Administrator{% endblock %}
+  {%  block stylesheets %}
+      {{ parent() }}
+  {%  endblock %}
+    {% block aside %}
+        <div class="row state-overview">
+           <div class="col-lg-3 col-sm-6">
+                <section class="panel">
+                    <div class="symbol terques">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <div class="value">
+                        <h1 class="count">{{ user_cont }}</h1>
+                        <p>USERS</p>
+                    </div>
+                </section>
+            </div>
+            {#<div class="col-lg-3 col-sm-6">#}
+                {#<section class="panel">#}
+                    {#<div class="symbol red">#}
+                        {#<i class="fa fa-cogs"></i>#}
+                    {#</div>#}
+                    {#<div class="value">#}
+                        {#<h1 class=" count2">{{ cont_project }}</h1>#}
+                        {#<p>PROJECTS</p>#}
+                    {#</div>#}
+                {#</section>#}
+            {#</div>#}
+            <div class="col-lg-3 col-sm-6">
+                <section class="panel">
+                    <div class="symbol blue">
+                        <i class="fa fa-bar-chart-o"></i>
+                    </div>
+                    <div class="value">
+                        <h1 class=" count2">{{ cant_gara }}</h1>
+                        <p>GARE IN ELENCO </p>
+                    </div>
+                </section>
+            </div>
+			 <div class="col-lg-3 col-sm-6">
+                <section class="panel">
+                    <div class="symbol yellow">
+                        <i class="fa  fa-users"></i>
+                    </div>
+                    <div class="value">
+                        <h1 class=" count2">{{ cont_team }}</h1>
+                        <p>TEAM</p>
+                    </div>
+                </section>
+            </div>
+            <!--Box of Chat-->
+            <!--div class="col-lg-6">
+               <section class="panel">
+                   <header class="panel-heading">
+                       Chats
+                              <span class="tools pull-right">
+                                <a class="fa fa-chevron-down" href="javascript:;"></a>
+                                <a class="fa fa-times" href="javascript:;"></a>
+                            </span>
+                   </header>
+                   <div class="panel-body">
+                       <div class="timeline-messages">
+                          <div class="message-all">
+                              {% for data in messages %}
+                                  <div class="msg-time-chat">
+                                      <a href="#" class="message-img"><img class="avatar" src="{{asset('web/bundles/backend/img/avatars/large')}}/{{data.avatar}}" alt=""></a>
+                                      <div class="message-body msg-in">
+                                          <span class="arrow"></span>
+                                          <div class="text">
+                                              <p class="attribution"><a href="#">{{ data.name }}</a> at 1:55pm, 13th April 2013</p>
+                                              <p>{{ data.text }}</p>
+                                          </div>
+                                      </div>
+                                  </div>
+                              {% endfor %}
+                          </div>
+                       </div>
+                       <div class="chat-form">
+                           <div class="input-cont ">
+                               <input id="msg" type="text" class="form-control col-lg-12" placeholder="Type a message here...">
+                           </div>
+                           <div class="form-group">
+                               <div class="pull-right chat-features">
+                                   <a href="javascript:;">
+                                       <i class="fa fa-camera"></i>
+                                   </a>
+                                   <a href="javascript:;">
+                                       <i class="fa fa-link"></i>
+                                   </a>
+                                   <a id="btn_send" class="btn btn-danger" href="javascript:;">Send</a>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </section>
+            </div-->
+            <!--End Box of Chat-->
+        </div>
+    {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function(){
+
+
+          //  setInterval("cargar()",1000);
+
+            $('#btn_send').click(function(){
+
+               var data = {
+                   msg: $('#msg').val()
+               }
+               $.ajax({
+                   type: "POST",
+                   url: "{{path('insert_msg')}}",
+                   data:{data:data},
+                   dataType:"json",
+                   success: function(response) {
+                       $('#msg').val('');
+                       //alert(response.result);
+                      /*$.each(response.result, function(i, item) {
+                           alert(item);
+                       });*/
+                   }
+               });
+
+
+           });
+
+        });
+        function cargar(){
+
+            $.ajax({
+                type: "POST",
+                url: "{{path('load_msg')}}",
+                data:{},
+                dataType:"json",
+                success: function(response) {
+                    var html = "";
+                    $.each(response.result, function(i, item) {
+                       // alert(item.name);
+                        $('.message-all').html('');
+                        var img = '/web/bundles/backend/img/avatars/large/'+item.avatar;
+                       // alert(img);
+                        html+='<div class="msg-time-chat">'+
+                                    '<a href="#" class="message-img">'+
+                                      '<img class="avatar" src="'+img+'" alt="">'+
+                                    '</a>'+
+                                    '<div class="message-body msg-in">'+
+                                        '<span class="arrow"></span>'+
+                                        '<div class="text">'+
+                                            ' <p class="attribution"><a href="#">'+item.name+'</a> at 1:55pm, 13th April 2013</p>'+
+                                            '<p>'+item.text+'</p>'+
+                                         '</div>'+
+                                    '</div>'+
+                                '</div>';
+
+                    });
+                    $('.message-all').html(html);
+
+                }
+            });
+
+        }
+    </script>
+{% endblock %}

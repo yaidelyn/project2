@@ -1,0 +1,196 @@
+Base_site:
+    pattern: /
+    defaults: { _controller: AdminBundle:Default:index }
+
+admin_site:
+    pattern: /index
+    defaults: { _controller: AdminBundle:Default:admin }
+
+create_team:
+    pattern: /create_team
+    defaults: { _controller: AdminBundle:Default:createTeam }
+
+create_employee:
+    pattern: /create_employee
+    defaults: { _controller: AdminBundle:Default:createEmployee }
+
+create_project:
+    pattern: /create_project
+    defaults: { _controller: AdminBundle:Default:createProject }
+
+list_all_user:
+    pattern: /list_user_all
+    defaults: { _controller: AdminBundle:Default:listAllUser }
+
+admin_edit_user:
+    pattern: /admin_edit_user/{id}
+    defaults: { _controller: AdminBundle:Default:adminEeditUser }
+
+admin_update_profile:
+    pattern: /update_profile/
+    defaults: { _controller: AdminBundle:Default:adminUpdateProfile }
+
+admin_delete_user:
+    pattern: /admin_delete_user/{id}
+    defaults: { _controller: AdminBundle:Default:adminDeleteUser }
+
+admin_offer_job:
+    pattern: /admin_offer_job/
+    defaults: { _controller: AdminBundle:Default:offerJob }
+
+admin_add_offer:
+    pattern: /admin_add_offer/
+    defaults: { _controller: AdminBundle:Admin:createOffer }
+
+all_offer:
+   pattern: /all_offers
+   defaults: { _controller: AdminBundle:Default:getAllOffer }
+
+delete_offer:
+   pattern: /delete_offer
+   defaults: { _controller: AdminBundle:Admin:deleteOffer }
+
+update_offer:
+   pattern: /update_offer
+   defaults: { _controller: AdminBundle:Admin:updateOffer }
+
+categ_per_id:
+   pattern: /categ_per_id/
+   defaults: { _controller: AdminBundle:Default:getSubCategoryById }
+
+load_file:
+   pattern: /load_file/
+   defaults: { _controller: AdminBundle:ReadFile:loadFile }
+
+data_member:
+   pattern: /data_member
+   defaults: { _controller: AdminBundle:ReadFile:uploadFileData }
+
+createFormTest:
+   pattern: /form_test
+   defaults: { _controller: AdminBundle:Admin:formTest }
+
+search_user:
+   pattern: /result_search
+   defaults: { _controller: AdminBundle:Admin:findUserByCriterio }
+
+add_team:
+   pattern: /add_team
+   defaults: { _controller: AdminBundle:Default:createTeam }
+
+list_team:
+   pattern: /list_team
+   defaults: { _controller: AdminBundle:Default:listTeam }
+
+view_team:
+   pattern: /view_team/{id}
+   defaults: { _controller: AdminBundle:Default:viewTeam }
+
+update_team:
+   pattern: /update_team/{id}
+   defaults: { _controller: AdminBundle:Default:updateTeam }
+
+delete_team:
+   pattern: /delete_team/{id}
+   defaults: { _controller: AdminBundle:Default:deleteTeam }
+
+update_team_user:
+   pattern: /update_team_user/{id}
+   defaults: { _controller: AdminBundle:Default:updateTeamUser }
+
+leader_per_id:
+   pattern: /leader_per_id/{id}
+   defaults: { _controller: AdminBundle:Default:getUserTeamById }
+
+create_gare:
+   pattern: /create_gare
+   defaults: { _controller: AdminBundle:Gare:createGare }
+
+#subcategory_gare:
+#   pattern: /subcategory_gare/{id}
+#   defaults: { _controller: AdminBundle:Gare:getAllSubcategoryById }
+
+
+subcategory_gare:
+   pattern: /subcategory_gare/
+   defaults: { _controller: AdminBundle:Gare:getAllSubcategoryById }
+
+view_gara:
+   pattern: /view_gara/
+   defaults: { _controller: AdminBundle:Gare:viewGara }
+
+delete_gara:
+   pattern: /delete_gara/{id}
+   defaults: { _controller: AdminBundle:Gare:deleteGara }
+
+view_acertation:
+   pattern: /view_acertation/
+   defaults: { _controller: AdminBundle:Gare:viewUserCoincidencia }
+
+select_person:
+    pattern: /select_person/{id}
+    defaults: { _controller: AdminBundle:Gare:selectPersonGara }
+
+acept_gara:
+    pattern: /acept_gara/{id}
+    defaults: { _controller: AdminBundle:Gare:aceptGara }
+
+update_gara:
+   pattern: /update_gara/{id}
+   defaults: { _controller: AdminBundle:Gare:updateGare }
+
+delete_result_gara:
+   pattern: /delete_result_gara/{id}
+   defaults: { _controller: AdminBundle:Gare:deleteResultGara }
+
+create_opere:
+   pattern: /create_opere/
+   defaults: { _controller: AdminBundle:Admin:addOpere }
+
+index_news:
+   pattern: /news/
+   defaults: { _controller: AdminBundle:News:index }
+
+add_news:
+   pattern: /add_news/
+   defaults: { _controller: AdminBundle:News:add }
+
+add_user_team:
+   pattern: /add_user_team/
+   defaults: { _controller: AdminBundle:Gare:addUserTeam }
+   
+user_result_gara:
+   pattern: /user_result_gara/
+   defaults: { _controller: AdminBundle:Gare:gareForUser }
+
+file_collengworld:
+   pattern: /file_collengworld/
+   defaults: { _controller: AdminBundle:ReadFile:insertDataUser }
+
+new_gara:
+   pattern: /new_gara/
+   defaults: { _controller: AdminBundle:Gare:newGara }
+
+admin_data_opere:
+    pattern: /admin_data_opere/
+    defaults: { _controller: AdminBundle:Gare:createDataOpere }
+
+admin_create_competencia:
+    pattern: /admin_create_competencia/
+    defaults: { _controller: AdminBundle:Gare:admincreateCompetencia }
+
+admin_insert_operestar:
+    pattern: /admin_insert_operestar/
+    defaults: { _controller: AdminBundle:Gare:admininsertOpereStart }
+
+adminsubcategory_categ:
+    pattern: /adminsubcategory_categ/
+    defaults: { _controller: AdminBundle:Gare:adminsubCategoryByCategory }
+
+delete_competenza:
+    pattern: /delete_competenza/{id}
+    defaults: { _controller: AdminBundle:Competenza:deleteCompetenza }
+
+update_competenza:
+    pattern: /update_competenza/{id}
+    defaults: { _controller: AdminBundle:Competenza:updateCompetenza }

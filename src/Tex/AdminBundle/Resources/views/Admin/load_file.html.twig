@@ -1,0 +1,113 @@
+{% extends '::backend.html.twig' %}
+{% block title %}Configuration{% endblock %}
+  {%  block stylesheets %}
+      {{ parent() }}
+  {%  endblock %}
+{% block javascripts %}
+    {{ parent() }}
+	<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+    <script>
+        $(function(){
+
+           // alert('dsfdfddfdf');
+            $('#btn_ok').click(function(e) {
+
+                //alert(111111);
+                e.preventDefault();
+                var fd = new FormData();
+                var file = $(document).find('input[type="file"]');
+                var individual_file = file[0].files[0];
+                var idoffer;
+                fd.append("file", individual_file);
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{path('data_member')}}",
+                    data: fd,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log(response);
+                        if (response.code == 1) {
+                            alert('Okkkkkk!!!');
+                        }
+                    }
+                });
+            });
+			
+			//user all postition GMap
+			 var markers = {{ coordenadas|json_encode|raw }};
+			  var myObject = eval('(' + markers + ')');
+            //console.log(myObject[0]);
+			var mapOptions = {
+                center: new google.maps.LatLng(myObject[0].lat, myObject[0].lng),
+                zoom: 10,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+            var infoWindow = new google.maps.InfoWindow();
+            var lat_lng = new Array();
+            var latlngbounds = new google.maps.LatLngBounds();
+            for (i = 0; i < myObject.length; i++) {
+			 //alert(myObject[i]);
+                var data = myObject[i]
+                var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+                lat_lng.push(myLatlng);
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map,
+                    title: data.title
+                });
+                latlngbounds.extend(marker.position);
+                (function (marker, data) {
+                    google.maps.event.addListener(marker, "click", function (e) {
+                        infoWindow.setContent(data.description);
+                        infoWindow.open(map, marker);
+                    });
+                })(marker, data);
+            }
+            map.setCenter(latlngbounds.getCenter());
+            map.fitBounds(latlngbounds);
+
+
+        });
+    </script>
+{% endblock %}
+{% block aside %}
+<aside class="profile-info col-lg-9">
+    <section class="panel">
+        <h2 class="register-heading">Generate Data Member</h2>
+        <div class="panel-body bio-graph-info">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Upload File</label>
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-lg-8 col1199_6">
+                                <input type="text" value="" name="mfile" id="mfile" class="form-control" readonly>
+                            </div>
+                            <div class="col-lg-4 col1199_2">
+                                <div class="btnfile">
+                                    <a class='btn btn-primary btn-file' href='javascript:;'>
+                                        Choose File...
+                                        <input type="file" class="mfile" name="file_source" onchange='$("#mfile").val($(this).val());'>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="button" id="btn_ok" class="btn btn-info">Generate</button>
+                        <button type="button" class="btn btn-default">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</aside>
+<aside>
+    <div id="map-canvas" style="width: 100%; height: 350px"></div>
+</aside>
+{% endblock %}

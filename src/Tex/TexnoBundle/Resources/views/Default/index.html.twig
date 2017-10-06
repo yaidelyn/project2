@@ -1,0 +1,191 @@
+{% extends '::backend2.html.twig' %}
+{% block title %}Home{% endblock %}
+  {% block slider %}
+      <!-- Image slider -->
+      <header id="home" class="header">
+          <div class="bg-img fadein">
+              <img src="{{ asset('web/bundles/frontend/img/architettura-1.jpg') }}" alt="TE.x engineering S.r.l." />
+              <img src="{{ asset('web/bundles/frontend/img/architettura-2.jpg') }}" alt="TE.x engineering S.r.l." />
+              <img src="{{ asset('web/bundles/frontend/img/architettura-3.jpg') }}" alt="TE.x engineering S.r.l." />
+              <img src="{{ asset('web/bundles/frontend/img/architettura-4.jpg') }}" alt="TE.x engineering S.r.l." />
+          </div>
+      </header>
+      <!-- End ofImage Slider -->
+  {% endblock %}
+{% block body %}
+        <div class="title">
+            <nav class="codrops-demos">
+                <a href="#"></a>
+            </nav>
+            <h1><strong>Ingegneria</strong> Collaborativa.</br>
+                Costruiamo l'innovazione per</br>rendere i servizi di ingegneria <strong>veloci, migliori e economici</strong>.</h1>
+            <p class="subline-top"><strong>Una rivoluzione per il beneficio dell'umanità.</strong></p>
+            </br>
+            <p class="subline"><strong>TE.x</strong> fornisce servizi di ingegneria e architettura innovativi puntando su metodi e strumenti all’avanguardia, ricerca dettagliata e personale altamente qualificato.</br></br>
+                L’<strong>Ingegneria Collaborativa</strong> è un nuovissimo modello <strong>peer-to-peer</strong> nel quale queste risorse convergono e si interconnettono per rendere il tradizionale mondo dell’ingegneria più <strong>smart</strong>.</p></br>
+            <p><img class="car-image" alt="Ingegneria Collaborativa" src="{{ asset('web/bundles/frontend/img/architettura-5.jpg') }}"></p>
+            <p class="subline">
+            <h2>Migliore</h2> Il nostro innovativo metodo produce risultati straordinari incanalando la creatività e il potenziale di esperti di primordine e gruppi di lavoro da tutto il mondo.</br>Grazie al nostro network, basato su una cultura di condivisione/collaborazione e tecnologie innovative, riusciamo ad ottenere risultati non altrimenti raggiungibili.</br>
+            <h2>Più veloce</h2> Grazie alle nuove tecnologie internet e cloud , assicuriamo la massima qualità nei nostri servizi in tempi più brevi rispetto ad un metodo tradizionale.</br>
+            <h2>Più economico</h2> L’Ingegneria Collaborativa introduce i servizi di ingegneria al concetto di <i>Zero Marginal Cost</i> sfruttando risorse e strumenti esistenti, condividendo conoscenza e infrastrutture.</br>I nostri algoritmi selezionano solo i professionisti più adatti e appassionati per ogni differente tipo di progetto, trovando ciò che ci serve dove ci serve.</br>Tagliando tutti i costi non necessari, raggiungiamo il miglior risultato al minor costo.</p>
+        </div>
+        <div class="container-fluid fluid-reset">
+            <!-- Home Section -->
+            <div class="row">
+                <div class="col-md-12 wrap-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="media">
+                                <div class="media-left knob-circle">
+                                    <i class="lnr lnr-sync"></i>
+                                </div>
+                                <div class="media-body knob-circle">
+                                    <h4 class="media-heading"><span>Collaborazione</span></h4>
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="media">
+                                <div class="media-left knob-circle">
+                                    <i class="lnr lnr-users"></i>
+                                </div>
+                                <div class="media-body knob-circle">
+                                    <h4 class="media-heading"><span>Community</span></h4>
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="media">
+                                <div class="media-left knob-circle">
+                                    <i class="lnr lnr-cog"></i>
+                                </div>
+                                <div class="media-body knob-circle">
+                                    <h4 class="media-heading"><span>Algoritmi</span></h4>
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="media">
+                                <div class="media-left knob-circle">
+                                    <i class="ti-cloud"></i>
+                                </div>
+                                <div class="media-body knob-circle">
+                                    <h4 class="media-heading"><span>Piattaforme</span></h4>
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Home Section -->
+            <!-- Gallery Section -->
+            <!-- End of Gallery Section -->
+            <!-- Specification -->
+            <!-- end of Specification-->
+            <br>
+            <!-- Subscribe section -->
+            <!-- End of Subscribe section -->
+            <!-- Pricing Plan -->
+            <!-- end of Pricing Plan -->
+        </div>
+        <!-- Offer Section -->
+        <section id="over-wrap">
+            <div class="container-fluid">
+                <h2 class="over-title text-center">Per maggiori informazioni, Contattaci su<br> <span><a href="mailto:info@te-x.net">info@te-x.net</a></span></h2>
+            </div>
+        </section>
+        <!-- End of Offer Section -->
+        <!--  F.A.Q -->
+        <!--  end of F.A.Q  -->
+        <!-- Map -->
+        <div id="map-wrap">
+            <div class="wrap-mapping">
+                <div id="test1" class="gmap3"></div>
+            </div>
+        </div>
+        <!-- End of Map -->
+{% endblock %}
+{% block javascripts %}
+   {{parent()}}
+    <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+    <script src="{{ asset('web/bundles/frontend/js/gmap3.js') }}"></script>
+
+    <script type="text/javascript">
+     $(function() {
+            "use strict";
+            //main color :#46BF06;
+            //gmap jquery
+            $('#test1').gmap3({
+                marker: {
+                    address: "39.207331, 9.148039"
+                },
+                map: {
+                    options: {
+                        zoom: 15,
+
+
+                        styles: [{
+                            "featureType": "administrative",
+                            "elementType": "labels.text.fill",
+                            "stylers": [{
+                                "color": "#444444"
+                            }]
+                        }, {
+                            "featureType": "landscape",
+                            "elementType": "all",
+                            "stylers": [{
+                                "color": "#f2f2f2"
+                            }]
+                        }, {
+                            "featureType": "poi",
+                            "elementType": "all",
+                            "stylers": [{
+                                "visibility": "off"
+                            }]
+                        }, {
+                            "featureType": "road",
+                            "elementType": "all",
+                            "stylers": [{
+                                "saturation": -100
+                            }, {
+                                "lightness": 45
+                            }]
+                        }, {
+                            "featureType": "road.highway",
+                            "elementType": "all",
+                            "stylers": [{
+                                "visibility": "simplified"
+                            }]
+                        }, {
+                            "featureType": "road.arterial",
+                            "elementType": "labels.icon",
+                            "stylers": [{
+                                "visibility": "off"
+                            }]
+                        }, {
+                            "featureType": "transit",
+                            "elementType": "all",
+                            "stylers": [{
+                                "visibility": "off"
+                            }]
+                        }, {
+                            "featureType": "water",
+                            "elementType": "all",
+                            "stylers": [{
+                                "color": "#5F91A6"
+                            }, {
+                                "visibility": "on"
+                            }]
+                        }]
+                    }
+                }
+            });
+        })();
+    </script>
+{% endblock %}

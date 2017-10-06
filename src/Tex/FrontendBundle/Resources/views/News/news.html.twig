@@ -1,0 +1,265 @@
+{% extends '::frontend.html.twig' %}
+{% block title %}News{% endblock %}
+  {%  block stylesheets %}
+    {{ parent() }}
+      <link href="{{asset('web/bundles/backend/css/style-index.css')}}" rel="stylesheet">
+      <link href="{{asset('web/bundles/backend/css/style.css')}}" rel="stylesheet">
+      <link href="{{asset('web/bundles/backend/css/style-responsive.css')}}" rel="stylesheet" />
+      <style>
+          .form-wrap{
+              /* max-width: 500px;
+               padding: 30px;
+               background: #f1f1f1;
+               margin: 20px auto;
+               border-radius: 4px;
+               text-align: center;*/
+          }
+          #progress-wrp {
+              /* border: 1px solid #0099CC;*/
+              /*padding: 1px;*/
+              position: relative;
+              border-radius: 3px;
+              margin: 10px;
+              text-align: left;
+              background: #fff;
+              box-shadow: inset 1px 3px 6px rgba(0, 0, 0, 0.12);
+          }
+          #progress-wrp .progress-bar{
+              height: 20px;
+              border-radius: 3px;
+              background-color: #58c9f3;
+              width: 0;
+              box-shadow: inset 1px 1px 10px rgba(0, 0, 0, 0.11);
+          }
+          #progress-wrp .status{
+              top:3px;
+              left:50%;
+              position:absolute;
+              display:inline-block;
+              color: #000000;
+          }
+
+
+      </style>
+  {%  endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('web/bundles/backend/js/jquery.blockUI.js')}}"></script>
+    <script>
+        $(function() {
+
+            $('.btn-legi').each(function(){
+                $(this).click(function(){
+                    $('#content-'+$(this).attr('id')+'').css('display','block');
+                    $('#sunmary-'+$(this).attr('id')+'').css('display','none');
+                });
+            });
+
+            $('.btn-default').each(function(){
+                $(this).click(function(){
+                    $('#content-'+$(this).attr('id')+'').css('display','none');
+                    $('#sunmary-'+$(this).attr('id')+'').css('display','block');
+                });
+            });
+
+
+
+            //upload Fie
+            var progress_bar_id = '#progress-wrp'; //ID of an element for response output
+            $('.btn-upload').click(function(evt){
+
+                //evt.preventDefault();
+                var fd = new FormData();
+                var file = $(document).find('input[type="file"]');
+                var individual_file = file[0].files[0];
+                fd.append("file", individual_file);
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{path('upload_file_cv')}}",
+                    data : fd,
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    xhr: function(){
+                        //upload Progress
+                        var xhr = $.ajaxSettings.xhr();
+                        if (xhr.upload) {
+                            xhr.upload.addEventListener('progress', function(event) {
+                                var percent = 0;
+                                var position = event.loaded || event.position;
+                                var total = event.total;
+                                if (event.lengthComputable) {
+                                    percent = Math.ceil(position / total * 100);
+                                }
+                                //update progressbar
+                                $(progress_bar_id +" .progress-bar").css("width", + percent +"%");
+                                $(progress_bar_id + " .status").text(percent +"%");
+                            }, true);
+                        }
+                        return xhr;
+                    },
+                    success: function() {
+                        location.reload();
+                    }
+                });
+            });
+
+        });//end function
+    </script>
+{% endblock %}
+{% block bodypage %}
+    <!--breadcrumbs start-->
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-sm-4">
+                    <h1>News</h1>
+                </div>
+                <div class="col-lg-8 col-sm-8">
+                    <ol class="breadcrumb pull-right">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Pages</a></li>
+                        <li class="active">Contact</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--breadcrumbs end-->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                {% for item in datos.news %}
+                    <div class="blog-item">
+                        <div class="row">
+                            <div class="col-lg-2 col-sm-2">
+                                <!--div class="date-wrap">
+                                    <span class="date">{{ item.created }}</span>
+                                    <!--span class="month">September</span>
+                                </div>
+                                <div class="comnt-wrap">
+                                <span class="comnt-ico">
+                                    <i class="fa fa-comments"></i>
+                                </span>
+                                    <span class="value">15</span>
+                                </div-->
+                            </div>
+                            <div class="col-lg-10 col-sm-10">
+                                <div class="blog-img">
+                                    <img src="{{asset('web/upload/files/news/')}}{{ item.img }}" alt=""/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-2 col-sm-2 text-right">
+                                <div class="author">
+                                    By <a href="#">{{ item.fullname }}</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-10 col-sm-10">
+                                <h1><a href="#">{{ item.title }}</a></h1>
+                                <div id="content-{{ item.id }}" style="display: none;">
+                                    <p>{{ item.text }}</p>
+                                    <a id="{{ item.id  }}" data-toggle="modal" href="#myModal{{ item.id  }}" class="btn btn-danger btn-legi">Candidati</a>
+                                    <a id="{{ item.id  }}" href="javascript:;" class="btn btn-default btn-cancel">Cancel</a>
+                                </div>
+                                <div id="sunmary-{{ item.id }}">
+                                    <p>{{ item.sunmary }}</p>
+                                    <a id="{{ item.id  }}" href="javascript:;" class="btn btn-danger btn-legi">Leggi di piú</a>
+                                </div>
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal{{ item.id  }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title">Upload Curriculum</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label class="col-lg-2 control-label"></label>
+                                                    <div class="col-lg-8">
+                                                        <div class="row">
+                                                            <div class="col-lg-8">
+                                                                <input type="text"  name="mfile" id="mfile" class="form-control" readonly>
+                                                            </div>
+                                                            <div class="col-lg-4 col1199_2">
+                                                                <div class="btnfile">
+                                                                    <a class='btn btn-primary btn-file' href='javascript:;'>
+                                                                        Choose File...
+                                                                        <input type="file" class="mfile" name="file_source" onchange='$("#mfile").val($(this).val());'>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <!--Progress Bar-->
+                                                        <div class="form-wrap">
+                                                            <div id="progress-wrp">
+                                                                <div class="progress-bar"></div ><div class="status">0%</div>
+                                                            </div>
+                                                            <div id="output">
+                                                                <!-- error or success results -->
+                                                            </div>
+                                                        </div>
+                                                        <!--End Progress Bar-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                                                <button class="btn btn-success btn-upload" type="button">Upload</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- modal -->
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-3">
+                <!--div class="blog-post">
+                    <h3>Latest News</h3>
+                    <div class="media">
+                        <a class="pull-left" href="javascript:;">
+                            <img class=" " src="img/blog/blog-thumb-1.jpg" alt="">
+                        </a>
+                        <div class="media-body">
+                            <h5 class="media-heading"><a href="javascript:;">02 May 2013 </a></h5>
+                            <p>
+                                Donec id elit non mi porta gravida at eget metus amet int
+                            </p>
+                        </div>
+                    </div>
+                    <div class="media">
+                        <a class="pull-left" href="javascript:;">
+                            <img class=" " src="img/blog/blog-thumb-2.jpg" alt="">
+                        </a>
+                        <div class="media-body">
+                            <h5 class="media-heading"><a href="javascript:;">02 May 2013 </a></h5>
+                            <p>
+                                Donec id elit non mi porta gravida at eget metus amet int
+                            </p>
+                        </div>
+                    </div>
+                    <div class="media">
+                        <a class="pull-left" href="javascript:;">
+                            <img class=" " src="img/blog/blog-thumb-3.jpg" alt="">
+                        </a>
+                        <div class="media-body">
+                            <h5 class="media-heading"><a href="javascript:;">02 May 2013 </a></h5>
+                            <p>
+                                Donec id elit non mi porta gravida at eget metus amet int
+                            </p>
+                        </div>
+                    </div>
+                </div--->
+            </div>
+        </div>
+    </div>
+    <!--container-->
+{% endblock %}

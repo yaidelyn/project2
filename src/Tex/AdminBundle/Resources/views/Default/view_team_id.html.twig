@@ -1,0 +1,121 @@
+{% extends '::backend.html.twig' %}
+{% block title %}View Team{% endblock %}
+  {%  block stylesheets %}
+     {{ parent() }}
+ {%  endblock %}
+   {% block aside %}
+      <div class="row">
+          <aside class="profile-info col-lg-12">
+              <section class="panel">
+                  <h2 class="register-heading">Team Info</h2>
+                  <div class="panel-body bio-graph-info">
+                    <form class="form-horizontal" role="form">
+                      <div class="form-group">
+                          <div class="col-lg-2">Name Team:</div>
+							<div class="col-lg-10">
+                                {{ datos.team.name_team }}
+							</div>
+                      </div>
+                      <div class="form-group">
+                          <div class="col-lg-2">Leader:</div>
+							<div class="col-lg-10">{{ datos.team.name_leader }}
+							</div>
+                      </div>
+                    </form>
+                  </div>
+              </section>
+              <section>
+                  <div class="row">
+                      {% for item in  datos.team.users %}
+                      <div class="col-lg-6">
+                          <div class="panel">
+                              <div class="panel-body">
+                                  <div class="task-thumb">
+                                      <div style="display:inline;width:100px;height:100px;">
+                                          {% if (item.avatar) %}
+                                              <a style="border-radius: 50%;" href="{{path('view_profile')}}?id={{ item.iduser }}">
+                                                  <img style="border-radius: 50%;" src="{{asset('web/bundles/backend/img/avatars/large')}}/{{item.avatar}}" class="avatar-view">
+                                              </a>
+                                          {% else %}
+                                              <a style="border-radius: 50%;"  href="{{path('view_profile')}}?id={{ item.iduser }}">
+                                                  <img style="border-radius: 50%;" src="{{asset('web/bundles/backend/img/profile-avatar1.jpg')}}" class="avatar-view">
+                                              </a>
+                                          {% endif %}
+                                      </div>
+                                  </div>
+                                  <div class="bio-desk">
+                                      <h4 class="purple">{{item.name  }}</h4>
+                                      <p>{{item.ocupation  }}</p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      {% endfor %}
+                  </div>
+              </section>
+              <section class="panel">
+                  <div id="map-canvas" style="width: 100%; height: 250px"></div>
+              </section>
+          </aside>
+      </div>
+	<input type="hidden" id="latitud" value=""/>
+	<input type="hidden" id="longitud" value=""/>
+   {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <!--script for this page-->
+    <script src="{{asset('web/bundles/backend/js/input-mask.js')}}"></script>
+	 <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+    <script>
+	      $(function(){
+              //user all postition GMap
+              var markers = {{ coordenadas|json_encode|raw }};
+              var myObject = eval('(' + markers + ')');
+              //console.log(myObject[0]);
+              var mapOptions = {
+                  center: new google.maps.LatLng(myObject[0].lat, myObject[0].lng),
+                  zoom: 10,
+                  mapTypeId: google.maps.MapTypeId.ROADMAP
+              };
+              var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+              var infoWindow = new google.maps.InfoWindow();
+              var lat_lng = new Array();
+              var latlngbounds = new google.maps.LatLngBounds();
+              for (i = 0; i < myObject.length; i++) {
+                  //alert(myObject[i]);
+                  var data = myObject[i];
+                  var contentString = '<div class="task-thumb">'+
+                                         '<div style="display:inline;width:100px;height:100px;">'+
+                                                '<a style="border-radius: 50%;" href="#">'+
+                                                        '<img  src="" class="avatar-view">'+
+                                                 '</a>'+
+                                        '</div>'+
+                                    '</div>'+
+                                   '<div class="bio-desk">' +
+                                       '<h4 class="purple">'+data.name+'</h4>' +
+                                        '<p>'+data.education+'</p>'+
+                                        '<p>'+data.ocupation+'</p>' +
+                                 '</div>';
+                  var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+                  lat_lng.push(myLatlng);
+                  var marker = new google.maps.Marker({
+                      position: myLatlng,
+                      map: map,
+                      title: data.title
+                  });
+                  latlngbounds.extend(marker.position);
+                  (function (marker, data) {
+                      google.maps.event.addListener(marker, "click", function (e) {
+                          infoWindow.setContent(data.description);
+                          infoWindow.open(map, marker);
+                      });
+                  })(marker, data);
+              }
+              map.setCenter(latlngbounds.getCenter());
+              map.fitBounds(latlngbounds);
+
+      });
+
+    </script>
+{% endblock %}

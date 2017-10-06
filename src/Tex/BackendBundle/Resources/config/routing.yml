@@ -1,0 +1,7 @@
+backend_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: BackendBundle:Default:index }
+
+cpanel:
+    path: /cpanel
+    defaults: { _controller: BackendBundle:Admin:index }

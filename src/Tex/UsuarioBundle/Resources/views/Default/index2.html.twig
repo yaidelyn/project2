@@ -1,0 +1,504 @@
+{% extends '::baseindex.html.twig' %}
+{% block bodyIndex %}
+	<!--header start-->
+    <header class="header-frontend">
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="fa fa-bars"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{path('User_index')}}">Te<span>X</span></a>
+                </div>
+                 <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="{{path('User_index')}}">{% trans %}Home{% endtrans %}</a></li>
+                        <li><a href="about.html">{% trans %}Chi Siamo{% endtrans %}</a></li>
+                        <li><a href="#">{% trans %}Progetto{% endtrans %}</a></li>
+                        <li><a href="#">{% trans %}Contatti{% endtrans %}</a></li>                        
+                        <!--<li><input type="text" placeholder=" Search" class="form-control search"></li> -->
+                        <li class="space"></li>
+                        {% if (datos.login == 0) %}
+                        <li><a id="dlogin" class="btn2" href="{{path('login')}}" title="Login"><i class="fa fa-sign-in"></i></a></li>
+                        <li><a id="dregister" class="btn2" href="{{path('create_user')}}"><img id="register" title="Register" style="margin-top:-2px" src="{{asset('bundles/backend/img/register.png')}}"></a></li>
+                        {% else %}
+                        <li><a id="dlogout" class="btn2" href="{{path('User_logout')}}" title="Logout"><i class="fa fa-sign-out"></i></a></li>
+                        <li><a id="dperfil" class="btn2" href="{{path('edit_profile')}}" style="margin-top:3px;" title="Profile"><i class="fa fa-user"></i></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                  <div class="flags">
+                    {% set locale = app.request.locale %}
+                    {% if locale == 'it' %}
+                        <span>ITA</span>
+                        <span style="font-size:10px;position:relative;top:-3px;">|</span>
+                        <a href="{{ path('User_index' , { '_locale' : 'en' }) }}">ENG</a>                        
+                    {% elseif locale == 'en' %}
+                        <a href="{{ path('User_index' , { '_locale' : 'it' }) }}">ITA</a>
+                        <span style="font-size:10px;position:relative;top:-3px;">|</span>
+                        <span>ENG</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+    <!--header end-->
+     <!-- revolution slider start -->
+     <div class="fullwidthbanner-container main-slider">
+         <div class="fullwidthabnner">
+             <ul id="revolutionul" style="display:none;">
+                 <!-- 1st slide -->
+                 <li data-transition="fade" data-slotamount="8" data-masterspeed="700" data-delay="9400" data-thumb="">
+                     <div class="caption lfl slide_item_left"
+                          data-x="10"
+                          data-y="70"
+                          data-speed="400"
+                          data-start="1500"
+                          data-easing="easeOutBack">
+                         <img src="{{asset('web/bundles/backend/img/banner/ban2.png')}}" alt="Image 1">
+                     </div>
+                     <div class="caption lfr slide_title"
+                          data-x="670"
+                          data-y="120"
+                          data-speed="400"
+                          data-start="1000"
+                          data-easing="easeOutExpo">
+                       Ingegneria Collaborativa
+                     </div>
+
+                     <div class="caption lfr slide_subtitle dark-text"
+                          data-x="670"
+                          data-y="190"
+                          data-speed="400"
+                          data-start="2000"
+                          data-easing="easeOutExpo">
+						Una rivoluzione per il beneficio dell'umanità		
+                     </div>
+                     <div class="caption lfr slide_desc"
+                          data-x="670"
+                          data-y="260"
+                          data-speed="400"
+                          data-start="2500"
+                          data-easing="easeOutExpo">
+                       Costruiamo l'innovazione per
+					rendere i servizi di ingegneria veloci,</br>
+					migliori e economici
+                     </div>
+                 </li>
+
+                 <!-- 2nd slide  -->
+                 <li data-transition="fade" data-slotamount="8" data-masterspeed="700" data-delay="9400" data-thumb="">
+                     <!-- THE MAIN IMAGE IN THE FIRST SLIDE -->
+                     <img src="{{asset('web/bundles/backend/img/banner/banner_bg.jpg')}}" alt="">
+                     <div class="caption lft slide_title"
+                          data-x="10"
+                          data-y="125"
+                          data-speed="400"
+                          data-start="1500"
+                          data-easing="easeOutExpo">
+                         Migliore
+                     </div>
+                     <div class="caption lft slide_subtitle dark-text"
+                          data-x="10"
+                          data-y="180"
+                          data-speed="400"
+                          data-start="2000"
+                          data-easing="easeOutExpo">							
+                     </div>
+                     <div class="caption lft slide_desc dark-text"
+                          data-x="10"
+                          data-y="240"
+                          data-speed="400"
+                          data-start="2500"
+                          data-easing="easeOutExpo">
+				Il nostro innovativo metodo produce risultati straordinari incanalando la creatività</br>
+				e il potenziale di esperti di primordine e gruppi di lavoro da tutto il mondo.</br>				 
+				Grazie al nostro network, basato su una cultura di condivisione/collaborazione e tecnologie</br>
+				innovative, riusciamo ad ottenere risultati non altrimenti raggiungibili.
+                     </div>                    
+                     <div class="caption lft start"
+                          data-x="640"
+                          data-y="55"
+                          data-speed="400"
+                          data-start="2000"
+                          data-easing="easeOutBack"  >
+                         <img src="{{asset('web/bundles/backend/img/banner/man.png')}}" alt="man">
+                     </div>
+                     <div class="caption lft slide_item_right"
+                          data-x="330"
+                          data-y="20"
+                          data-speed="500"
+                          data-start="5000"
+                          data-easing="easeOutBack">
+                         <img src="{{asset('web/bundles/backend/img/banner/test_man.png')}}" id="rev-hint2" alt="txt img">
+                     </div>
+
+                 </li>
+
+                 <!-- 3rd slide  -->
+                 <li data-transition="fade" data-slotamount="7" data-masterspeed="300" data-delay="9400" data-thumb="">
+                     <img src="{{asset('bundles/backend/img/banner/red-bg.jpg')}}" alt="">
+                     <div class="caption lfl slide_item_right"
+                          data-x="10"
+                          data-y="105"
+                          data-speed="1200"
+                          data-start="1500"
+                          data-easing="easeOutBack">
+                         <img src="{{asset('web/bundles/backend/img/banner/imac.png')}}" alt="Image 1">
+                     </div>
+                     <div class="caption lfl slide_item_right"
+                          data-x="25"
+                          data-y="345"
+                          data-speed="1200"
+                          data-start="2000"
+                          data-easing="easeOutBack">
+                         <img src="{{asset('web/bundles/backend/img/banner/tab.png')}}" alt="Image 1">
+                     </div>
+                     <div class="caption lfl slide_item_right"
+                          data-x="200"
+                          data-y="330"
+                          data-speed="1200"
+                          data-start="2500"
+                          data-easing="easeOutBack">
+                         <img src="{{asset('web/bundles/backend/img/banner/mobile.png')}}" alt="Image 1">
+                     </div>
+                     <div class="caption lfl slide_item_right"
+                          data-x="250"
+                          data-y="230"
+                          data-speed="1200"
+                          data-start="3000"
+                          data-easing="easeOutBack">
+                         <img src="{{asset('web/bundles/backend/img/banner/laptop.png')}}" alt="Image 1">
+                     </div>
+                     <div class="caption lfl slide_item_right"
+                          data-x="165"
+                          data-y="30"
+                          data-speed="500"
+                          data-start="5000"
+                          data-easing="easeOutBack">
+                         <img src="{{asset('web/bundles/backend/img/banner/text_imac.png')}}" id="rev-hint1" alt="Image 1">
+                     </div>
+
+                     <div class="caption lfr slide_title slide_item_left yellow-txt"
+                          data-x="670"
+                          data-y="145"
+                          data-speed="400"
+                          data-start="3500"
+                          data-easing="easeOutExpo">
+                          Piú veloce
+                     </div>
+                     <div class="caption lfr slide_subtitle slide_item_left"
+                          data-x="670"
+                          data-y="200"
+                          data-speed="400"
+                          data-start="4000"
+                          data-easing="easeOutExpo">                        
+                     </div>
+                     <div class="caption lfr slide_desc slide_item_left"
+                          data-x="670"
+                          data-y="280"
+                          data-speed="400"
+                          data-start="4500"
+                          data-easing="easeOutExpo">
+                        Grazie alle nuove tecnologie internet e cloud , assicuriamo la massima</br>
+						qualità nei nostri servizi in tempi più brevi rispetto ad un metodo</br>
+						tradizionale.
+                     </div>
+                 </li>
+
+             </ul>
+            <div class="tp-bannertimer tp-top"></div>
+         </div>
+     </div>
+     <!-- revolution slider end -->
+    <!--container start-->
+    <div class="container">
+        <div class="row">
+          <!-- 
+          <div class="text-center feature-head">
+              <h1>welcome to flatlab</h1>
+              <p>Professional html Template Perfect for Admin Dashboard</p>
+          </div>
+          -->
+          <div class="quote"></div>
+          <div class="quote">
+              <div class="col-lg-12">
+                  <div class="quote-info text-center feature-head">
+                      <h1>Welcome to TeX</h1>
+                      <p>The world of Collaborative Engineering</p>
+                  </div>
+              </div>
+          </div>
+          <div class="col-lg-3 col-sm-3">
+              <section>
+                  <div class="f-box">
+                      <i class=" fa fa-refresh"></i>
+                      <h2>Collaborazione</h2>
+                  </div>
+                  <p class="f-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ablic jiener.</p>
+              </section>
+          </div>
+          <div class="col-lg-3 col-sm-3">
+              <section>
+                  <div class="f-box">
+                      <i class=" fa fa-group"></i>
+                      <h2>Community</h2>
+                  </div>
+                  <p class="f-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ablic jiener.</p>
+              </section>
+          </div>
+          <div class="col-lg-3 col-sm-3">
+              <section>
+                  <div class="f-box">
+                      <i class="fa fa-gears"></i>
+                      <h2>Algoritmi</h2>
+                  </div>
+                  <p class="f-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ablic jiener.</p>
+              </section>
+          </div>
+		  <div class="col-lg-3 col-sm-3">
+              <section>
+                  <div class="f-box">
+                      <i class="fa fa-cloud-upload"></i>
+                      <h2>Piattaforme</h2>
+                  </div>
+                  <p class="f-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ablic jiener.</p>
+              </section>
+          </div>
+          <!--feature end-->
+          <div class="quote"></div>
+        </div>
+    </div>
+    <!--property start-->
+    <div class="property gray-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 text-center">
+                    <img src="{{asset('web/bundles/backend/img/property-img.png')}}" alt="">
+                </div>
+                <div class="col-lg-6 col-sm-6">
+                    <h1>Ingegneria Collaborativa</h1>
+                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ablic jiener. natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ablic jiener. natus error sit voluptatem accusantiu.</p>
+                    <!--a href="javascript:;" class="btn btn-purchase">Purchase now</a-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--property end-->
+     <div class="container">
+        <!--recent work start-->
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- <h2 class="r-work">Recent Work</h2> -->
+                <ul class="bxslider">
+                    <li>
+                        <div class="element item view view-tenth" data-zlname="reverse-effect">
+                            <img src="{{asset('web/bundles/backend/img/works/img1.jpg')}}" alt="" />
+                            <div class="mask">
+                                <a data-zl-popup="link2" class="fancybox" rel="group" href="{{asset('web/bundles/backend/img/works/img1.jpg')}}">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="element item view view-tenth" data-zlname="reverse-effect">
+                            <img src="{{asset('web/bundles/backend/img/works/img2.jpg')}}" alt="" />
+                            <div class="mask">
+                                <a data-zl-popup="link2" class="fancybox" rel="group" href="{{asset('web/bundles/backend/img/works/img2.jpg')}}">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="element item view view-tenth" data-zlname="reverse-effect">
+                            <img src="{{asset('web/bundles/backend/img/works/img3.jpg')}}" alt="" />
+                            <div class="mask">
+                                <a data-zl-popup="link2" class="fancybox" rel="group" href="{{asset('web/bundles/backend/img/works/img3.jpg')}}">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="element item view view-tenth" data-zlname="reverse-effect">
+                            <img src="{{asset('web/bundles/backend/img/works/img4.jpg')}}" alt="" />
+                            <div class="mask">
+                                <a data-zl-popup="link2" class="fancybox" rel="group" href="{{asset('web/bundles/backend/img/works/img4.jpg')}}">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="element item view view-tenth" data-zlname="reverse-effect">
+                            <img src="{{asset('web/bundles/backend/img/works/img5.jpg')}}" alt="" />
+                            <div class="mask">
+                                <a data-zl-popup="link2" class="fancybox" rel="group" href="{{asset('web/bundles/backend/img/works/img5.jpg')}}">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="element item view view-tenth" data-zlname="reverse-effect">
+                            <img src="{{asset('web/bundles/backend/img/works/img6.jpg')}}" alt="" />
+                            <div class="mask">
+                                <a data-zl-popup="link2" class="fancybox" rel="group" href="{{asset('web/bundles/backend/img/works/img6.jpg')}}">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="element item view view-tenth" data-zlname="reverse-effect">
+                            <img src="{{asset('web/bundles/backend/img/works/img7.jpg')}}" alt="" />
+                            <div class="mask">
+                                <a data-zl-popup="link2" class="fancybox" rel="group" href="{{asset('web/bundles/backend/img/works/img7.jpg')}}">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="element item view view-tenth" data-zlname="reverse-effect">
+                            <img src="{{asset('web/bundles/backend/img/works/img1.jpg')}}" alt="" />
+                            <div class="mask">
+                                <a data-zl-popup="link2" class="fancybox" rel="group" href="{{asset('web/bundles/backend/img/works/img1.jpg')}}">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--recent work end-->
+    </div>
+    <section class="parallax1">
+       <div class="container">
+           <div class="row">
+               <h1>“TE.x fornisce servizi di ingegneria e architettura innovativi puntando su metodi e strumenti all’avanguardia, ricerca dettagliata e personale altamente qualificato.</br>
+					L’Ingegneria Collaborativa è un nuovissimo modello peer-to-peer nel quale queste risorse convergono e si interconnettono per rendere il tradizionale mondo dell’ingegneria più smart”
+</h1>
+           </div>
+       </div>
+    </section>
+    <div class="container">
+       <!--clients start-->
+       <div class="clients">
+           <div class="container">
+               <div class="row">
+                   <div class="col-lg-12 text-center">
+                       <ul class="list-unstyled">
+                           <li><a href="#"><img src="{{asset('web/bundles/backend/img/clients/logo1.png')}}" alt=""></a></li>
+                           <li><a href="#"><img src="{{asset('web/bundles/backend/img/clients/logo2.png')}}" alt=""></a></li>
+                           <li><a href="#"><img src="{{asset('web/bundles/backend/img/clients/logo3.png')}}" alt=""></a></li>
+                           <li><a href="#"><img src="{{asset('web/bundles/backend/img/clients/logo4.png')}}" alt=""></a></li>
+                           <li><a href="#"><img src="{{asset('web/bundles/backend/img/clients/logo5.png')}}" alt=""></a></li>
+                       </ul>
+                   </div>
+               </div>
+           </div>
+       </div>
+       <!--clients end-->
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-sm-3">
+                  <h1>contact info</h1>
+                  <address>
+                      <p>Address: Via La Palma snc</p>
+                      <p>Cagliari, Italy</p>
+                      <p>Phone: +39 070 380 044</p>
+                      <p>Fax: (+39 070 380 044</p>
+                      <p>Email: <a href="javascript:;">info@te-x.net</a></p>
+                  </address>
+                </div>
+                <!--div class="col-lg-5 col-sm-5">
+                    <h1>latest tweet</h1>
+                    <div class="tweet-box">
+                        <i class="fa fa-twitter"></i>
+                        <em>Please follow <a href="javascript:;">@nettus</a> for all future updates of us! <a href="javascript:;">twitter.com/vectorlab</a></em>
+                    </div>
+                </div-->
+                <div class="col-lg-3 col-sm-3 col-lg-offset-1">
+                    <h1>stay connected</h1>
+                    <ul class="social-link-footer list-unstyled">
+                      <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                      <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                      <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                      <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    {% block javascripts %}
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
+    <!--[if lt IE 9]>
+    <script src="{{asset('web/bundles/backend/js/html5shiv.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/respond.min.js')}}"></script>
+    <![endif]-->
+    <script src="{{asset('web/bundles/backend/js/jquery.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/jquery-1.8.3.min.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/hover-dropdown.js')}}"></script>
+    <script defer src="{{asset('web/bundles/backend/js/jquery.flexslider.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/bxslider/jquery.bxslider.min.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/link-hover.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/fancybox/source/jquery.fancybox.pack.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/revolution_slider/rs-plugin/js/jquery.themepunch.plugins.min.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/revolution_slider/rs-plugin/js/jquery.themepunch.revolution.min.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/revulation-slide.js')}}"></script>
+    <script>
+      RevSlide.initRevolutionSlider();
+      $(window).load(function() {
+          $('[data-zlname = reverse-effect]').mateHover({
+              position: 'y-reverse',
+              //overlayStyle: 'rolling',
+              overlayBg: '#fff',
+              overlayOpacity: 0.7,
+              overlayEasing: 'easeOutCirc',
+              rollingPosition: 'top',
+              //popupEasing: 'easeOutBack',
+              //popup2Easing: 'easeOutBack'
+              //overlaySpeedIn: 200,
+              popupSpeedIn: 400
+          });
+      });
+      $(window).load(function() {
+          $('.flexslider').flexslider({
+              animation: "slide",
+              start: function(slider) {
+                  $('body').removeClass('loading');
+              }
+          });
+      });
+      jQuery(".fancybox").fancybox();
+      $("#dlogin").mouseover(function(){
+          $("#login").prop({"src":"{{asset('web/bundles/backend/img/login1.png')}}"});
+      });
+      $("#dlogin").mouseout(function(){
+          $("#login").prop({"src":"{{asset('web/bundles/backend/img/login.png')}}"});
+      });
+      $("#dregister").mouseover(function(){
+          $("#register").prop({"src":"{{asset('web/bundles/backend/img/register1.png')}}"});
+      });
+      $("#dregister").mouseout(function(){
+          $("#register").prop({"src":"{{asset('web/bundles/backend/img/register.png')}}"});
+      });
+      var Script = function () {
+        $('.bxslider').show();
+        $('.bxslider').bxSlider({
+          minSlides: 4,
+          maxSlides: 4,
+          slideWidth: 276,
+          slideMargin: 20
+        });
+      }();
+    </script>
+    {% endblock %}
+{% endblock %}

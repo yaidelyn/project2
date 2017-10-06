@@ -1,0 +1,199 @@
+{% extends '::backend.html.twig' %}
+{% block title %}Create Team{% endblock %}
+  {%  block stylesheets %}
+      {{ parent() }}
+      <link href="{{asset('web/bundles/backend/assets/jquery-multi-select/css/multi-select.css') }}" rel="stylesheet" />
+	   <link href="{{asset('web/bundles/backend/assets/JAlert/jquery.alerts.css')}}" rel="StyleSheet" type="text/css" />
+  {%  endblock %}
+{% block aside %}
+<div class="row">
+    <aside class="profile-info col-lg-12">
+        <section class="panel">
+            <h2 class="register-heading">Create Team</h2>
+            <div class="panel-body bio-graph-info">
+                <form class="form-horizontal" action="{{path('create_team') }}" role="form" method="post">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Name Team</label>
+                            <div class="col-lg-9">
+                                <input name="txt_name" id="txt_name"  class="form-control" required="" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Team Leader</label>
+                            <div class="col-lg-9">
+                                <select name="user_leader" id="user_leader" class="form-control">
+                                </select>
+                                <input type="hidden" name="country" id="txt_country" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group last">
+                            <label class="control-label col-md-3">Searchable</label>
+                            <div class="col-md-9">
+                                <select name="employees" class="multi-select" multiple="" id="my_multi_select3">
+                                    {% for item in datos.user %}
+                                        <option value="{{ item.id }}">{{ item.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label class="col-lg-12 control-label">Description</label>
+                            <div class="col-lg-12">
+                                <textarea class="form-control textarea" id="description" name="description" cols="60" rows="5"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <button id="btn_save" type="button" class="btn btn-info">Save</button>
+                                <button type="button" class="btn btn-default">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </aside>
+</div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+<!--script for this page-->
+<script type="text/javascript" src="{{asset('web/bundles/backend/assets/jquery-multi-select/js/jquery.multi-select.js')}}"></script>
+<script type="text/javascript" src="{{asset('web/bundles/backend/assets/jquery-multi-select/js/jquery.quicksearch.js')}}"></script>
+<script src="{{asset('web/bundles/backend/assets/JAlert/jquery.ui.draggable.js')}}"></script>
+<script src="{{asset('web/bundles/backend/assets/JAlert/jquery.alerts.mod.js')}}"></script>
+<script src="{{asset('web/bundles/backend/js/jquery.blockUI.js')}}"></script>
+<script>
+    $(function(){
+
+        //multiselect start
+        $('#my_multi_select3').multiSelect({
+            selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+            selectionHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+            afterInit: function (ms) {
+                var that = this,
+                        $selectableSearch = that.$selectableUl.prev(),
+                        $selectionSearch = that.$selectionUl.prev(),
+                        selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+                        selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+                that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+                        .on('keydown', function (e) {
+                            if (e.which === 40) {
+                                that.$selectableUl.focus();
+                                return false;
+                            }
+                        });
+
+                that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+                        .on('keydown', function (e) {
+                            if (e.which == 40) {
+                                that.$selectionUl.focus();
+                                return false;
+                            }
+                        });
+            },
+            afterSelect: function () {
+                this.qs1.cache();
+                this.qs2.cache();
+            },
+            afterDeselect: function () {
+                this.qs1.cache();
+                this.qs2.cache();
+            }
+        });
+
+        var temp = new Array();
+        var list_person = new Array();
+        var elem = "";
+
+        $('.ms-elem-selectable').each(function(){
+            $(this).click(function(){
+                var dato = $(this).attr('id');
+                if(!searchIs(temp,dato.split("-")[0])){
+                    temp.push(dato.split("-")[0]);
+                    createComboLeader(elem,dato);
+                   // alert(temp);
+                }else{
+                    alert('Esta!!!');
+                }
+
+            });
+
+        });
+
+        //save information
+        $('#btn_save').click(function(){
+            var data = {
+                data_user:temp,
+                name: $('#txt_name').val(),
+                description: $('#description').val(),
+                user_leader: $('#user_leader').val()
+            }
+           $.ajax({
+                type: "POST",
+                url: "{{path('add_team')}}",
+                data:{data:data},
+                dataType:"json",
+				 beforeSend:function(request) {
+                            $.blockUI({ css: {
+                                border: 'none',
+                                padding: '15px',
+                                backgroundColor: '#000',
+                                '-webkit-border-radius': '10px',
+                                '-moz-border-radius': '10px',
+                                opacity: .5,
+                                color: '#fff'
+                            }});
+                        },
+                success: function(response) {
+                    //alert(response.mensaje);
+					 jAlert(response.mensaje, 'Alert Dialog');
+                    $('#description').val("");
+                    $('#txt_name').val()
+
+                },
+				complete: function(data) {
+					// end of ajax call
+					$.unblockUI();
+				}
+            });
+
+        });
+
+
+//multiselect end
+    });
+
+    //buscar elemento for insertion sin repetir
+    function searchIs(array,elem){
+        var esta = false;
+        for(i = 0;i<array.length && !esta;i++){
+            if(array[i]=== elem){
+                esta = true;
+            }
+        }
+        return esta;
+    }
+    //add combox leader
+   //$('#user_leader').css('display','none');
+    function createComboLeader(htlm,value){
+        //var htlm = "";
+        $('.ms-list li').each(function(){
+            if($(this).attr('id')== value){
+                name = $(this).children().text();
+                id = $(this).attr('id').split("-")[0];
+                htlm+='<option value="'+id+'">'+name+'</option>';
+                $('#user_leader').prepend(htlm);
+
+            }
+        });
+    }
+
+</script>
+{% endblock %}
+

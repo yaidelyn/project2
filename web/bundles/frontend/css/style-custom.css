@@ -1,0 +1,80 @@
+body{
+    background: #f1f2f7 none repeat scroll 0 0;
+    color: #797979;
+    font-family: "Open Sans",sans-serif;
+    font-size: 13px;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.panel-heading {
+    border-color: #eff2f7;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.input-append .add-on, .input-prepend .add-on {
+    background-color: #53bee6;
+    border-color: #58c9f3;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: normal;
+    height: 32px;
+    left: calc(100% - 43px);
+    line-height: 24px;
+    min-width: 16px;
+    padding: 8px 5px;
+    position: absolute;
+    text-align: center;
+    text-shadow: 0 1px 0 #ffffff;
+    top: 38px;
+    width: 27px;
+}
+.add-on {
+    margin-top: -10px;
+}
+.date-content{
+    width: calc(100% - 250px);
+}
+.header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1002;
+}
+
+.white-bg {
+    background: #fff;
+    border-bottom: 1px solid #f1f2f7;
+}
+a.logo {
+    font-size: 21px;
+    color: #2e2e2e;
+    float: left;
+    margin-top: 15px;
+    text-transform: uppercase;
+}
+
+a.logo:hover, a.logo:focus {
+    text-decoration: none;
+    outline: none;
+}
+
+a.logo img {
+  width: 100%;
+}
+.tex-desccription{
+    background-color: #fff;
+    border-color: #eff2f7;
+    border-radius: 4px;
+    margin-top: 25px;
+}
+.tex-desccription p{
+    background: url("../img/corners-blue.png") no-repeat scroll right bottom;
+    color: #8a8a8a;
+    display: block;
+    font-size: 14px;
+    font-style: italic;
+    line-height: 20px;
+    padding: 15px;
+}

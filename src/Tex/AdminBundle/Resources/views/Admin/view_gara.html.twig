@@ -1,0 +1,203 @@
+{% extends '::backend.html.twig' %}
+{% block title %}View Gara{% endblock %}
+  {%  block stylesheets %}
+      {{ parent() }}
+      <link href="{{asset('web/bundles/backend/assets/advanced-datatable/media/css/demo_page.css')}}" rel="stylesheet" />
+      <link href="{{asset('web/bundles/backend/assets/advanced-datatable/media/css/demo_table.css')}}" rel="stylesheet" />
+      <link  href="{{asset('web/bundles/backend/assets/data-tables/DT_bootstrap.css')}}" rel="stylesheet" />
+      <link href="{{asset('web/bundles/backend/assets/JAlert/jquery.alerts.css')}}" rel="StyleSheet" type="text/css" />
+  {%  endblock %}
+    {% block aside %}
+        <div class="row">
+            <aside class="profile-info col-lg-12">
+                <section class="panel">
+                    <h2 class="register-heading">Lista Gare</h2>
+                    <div class="panel-body">
+                        <div class="adv-table">
+                            <table  class="display table table-bordered table-striped" id="example">
+                                <thead>
+                                <tr>
+                                    <th>Codigo</th>
+                                    <th>Title</th>
+                                    <th>Scadenza Gara</th>
+                                    <th>Scadenza Candidatura</th>
+                                    <th>Importo</th>
+                                    <th>Cap Team</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in garas %}
+                                <tr id="{{item.id}}" class="gradeX">
+                                    <td>{{item.codigo  }}</td>
+                                    <td>{{item.title  }}</td>
+                                    <td>{{item.scadenzagrara  }}</td>
+                                    <td>{{item.scadenzacanditura  }}</td>
+                                    <td>{{item.importe  }}</td>
+                                    <td>{{item.capteam  }}</td>
+                                    <td>
+                                        <button title="Edit" class="btn btn-primary btn-xs btn-edit"><i class="fa fa-pencil"></i></button>
+                                        <button title="Delete"  class="btn btn-danger btn-xs btn-delete"><i class="fa fa-trash-o "></i></button>
+                                        <button title="Acept"  class="btn btn-success btn-xs btn-acept"><i class="fa fa-thumbs-up"></i></button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                 </section>
+                <section class="panel">
+                    <div class="panel-body">
+                        <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                                        <h4 class="modal-title">Form Tittle</h4>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <form role="form">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Email address</label>
+                                                <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Enter email">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputPassword1">Password</label>
+                                                <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputFile">File input</label>
+                                                <input type="file" id="exampleInputFile3">
+                                                <p class="help-block">Example block-level help text here.</p>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox"> Check me out
+                                                </label>
+                                            </div>
+                                            <button type="submit" class="btn btn-default">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+            </aside>
+        </div>
+
+    {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <!--script for this page-->
+   <script type="text/javascript" language="javascript" src="{{asset('web/bundles/backend/assets/advanced-datatable/media/js/jquery.dataTables.js')}}"></script>
+    <script type="text/javascript" src="{{asset('web/bundles/backend/assets/data-tables/DT_bootstrap.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/jquery.blockUI.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/JAlert/jquery.ui.draggable.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/JAlert/jquery.alerts.mod.js')}}"></script>
+    <script>
+        //step wizard
+        $(function() {
+            $('#example').dataTable( {
+                "aaSorting": [[ 0, "desc" ]]
+            } );
+
+            //update gare
+            $('.btn-edit').click(function(){
+                var value =  $(this).parent().parent().attr('id');
+                var url = "{{ path('update_gara',{'id':'text1'})}}";
+                url = url.replace("text1", value);
+                window.location.href = url;
+
+            });
+
+            //delete gara
+
+            $('.btn-delete').each(function(){
+                $(this).click(function(){
+                        var object = $(this).parent().parent();
+                        var value =  $(this).parent().parent().attr('id');
+                        //alert(value);
+                        var url = "{{ path('delete_gara',{'id':'text1'})}}";
+                        url = url.replace("text1", value);
+                        jConfirm('Sei sicuro di voler eliminare la Gara?', 'Dialogo di conferma', function(r) {
+                            if (r == true) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: url,
+                                    data: {},
+                                    dataType: "json",
+                                    beforeSend: function (request) {
+                                        $.blockUI({
+                                            css: {
+                                                border: 'none',
+                                                padding: '15px',
+                                                backgroundColor: '#000',
+                                                '-webkit-border-radius': '10px',
+                                                '-moz-border-radius': '10px',
+                                                opacity: .5,
+                                                color: '#fff'
+                                            }
+                                        });
+                                    },
+                                    success: function (response) {
+                                        if (response.success) {
+                                            jAlert(response.mensaje,'Alert Dialog');
+                                            $(object).remove();
+                                        }
+                                    },
+                                    complete: function (data) {
+                                        // end of ajax call
+                                        $.unblockUI();
+                                    }
+                                });
+                            }
+                        });
+
+
+
+                });
+            });
+            //acept gara
+            $('.btn-acept').each(function(){
+                $(this).click(function(){
+                    var object = $(this).parent().parent();
+                    var value =  $(this).parent().parent().attr('id');
+                    //alert(value);
+                    var url = "{{ path('acept_gara',{'id':'text1'})}}";
+                    url = url.replace("text1", value);
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data:{},
+                        dataType:"json",
+                        beforeSend:function(request) {
+                            $.blockUI({ css: {
+                                border: 'none',
+                                padding: '15px',
+                                backgroundColor: '#000',
+                                '-webkit-border-radius': '10px',
+                                '-moz-border-radius': '10px',
+                                opacity: .5,
+                                color: '#fff'
+                            }});
+                        },
+                        success: function(response) {
+                            if(response.success){
+                               alert(response.mensaje);
+                            }
+                        },
+                        complete: function(data) {
+                            // end of ajax call
+                            $.unblockUI();
+                        }
+                    });
+
+                });
+            });
+        });
+    </script>
+{% endblock %}

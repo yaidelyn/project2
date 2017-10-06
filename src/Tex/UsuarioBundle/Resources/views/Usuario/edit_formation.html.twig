@@ -1,0 +1,171 @@
+{% extends '::backend.html.twig' %}
+{% block title %}Edit Formation{% endblock %}
+  {%  block stylesheets %}
+     {{ parent() }}
+      <link href="{{asset('web/bundles/backend/assets/JAlert/jquery.alerts.css')}}" rel="StyleSheet" type="text/css" />
+ {%  endblock %}
+   {% block aside %}
+      <div class="row">
+          <aside class="profile-nav col-lg-3">
+              <section class="panel">
+                  <div class="user-heading round">
+                      <a href="{{path('edit_avatar')}}">
+                          {% if (datos.avatar)is defined %}
+                              <img src="{{asset('web/bundles/backend/img/avatars/large')}}/{{datos.avatar}}">
+                          {% else %}
+                              <img src="{{asset('web/bundles/backend/img/profile-avatar.jpg')}}">
+                          {% endif %}
+                      </a>
+                      <h1>{{datos.fullname}}</h1>
+                      <p>{{datos.email}}</p>
+                  </div>
+              </section>
+          </aside>
+          <aside class="profile-info col-lg-9">
+              <section class="panel">
+                  <input type="hidden" id="iduser" value="{{ datos.iduser }}"/>
+                  {% if datos.idformation is defined %}
+                  <input type="hidden" id="idformation" value="{{ datos.idformation }}"/>
+                  {% endif %}
+                  <h2 class="register-heading">Formation Info</h2>
+                  <div class="panel-body bio-graph-info">
+                      <form class="form-horizontal" role="form">
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Occupation</label>
+                              <div class="col-lg-8">
+                                  <input type="text" name="occupation" id="txt_occupation" class="form-control" value="{{ datos.occupation }}" >
+                              </div>
+                          </div>
+                          {#<div class="form-group">
+                              <label class="col-lg-2 control-label">Education</label>
+                              <div class="colleft">
+                                  <div class="col-lg-4 col1199_4">
+                                      <input type="text" name="education" id="txt_education" class="form-control" value="{{ datos.education }}">
+                                  </div>
+                                  <div class="col-lg-2 col1199_2">
+                                      <input type="text" name="start" id="txt_start" class="form-control" data-mask="99/99/9999" placeholder="Start" value="{{ datos.start }}">
+                                  </div>
+                                  <div class="col-lg-2 col1199_2">
+                                      <input type="text" name="end" id="txt_end" class="form-control" data-mask="99/99/9999" placeholder="End" value="{{ datos.end }}">
+                                  </div>
+                              </div>
+                          </div>#}
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Abstract</label>
+                              <div class="col-lg-8">
+                                  <textarea class="form-control textarea" name="abstract" id="txt_abstract" cols="60" rows="5">{{ datos.abstract }}</textarea>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Job-related skills</label>
+                              <div class="col-lg-8">
+                                  <input type="text" id="skills" class="form-control" value="{{datos.skills}}">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                                <label class="col-lg-2 control-label">Upload CV</label>
+                                <div class="col-lg-8">
+                                    <div class="row">
+                                        <div class="col-lg-8 col1199_6">
+                                              <input type="text" value="{{ datos.file }}" name="mfile" id="mfile" class="form-control" readonly>
+                                        </div>
+                                        <div class="col-lg-4 col1199_2">
+                                            <div class="btnfile">
+                                                <a class='btn btn-primary btn-file' href='javascript:;'>
+                                                Choose File...
+                                                <input type="file" class="mfile" name="file_source" onchange='$("#mfile").val($(this).val());'>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                          </div>
+                          <input type="hidden" id="id_formation" value="0">
+                          <input type="hidden" id="id_skill" value="0">
+                          <div class="form-group">
+                              <div class="col-lg-offset-2 col-lg-10">
+                                  <button type="button" id="btn-ok" class="btn btn-info">Save</button>
+                                  <button type="button" class="btn btn-default">Cancel</button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </section>
+          </aside>
+      </div>      
+   {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <!--script for this page-->
+    <script src="{{asset('web/bundles/backend/js/input-mask.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/jquery.tagsinput.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/jquery.blockUI.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/JAlert/jquery.alerts.mod.js')}}"></script>
+    <script>
+      $(function(){
+          options = "";
+          $('#skills').tagsInput(options);
+
+          //update formation
+          $('#btn-ok').click(function(e){
+
+              e.preventDefault();
+              var fd = new FormData();
+              var file = $(document).find('input[type="file"]');
+
+              var individual_file = file[0].files[0];
+
+              fd.append('idformation',$('#idformation').val());
+              fd.append('ocupation',$('#txt_occupation').val());
+             // fd.append('education',$('#txt_education').val());
+             // fd.append('start_date',$('#txt_start').val());
+              //fd.append('end_date',$('#txt_end').val());
+              fd.append('abtract',$('#txt_abstract').val());
+              fd.append('skill',searchSkills());
+              fd.append("file", individual_file);
+
+             $.ajax({
+                  type: "POST",
+                  url: "{{path('update_formation')}}",
+                  data:fd,
+                  contentType: false,
+                  processData: false,
+                 beforeSend:function(request) {
+                     $.blockUI({ css: {
+                         border: 'none',
+                         padding: '15px',
+                         backgroundColor: '#000',
+                         '-webkit-border-radius': '10px',
+                         '-moz-border-radius': '10px',
+                         opacity: .5,
+                         color: '#fff'
+                     }});
+                 },
+                  success: function(response) {
+                      //console.log(response);
+                      if(response){
+                          jAlert("La formazione fu aggiornata correttamente", 'Alert Dialog');
+                      }
+                      location.reload();
+                  },
+                 complete: function(data) {
+                     // end of ajax call
+                     $.unblockUI();
+                 }
+              });
+          });
+      });
+
+      /*BUSCAR LAS SKILL*/
+        var searchSkills = function (){
+            var skills = new Array();
+            var dato = $('#skills').val().split(",");
+            for(i=0;i<dato.length;i++){
+                //alert(dato[i]);
+                skills.push(dato[i]);
+            }
+            return skills;
+        }
+    </script>
+{% endblock %}

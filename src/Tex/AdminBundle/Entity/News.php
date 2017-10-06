@@ -1,0 +1,214 @@
+<?php
+
+namespace Tex\AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * News
+ *
+ * @ORM\Table(name="news")
+ * @ORM\Entity
+ */
+class News
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="text", type="text")
+     */
+    private $text;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="sunmary", type="text")
+     */
+    private $sunmary;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="date")
+     */
+    private $created;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Tex\UsuarioBundle\Entity\User", inversedBy="createby")
+     * @ORM\JoinColumn(name="createby_id", referencedColumnName="id")
+     */
+    private $createby;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image", type="string", length=255)
+     */
+    private $image;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return News
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set text
+     *
+     * @param string $text
+     * @return News
+     */
+    public function setText($text)
+    {
+        $this->text = $text;
+
+        return $this;
+    }
+
+    /**
+     * Get text
+     *
+     * @return string 
+     */
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return News
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     * @return News
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string 
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set createby
+     *
+     * @param \Tex\UsuarioBundle\Entity\User $createby
+     * @return News
+     */
+    public function setCreateby(\Tex\UsuarioBundle\Entity\User $createby = null)
+    {
+        $this->createby = $createby;
+
+        return $this;
+    }
+
+    /**
+     * Get createby
+     *
+     * @return \Tex\UsuarioBundle\Entity\User 
+     */
+    public function getCreateby()
+    {
+        return $this->createby;
+    }
+
+    /**
+     * Set sunmary
+     *
+     * @param string $sunmary
+     * @return News
+     */
+    public function setSunmary($sunmary)
+    {
+        $this->sunmary = $sunmary;
+
+        return $this;
+    }
+
+    /**
+     * Get sunmary
+     *
+     * @return string 
+     */
+    public function getSunmary()
+    {
+        return $this->sunmary;
+    }
+}

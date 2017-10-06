@@ -1,0 +1,134 @@
+{% extends '::frontend.html.twig' %}
+{% block title %}{{ category }}{% endblock %}
+  {%  block stylesheets %}
+    {{ parent() }}
+      <!-- SELECT2 -->
+
+
+      <link href="{{asset('bundles/backend/css/style-index.css')}}" rel="stylesheet">
+      <link href="{{asset('bundles/backend/css/style.css')}}" rel="stylesheet">
+      <link href="{{asset('bundles/backend/css/style-responsive.css')}}" rel="stylesheet" />
+
+    <style>
+        .button-add{
+            float: right;
+            margin-right: 10px;
+        }
+
+    </style>
+  {%  endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <!--script for this page-->
+    <script src="{{asset('bundles/backend/js/jquery.stepcustom.js')}}"></script>
+    <script>
+        $(function(){
+
+           //change category
+            $('#category').change(function(el){
+
+                var value = $(this).val();
+                var url = "{{ path('subcat_gara',{'id':'text1'})}}";
+                url = url.replace("text1", value);
+                // alert($(this).val());
+                var id = $(this).val();
+                // alert(id);
+                var html= "";
+                $('#content-wizard').html("");
+                $.ajax({
+                    type: "POST",
+                    cache: false,
+                    url: url,
+                    dataType: "html",
+                    success: function(result, request) {
+                        var parsedData =JSON.parse(result);
+                        if(parsedData.status ==='success'){
+                            $('#content-wizard').html(parsedData.data);
+                            alert("Nella categoria "+parsedData.name_catg+" quali delle destinazioni funzionali sei specializzato?");
+                        }
+
+                    }
+                });
+
+            });
+        });
+    </script>
+{% endblock %}
+{% block bodypage %}
+    <!--breadcrumbs start-->
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-sm-4">
+                    <h1>{{ category }}</h1>
+                </div>
+                <div class="col-lg-8 col-sm-8">
+                    <ol class="breadcrumb pull-right">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Pages</a></li>
+                        <li class="active">Contact</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--breadcrumbs end-->
+    <!--container start-->
+    <input type="hidden" id="idgara" value="{{ idgara }}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <section class="panel">
+                    <header class="panel-heading register-heading">
+                        Gara-{{ category }}
+                    </header>
+                    <div class="panel-body">
+                        <form class="form-horizontal tasi-form">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Scegli le categorie principali:</label>
+                                <div class="col-md-3 col-xs-11">
+                                    <select name="category" id="category" class="form-control">
+                                        <option>------</option>
+                                        {% for item in categories %}
+                                            <option value="{{ item.id }}">{{ item.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">Full Name</label>
+                                <div class="col-md-3 col-xs-11">
+                                    <input type="text" id="username" value="{{ datos.user.name }}"   class="form-control" placeholder="Full Name" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">Email Address</label>
+                                <div class="col-md-3 col-xs-11">
+                                    <input type="text" id="email" value="{{ datos.user.user }}" class="form-control" placeholder="Email Address" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">Figure Richieste</label>
+                                <div class="col-lg-10">
+                                    {% for rol in role_team %}
+                                        {% if rol.active==0 %}
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input class="name-rol" name="role_name"  value="{{ rol.id }}" type="radio"> {{ rol.name_rol }}
+                                                </label>
+                                            </div>
+                                        {% endif  %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+                <div id="content-wizard">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--container end-->
+{% endblock %}

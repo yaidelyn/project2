@@ -1,0 +1,21 @@
+frontend:
+    resource: "@FrontendBundle/Resources/config/routing.yml"
+    prefix:  /demo/{_locale}
+
+tex:
+    resource: "@TexnoBundle/Resources/config/routing.yml"
+    prefix:   /
+
+usuario:
+    resource: "@UsuarioBundle/Resources/config/routing.yml"
+    prefix:   /demo/{_locale}
+
+
+proyecto:
+    resource: "@ProyectoBundle/Resources/config/routing.yml"
+    prefix:   /{_locale}/proyecto
+
+admin:
+    resource: "@AdminBundle/Resources/config/routing.yml"
+    prefix:   /{_locale}/admin
+

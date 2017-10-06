@@ -1,0 +1,337 @@
+{% extends '::frontend.html.twig' %}
+{% block title %}Offer Test{% endblock %}
+  {%  block stylesheets %}
+    {{ parent() }}
+    <link href="{{asset('bundles/backend/css/style-index.css')}}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/assets/bootstrap-fileupload/bootstrap-fileupload.css')}}" />
+      <!-- Custom styles for this template -->
+      <link href="{{asset('bundles/backend/css/style.css')}}" rel="stylesheet">
+      <link href="{{asset('bundles/backend/css/style-responsive.css')}}" rel="stylesheet" />
+        <style>
+          .form-wrap{
+             /* max-width: 500px;
+              padding: 30px;
+              background: #f1f1f1;
+              margin: 20px auto;
+              border-radius: 4px;
+              text-align: center;*/
+          }
+          #progress-wrp {
+             /* border: 1px solid #0099CC;*/
+              /*padding: 1px;*/
+              position: relative;
+              border-radius: 3px;
+              margin: 10px;
+              text-align: left;
+              background: #fff;
+              box-shadow: inset 1px 3px 6px rgba(0, 0, 0, 0.12);
+          }
+          #progress-wrp .progress-bar{
+              height: 20px;
+              border-radius: 3px;
+              background-color: #58c9f3;
+              width: 0;
+              box-shadow: inset 1px 1px 10px rgba(0, 0, 0, 0.11);
+          }
+          #progress-wrp .status{
+              top:3px;
+              left:50%;
+              position:absolute;
+              display:inline-block;
+              color: #000000;
+          }
+      </style>
+  {%  endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('web/bundles/backend/js/jquery.stepy2.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('web/bundles/backend/assets/bootstrap-fileupload/bootstrap-fileupload.js')}}"></script>
+    <script>
+        $(function(){
+		
+			cronometro(1);
+			
+            $('#default').stepy({
+                backLabel: 'Previous',
+                block: true,
+                nextLabel: 'Next',
+                titleClick: true,
+                titleTarget: '.stepy-tab'
+            });
+
+            $("#default-title-1").click(function(){
+                //alert('Holaaaaaaa');
+                if(cantSelect()==0){
+                  alert("Select!!!");
+                  $("#default-title-0").click();
+                 }
+            });
+		
+			var progress_bar_id = '#progress-wrp'; //ID of an element for response output
+            $('#btn_finish').click(function(evt){
+               
+			   var array_question = new Array();
+                var result = new Array();
+
+                $("input[type=radio]:checked").each(function(){
+                    array_question.push($(this).val());
+                });
+                evt.preventDefault();
+                var fd = new FormData();
+                var file = $(document).find('input[type="file"]');
+                var individual_file = file[0].files[0];
+                var idoffer;
+                fd.append("file", individual_file);
+                fd.append("message",$('#message').val());
+                fd.append("name_offer",$('#name_offer').val());
+                fd.append("questions",array_question);
+                fd.append("id_test",$('#id_test').val());
+                fd.append("test",0);
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{path('upload_file_frontend')}}",
+                    data : fd,
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    xhr: function(){
+                        //upload Progress
+                        var xhr = $.ajaxSettings.xhr();
+                        if (xhr.upload) {
+                            xhr.upload.addEventListener('progress', function(event) {
+                                var percent = 0;
+                                var position = event.loaded || event.position;
+                                var total = event.total;
+                                if (event.lengthComputable) {
+                                    percent = Math.ceil(position / total * 100);
+                                }
+                                //update progressbar
+                                $(progress_bar_id +" .progress-bar").css("width", + percent +"%");
+                                $(progress_bar_id + " .status").text(percent +"%");
+                            }, true);
+                        }
+                        return xhr;
+                    },
+                    success: function() {
+                        // console.log('YAYE!', arguments[0]);
+                    }
+                });
+            });
+
+
+
+
+        });
+
+        var cant = 0;
+
+        function cantSelect(){
+            $("input[type=radio]:checked").each(function(){
+
+                //array_question = new Array({'id_question':$(this).attr('id'),'id_answer':$(this).val()});
+               cant++;
+
+                //result.push(array_question);
+
+            });
+
+            return cant;
+
+        }
+        /*Cronometro*/
+        function cronometro(aux){
+            // alert(aux);
+            if(aux == 1){
+                minuto = parseInt(($('#minutos').val() === '' ? 0 : $('#minutos').val()));
+                segundo = parseInt(($('#segundos').val() === '' ? 0 : $('#segundos').val()));
+
+
+                //alert(segundo);
+
+                if(segundo != 0 || minuto != 0){
+                    segundo = segundo +1;
+                    $('#pause').val('0');
+                    // $('#btn').addClass('disabled');
+                    // $('#btnPause').html('Pause');
+                    //$('#btnPause').removeClass('hide');
+                    //$('#btnStop').removeClass('hide');
+                }
+
+                if(segundo >60 || minuto > 60 || segundo< 0 || minuto < 0){
+                    alert("Erro! Confira o registro informado!");
+                    stop();
+                }
+
+            }
+            /*if(aux == 2){
+
+             $('#btn').addClass('disabled');
+             }*/
+
+            if(minuto > 0 && segundo === 0){
+                segundo = 60;
+                minuto--;
+            }
+            if((segundo-1)>=0){
+                segundo=segundo-1;
+                if(segundo == 0 && minuto == 0){
+                    time="00:00";
+
+                    /*evaluate Test*/
+                    var array_question = new Array();
+                    var result = new Array();
+
+                    $("input[type=radio]:checked").each(function(){
+                        array_question.push($(this).val());
+                    });
+                   // evt.preventDefault();
+                    var fd = new FormData();
+                    var file = $(document).find('input[type="file"]');
+                    var individual_file = file[0].files[0];
+                    var idoffer;
+                    fd.append("file", individual_file);
+                    fd.append("message",$('#message').val());
+                    fd.append("name_offer",$('#name_offer').val());
+                    fd.append("questions",array_question);
+                    fd.append("id_test",$('#id_test').val());
+                     fd.append("id_test",$('#id_test').val());
+
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('upload_file_frontend')}}",
+                        data: fd,
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            //console.log(response);
+                            if (code == 1) {
+                                //alert('Okkkkkk!!!');
+                            }
+                        }
+                    });
+                   // window.location.href =("{{ path('User_index') }}");
+                }else if(segundo <10 && minuto === 0){
+                    time="0"+segundo;
+                }else if (minuto >= 1){
+                    time=(minuto < 10 ? '0'+minuto : minuto)+":"+(segundo < 10 ? '0'+segundo : segundo);
+                }else{
+                    time = segundo;
+                }
+                pause = parseInt($('#pause').val());
+                if(pause === 0){
+                    tempo.innerText=time;
+                    setTimeout('cronometro();',1000);
+                }
+            }
+        }
+
+    </script>
+{% endblock %}
+{% block bodypage %}
+    <!--breadcrumbs start-->
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-sm-4">
+                    <h1>Offer Test</h1>
+					  <input type="hidden" id="id_test" value="{{datos.id_test }}">
+                    <input type="hidden" id="name_offer" value="{{datos.title}}">
+                </div>
+                <div class="col-lg-8 col-sm-8">
+                    <ol class="breadcrumb pull-right">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Pages</a></li>
+                        <li class="active">Contact</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--breadcrumbs end-->
+    <!--container start-->
+    <div class="container">
+        <div class="col-lg-12">
+            <section class="panel">
+                <h2 class="register-heading">Offer Test</h2>
+                <div class="panel-body">
+                    <div class="stepy-tab">
+                        <ul id="default-titles" class="stepy-titles clearfix">
+                            <li id="default-title-1" class="current-step">
+                                <div>Step 1</div>
+                            </li>
+                            <li id="default-title-2" class="">
+                                <div>Step 2</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <form  class="form-horizontal" id="default" method="post">
+                        <fieldset title="Step1" class="step" id="default-step-1">
+                            <legend>{{ datos.name_test }}</legend>
+                            <input type="hidden" id="id_test" value="{{datos.id_test }}">
+                            {% set cont = 1 %}
+                            {% for value in datos.test %}
+                                <div class="form-group">
+                                    <label for="inputSuccess" class="col-sm-3 control-label col-lg-3">{{ cont }} - {{ value.title }}</label>
+                                    <div class="col-lg-10">
+                                        <div class="radiotest">
+                                            {% for radio in value.questions %}
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio"  value="{{radio.id }}" id="{{ value.id }}" name="optionsRadios{{ value.id }}">
+                                                        {{ radio.value }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% set cont = cont + 1 %}
+                            {% endfor %}
+                        </fieldset>
+                        <div id="tempo" type="button" class="btn btn-warning tamanho text">00:00!</div>
+                        <input id="minutos" type="hidden"  class="form-control" placeholder="Minutos" value="1">
+                        <input id="segundos" type="hidden"   class="form-control" placeholder="Segundos" value="0">
+                        <input id="pause" type="hidden" value="0"  class="form-control">
+                        <fieldset title="Step 2" class="step" id="default-step-2" >
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">Raccontaci la tua sperienza in questo campo</label>
+                                <div class="col-lg-10">
+                                    <textarea id="message" rows="5" cols="60" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <legend>Upload CV</legend>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">File</label>
+                                <div class="controls col-md-2">
+                                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                                                <span class="btn btn-white btn-file">
+                                                <span class="fileupload-new"><i class="fa fa-paper-clip"></i> Select file</span>
+                                                <span class="fileupload-exists"><i class="fa fa-undo"></i> Change</span>
+                                                <input type="file" class="default" id="mfile" name="mfile" value="">
+                                                </span>
+                                        <span class="fileupload-preview" style="margin-left:5px;"></span>
+                                        <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none; margin-left:5px;"></a>
+										 <!--Progress Bar-->
+                                        <div class="form-wrap">
+                                            <div id="progress-wrp">
+                                                <div class="progress-bar"></div ><div class="status">0%</div>
+                                            </div>
+                                            <div id="output">
+                                                <!-- error or success results -->
+                                            </div>
+                                        </div>
+                                        <!--End Progress Bar-->
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <input id="btn_finish" type="button" class="finish btn btn-danger" value="Finish"/>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!--container end-->
+{% endblock %}

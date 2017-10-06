@@ -1,0 +1,83 @@
+page_about:
+    path: /about/
+    defaults: { _controller: FrontendBundle:Default:about }
+
+page_contact:
+    path: /contact/
+    defaults: { _controller: FrontendBundle:Default:contact }
+
+page_gara:
+    path: /gara/
+    defaults: { _controller: FrontendBundle:Gara:garaCategory }
+
+show_page:
+    path: /page/
+    defaults: { _controller: FrontendBundle:Default:showPageOffer }
+
+show_offer:
+    path: /offer_news/{id}
+    defaults: { _controller: FrontendBundle:Default:getOfferById }
+
+offer_test:
+    path: /offer_test/{id_offer}/{id_test}
+    defaults: { _controller: FrontendBundle:Default:getTestByOffer }
+
+offer_for_subcategory:
+    pattern: /offer_for_subcategory/{id_category}/{id_subcategory}
+    defaults: { _controller: FrontendBundle:Default:getOferBySubCategory }
+
+make_gara:
+    pattern: /make_gara/{id}/{cat}/
+    defaults: { _controller: FrontendBundle:Gara:makeGara }
+
+subcategory_opere:
+    pattern: /subcategory_opere/{id}/
+    defaults: { _controller: FrontendBundle:Gara:getOpereByIdSubCateg }
+
+create_competencia:
+    pattern: /create_competencia/
+    defaults: { _controller: FrontendBundle:Gara:createCompetencia }
+
+subcat_gara:
+    pattern: /subcat_gara/{id}
+    defaults: { _controller: FrontendBundle:Gara:subCategoryById }
+
+data_opere:
+    pattern: /data_opere/
+    defaults: { _controller: FrontendBundle:Gara:getDataOpere }
+
+subcategory_categ:
+    pattern: /subcategory_categ/
+    defaults: { _controller: FrontendBundle:Gara:subCategoryByCategory }
+
+all_gara:
+    pattern: /garas/
+    defaults: { _controller: FrontendBundle:Gara:getAllGara }
+
+execute_gara:
+    pattern: /execute_gara/{id}
+    defaults: { _controller: FrontendBundle:Gara:executeGara }
+
+type_parti_progettuali:
+    pattern: /type_parti_progettuali/
+    defaults: { _controller: FrontendBundle:Gara:getTypePartiProgettuali }
+
+insert_operestar:
+    pattern: /insert_operestar/
+    defaults: { _controller: FrontendBundle:Gara:insertOpereStar }
+
+part_progettuali:
+    pattern: /part_progettuali/
+    defaults: { _controller: FrontendBundle:Gara:showProgettuali }
+
+news:
+    pattern: /news/
+    defaults: { _controller: FrontendBundle:News:index }
+
+upload_file_cv:
+    pattern: /upload_file_cv/
+    defaults: { _controller: FrontendBundle:News:uploadFile }
+
+send_form_gara:
+    pattern: /send_form_gara/
+    defaults: { _controller: FrontendBundle:Gara:SendFormGara }

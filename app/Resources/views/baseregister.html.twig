@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>TeX | Register</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+    {% block stylesheets %}
+    <!-- Bootstrap core CSS -->
+    <link href="{{asset('web/bundles/backend/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('web/bundles/backend/css/bootstrap-reset.css')}}" rel="stylesheet">
+    <!--external css-->
+
+    <!-- Custom styles for this template -->
+     <link href="{{asset('web/bundles/backend/css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('web/bundles/backend/css/style-responsive.css')}}" rel="stylesheet" />
+
+    {% endblock %}
+
+    {% block javascripts %}
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
+    <!--[if lt IE 9]>
+    <script src="{{asset('bundles/backend/js/html5shiv.js')}}"></script>
+    <script src="{{asset('bundles/backend/js/respond.min.js')}}"></script>
+    <![endif]-->
+    <script src="{{ asset('web/bundles/backend/js/jquery.js')}}"></script>
+    <script src="{{ asset('web/bundles/backend/js/jquery-1.8.3.min.js')}}"></script>
+    <script src="{{ asset('web/bundles/backend/js/bootstrap.min.js')}}"></script>
+    {% endblock %}
+</head>
+<body class="login">
+
+{% block bodyLogin %}
+
+{% endblock %}
+</body>

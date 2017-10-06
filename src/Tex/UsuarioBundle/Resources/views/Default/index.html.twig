@@ -1,0 +1,562 @@
+{% extends '::frontend.html.twig' %}
+{% block title %}Home{% endblock %}
+  {%  block stylesheets %}
+    {{ parent() }}
+  <link href="{{asset('web/bundles/backend/css/style-index.css')}}" rel="stylesheet">
+     <!-- CSS STYLE -->
+      <link rel="stylesheet" type="text/css" href="{{asset('web/web/bundles/backend/css/slider/rs-style2.css')}}" media="screen" />
+
+      <!-- REVOLUTION BANNER CSS SETTINGS -->
+      <link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/css/slider/slider2-settings.css')}}" media="screen" />
+   <style>
+          .jssora02l, .jssora02r {
+              display: block;
+              position: absolute;
+              width: 55px;
+              height: 55px;
+              cursor: pointer;
+              background: url("{{asset('web/bundles/backend/img/a02.png')}}") no-repeat;
+              overflow: hidden;
+          }
+          .jssora02l { background-position: -3px -33px; }
+          .jssora02r { background-position: -63px -33px; }
+          .jssora02l:hover { background-position: -123px -33px; }
+          .jssora02r:hover { background-position: -183px -33px; }
+          .jssora02l.jssora02ldn { background-position: -3px -33px; }
+          .jssora02r.jssora02rdn { background-position: -63px -33px; }
+          #jssor_1{float:left;}
+      </style>
+  {%  endblock %}
+{% block javascripts %}
+    {{ parent() }}
+	<script src="{{asset('web/bundles/backend/js/jssor.slider.min.js')}}"></script>
+	 <script type="text/javascript" src="{{asset('web/bundles/backend/js/slider/jquery.themepunch.plugins.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('web/bundles/backend/js/slider/jquery.themepunch.revolution2.js')}}"></script>
+    <script>
+        $(function() {
+		
+			 //alert($(window).width());
+            var wd = $(window).width();
+            $("#jssor_1").css({"width": wd});
+            $("#jssor_1c").css({"width": wd});
+			
+            RevSlide.initRevolutionSlider();
+            $('[data-zlname = reverse-effect]').mateHover({
+                /*position: 'y-reverse',
+                //overlayStyle: 'rolling',
+                overlayBg: '#fff',
+                overlayOpacity: 0.7,
+                overlayEasing: 'easeOutCirc',
+                rollingPosition: 'top',
+                //popupEasing: 'easeOutBack',
+                //popup2Easing: 'easeOutBack'
+                //overlaySpeedIn: 200,
+                popupSpeedIn: 400*/
+			  position: 'y-reverse',
+			  overlayStyle: 'rolling',
+			  overlayBg: '#fff',
+			  overlayOpacity: 0.7,
+			  overlayEasing: 'easeOutCirc',
+			  rollingPosition: 'top',
+			  popupEasing: 'easeOutBack',
+			  popup2Easing: 'easeOutBack'
+            });
+
+            $('.flexslider').flexslider({
+                animation: "slide",
+                start: function(slider) {
+                    $('body').removeClass('loading');
+                }
+            });
+
+            jQuery(".fancybox").fancybox();
+            $("#dlogin").mouseover(function(){
+                $("#login").prop({"src":"{{asset('web/bundles/backend/img/login1.png')}}"});
+            });
+            $("#dlogin").mouseout(function(){
+                $("#login").prop({"src":"{{asset('web/bundles/backend/img/login.png')}}"});
+            });
+            $("#dregister").mouseover(function(){
+                $("#register").prop({"src":"{{asset('web/bundles/backend/img/register1.png')}}"});
+            });
+            $("#dregister").mouseout(function(){
+                $("#register").prop({"src":"{{asset('web/bundles/backend/img/register.png')}}"});
+            });
+
+            $('.bxslider').show();
+
+            $('.bxslider').bxSlider({
+                minSlides: 4,
+                maxSlides: 4,
+                slideWidth: 276,
+                slideMargin: 20
+            });
+			
+			  /*  var jssor_1_options = {
+                $AutoPlay: true,
+                $ArrowNavigatorOptions: {
+                    $Class: $JssorArrowNavigator$
+                },
+                $ThumbnailNavigatorOptions: {
+                    $Class: $JssorThumbnailNavigator$,
+                    $Cols: 9,
+                    $SpacingX: 3,
+                    $SpacingY: 3,
+                    $Align: 260
+                }
+            };
+
+            var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
+            function ScaleSlider() {
+                var refSize = jssor_1_slider.$Elmt.parentNode.clientWidth;
+                if (refSize) {
+                    refSize = Math.min(refSize, wd);
+                    jssor_1_slider.$ScaleWidth(refSize);
+                }
+                else {
+                    window.setTimeout(ScaleSlider, 30);
+                }
+            }
+            ScaleSlider();
+            $(window).bind("load", ScaleSlider);
+            $(window).bind("resize", ScaleSlider);
+            $(window).bind("orientationchange", ScaleSlider);*/
+			
+			
+			
+			//hover category
+            var url = "{{asset('web/bundles/backend/img/category/')}}";
+           $(".hcver-categ").hover(function(){
+
+            var src1 = url+$(this).attr('id')+'-bianco.png';
+               $(this).children('img').attr('src', src1);
+               // $(this).css("background-color", "yellow");
+            }, function(){
+               var src2 = url+$(this).attr('id')+'.png';
+               $(this).children('img').attr('src', src2);
+            });
+			
+			
+			$('#community').hover(function(){
+				//alert($(this).children('img').attr('src'));
+				$('#commu_img').attr('src', url+'community_logo.png');
+			},function(){
+				$('#commu_img').attr('src', url+'collengworldlogogriscio.png');
+			});
+			
+			  /*Slider Revolution*/
+            api =  $('.fullwidthabnner2').revolution(
+                    {
+                        delay:2000,
+                        startheight:600,
+                        startwidth:1150,
+                        hideThumbs:10,
+                        thumbWidth:100,
+                        thumbHeight:50,
+                        thumbAmount:5,
+                        navigationType:"bullet",
+                        navigationArrows:"solo",
+                        navigationStyle:"round",
+                        navigationHAlign:"left",
+                        navigationVAlign:"bottom",
+                        navigationHOffset:0,
+                        navigationVOffset:20,
+                        soloArrowLeftHalign:"left",
+                        soloArrowLeftValign:"center",
+                        soloArrowLeftHOffset:20,
+                        soloArrowLeftVOffset:0,
+                        soloArrowRightHalign:"right",
+                        soloArrowRightValign:"center",
+                        soloArrowRightHOffset:20,
+                        soloArrowRightVOffset:0,
+                        touchenabled:"on",
+                        onHoverStop:"on",
+                        stopAtSlide:-1,
+                        stopAfterLoops:-1,
+                        hideCaptionAtLimit:0,
+                        hideAllCaptionAtLilmit:0,
+                        hideSliderAtLimit:0,
+                        shadow:1,
+                        fullWidth:"on"
+                    });
+
+
+
+
+        });
+
+
+    </script>
+{% endblock %}
+{% block bodypage %}
+    <!-- revolution slider start -->
+    <div class="fullwidthbanner-container main-slider">
+        <div class="fullwidthabnner">
+            <ul id="revolutionul" style="display:none;">
+                <!-- 1st slide -->
+                <li data-transition="fade" data-slotamount="8" data-masterspeed="700" data-delay="9400" data-thumb="">
+                    <img src="{{asset('web/bundles/backend/img/banner/migliore.png')}}" alt="">
+                    <div class="caption lfr slide_title"
+                         data-x="750"
+                         data-y="150"
+                         data-speed="400"
+                         data-start="1500"
+                         data-easing="easeOutExpo">
+                        {% trans %}MIGLIORE{% endtrans %}
+                    </div>
+                    <div class="caption lfr slide_desc dark-text-orange"
+                         data-x="750"
+                         data-y="250"
+                         data-speed="400"
+                         data-start="2000"
+                         data-easing="easeOutExpo">
+                         <p class="text-slider">
+                            {% trans %} Il nostro innovativo metodo produce risultati straordinari incanalando la creatività e il potenziale di esperti di primordine e gruppi di lavoro da tutto il mondo.{% endtrans %}							            
+                         </p>
+						 <p class="text-slider">
+						{% trans %} Grazie al nostro network, basato su una cultura di condivisione/collaborazione e tecnologie innovative,riusciamo ad ottenere risultati non altrimenti raggiungibili.{% endtrans %}
+						 </p>
+                    </div>
+                </li>
+                <!-- 2nd slide  -->
+                <li data-transition="fade" data-slotamount="8" data-masterspeed="700" data-delay="9400" data-thumb="">
+                    <!-- THE MAIN IMAGE IN THE FIRST SLIDE -->
+                    <img src="{{asset('web/bundles/backend/img/banner/faster_savemoney.png')}}" alt="">
+                    <div class="caption lft slide_title"
+                         data-x="0"
+                         data-y="100"
+                         data-speed="400"
+                         data-start="1500"
+                         data-easing="easeOutExpo">
+                        {% trans %}PIÙ VELOCE{% endtrans %}
+                    </div>
+                    <div class="caption lft slide_desc dark-text"
+                         data-x="0"
+                         data-y="200"
+                         data-speed="400"
+                         data-start="2000"
+                         data-easing="easeOutExpo">
+						 <p class="text-slider-black">
+                            {% trans %}Grazie   alle  nuove  tecnologie internet e cloud assicuriamo la massima qualità nei nostri servizi in  tempi più brevi rispetto ad un metodo tradizionale.{% endtrans %}
+                        </p>
+                    </div>
+                </li>
+                <!-- 3rd slide  -->
+                <li data-transition="fade" data-slotamount="7" data-masterspeed="300" data-delay="9400" data-thumb="">
+                    <img src="{{asset('web/bundles/backend/img/banner/economico.png')}}" alt="">
+                    <div class="caption lft slide_title"
+                         data-x="600"
+                         data-y="100"
+                         data-speed="400"
+                         data-start="1500"
+                         data-easing="easeOutBack">
+                        {% trans %}PIÙ ECONOMICO{% endtrans %}
+                    </div>
+                    <div class="caption lfl slide_desc dark-text"
+                         data-x="600"
+                         data-y="220"
+                         data-speed="1200"
+                         data-start="2000"
+                         data-easing="easeOutBack">
+                        <p class="text-slider-black2">
+                            {% trans %}L’Ingegneria Collaborativa introduce i servizi di ingegneria al concetto  di Zero Marginal Cost sfruttando risorse e strumenti  esistenti, condividendo conoscenza e infrastrutture.{% endtrans %}
+                        </p>
+						 <p class="text-slider-black2">
+						{% trans %}I nostri algoritmi selezionano solo i  professionisti più adatti e appassionati  per ogni  differente tipo  di  progetto,  trovando  ciò che ci serve dove ci serve. Tagliando tutti  i costi non necessari, raggiungiamo il miglior risultato al minor  costo.{% endtrans %}
+						 </p>
+                    </div>
+                </li>
+            </ul>
+            <div class="tp-bannertimer tp-top"></div>
+        </div>
+    </div>
+    <!-- revolution slider end -->
+    <!--container start-->
+    <!--div class="container">
+        <div class="row">      
+            <!--
+            <div class="text-center feature-head">
+                <h1>welcome to flatlab</h1>
+                <p>Professional html Template Perfect for Admin Dashboard</p>
+            </div>
+
+            <div class="quote"></div>
+            <div class="quote">
+                <div class="col-lg-12">
+                    <div class="quote-info text-center feature-head">
+                          <h1>{% trans %}Lavora con Noi{% endtrans %}</h1>
+                        <p>{% trans %}Scegli un campo di specializzazione e accedi alla lista delle opportunità{% endtrans %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+		        <div class="row">
+            <div class="col-lg4 col-sm-4">
+                <section>
+                    <div id="edilizia" class="f-box hcver-categ">
+                        <!--i class="fa fa-edit"></i
+                        <img style="margin-top: 35px;" src="{{asset('web/bundles/backend/img/category/edilizia.png')}}" alt="">
+                        <h4>
+                            <a href="{{ path('show_page',{'id': 1})}}">{% trans %}EDILIZIA{% endtrans %}</a>
+                        </h4>
+                    </div>
+                </section>
+            </div>
+            <div id="mep" class="col-lg4 col-sm-4">
+                <section>
+                    <div id="mep" class="f-box hcver-categ">
+                        <img style="margin-top: 35px;" src="{{asset('web/bundles/backend/img/category/mep.png')}}" alt="">
+                        <h4>
+                            <a href="{{ path('show_page',{'id': 2})}}">{% trans %}IMPIANTI{% endtrans %}</a>
+                        </h4>
+                    </div>
+                </section>
+            </div>
+            <div id="strutture" class="col-lg4 col-sm-4">
+                <section>
+                    <div id="strutture" class="f-box hcver-categ">
+                        <img style="margin-top: 35px;" src="{{asset('web/bundles/backend/img/category/strutture.png')}}" alt="">
+                          <h4>
+                            <a href="{{ path('show_page',{'id': 3})}}">  {% trans %}STRUTTURE{% endtrans %}</a>
+                        </h4>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <div class="row">
+            <div id="insfrastrutture" class="col-lg4 col-sm-4">
+                <section>
+                    <div id="insfrastrutture" class="f-box hcver-categ">
+                        <img style="margin-top: 35px;" src="{{asset('web/bundles/backend/img/category/insfrastrutture.png')}}" alt="">
+                         <h4>
+                            <a href="{{ path('show_page',{'id': 4})}}">{% trans %}INFRASTRUTTURE{% endtrans %}</a>
+                        </h4>
+                    </div>
+                </section>
+            </div>
+            <div id="idraulica" class="col-lg4 col-sm-4">
+                <section>
+                    <div id="idraulica" class="f-box hcver-categ">
+                        <img style="margin-top: 35px;" src="{{asset('web/bundles/backend/img/category/idraulica.png')}}" alt="">
+                       <h4>
+                            <a href="{{ path('show_page',{'id': 5})}}">{% trans %}IDRAULICA{% endtrans %}</a>
+                        </h4>
+                    </div>
+                </section>
+            </div>
+            <div class="col-lg4 col-sm-4">
+                <section>
+                    <div id="urban" class="f-box hcver-categ">
+                        <img style="margin-top: 35px;" src="{{asset('web/bundles/backend/img/category/urban.png')}}" alt="">
+                         <h4>
+                            <a href="{{ path('show_page',{'id': 6})}}">{% trans %}URBANISTICA-AMBIENTE E TERRITORIO{% endtrans %}</a>
+                        </h4>
+                    </div>
+                </section>
+            </div>
+        </div>		
+    </div-->
+ <!--property start-->
+    <!--div class="property gray-bg">
+        <!-- revolution slider start
+        <div class="fullwidthbanner-container2 main-slider2">
+            <div class="fullwidthabnner2">
+                <ul id="revolutionul" style="display:none;">
+                    <!-- 1st slide
+                    <li data-transition="fade" data-slotamount="8" data-masterspeed="700" data-delay="9400" data-thumb="">
+                        <div class="caption lfl slide_item_left"
+                             data-x="10"
+                             data-y="70"
+                             data-speed="400"
+                             data-start="1500"
+                             data-easing="easeOutBack">
+                            <iframe  width="600" height="360" src="https://www.youtube.com/embed/inTJplrQ2Q4" frameborder="0" allowfullscreen>
+
+                            </iframe>
+                        </div>
+                        <div class="caption lfr slide_title"
+                             data-x="670"
+                             data-y="120"
+                             data-speed="400"
+                             data-start="1000"
+                             data-easing="easeOutExpo">
+                        </div>
+                        <div class="caption lfr slide_subtitle dark-text"
+                             data-x="670"
+                             data-y="190"
+                             data-speed="400"
+                             data-start="2000"
+                             data-easing="easeOutExpo">
+                        </div>
+                        <div class="caption lfr slide_desc slide_desc2 dark-text2"
+                             data-x="670"
+                             data-y="260"
+                             data-speed="400"
+                             data-start="2500"
+                             data-easing="easeOutExpo">
+                            The Collaborative Engineering Model is an innovative way of conceive</br>
+                            planning and realization of engineering projects. Let us show how it</br>
+                            can improve your way of working. Join our community</br>
+                            at <a href="http://www.collengworld.com">www.collengworld.com</a> to start TODAY!.
+                        </div>
+                    </li>
+                    <!-- 2nd slide
+                    <li data-transition="fade" data-slotamount="8" data-masterspeed="700" data-delay="9400" data-thumb="">
+                        <div class="caption lfl slide_item_left"
+                             data-x="10"
+                             data-y="70"
+                             data-speed="400"
+                             data-start="1500"
+                             data-easing="easeOutBack">
+                            <iframe  width="600" height="360" src="https://www.youtube.com/embed/MrTw8K5u54w" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="caption lfr slide_title"
+                             data-x="670"
+                             data-y="120"
+                             data-speed="400"
+                             data-start="1000"
+                             data-easing="easeOutExpo">
+                        </div>
+                        <div class="caption caption lfr slide_desc slide_desc2 dark-text2"
+                             data-x="670"
+                             data-y="150"
+                             data-speed="400"
+                             data-start="2000"
+                             data-easing="easeOutExpo">
+                            TE.x represents the evolution of engineering and architectural organizations of the<br>
+                            fourth industrial revolution, where expertise and creativity come together in a digital<br>
+                            collaborative environment.TE.x is constantly engaged in experimenting with new ideas and<br>
+                            paradigms in order to provide smarter engineering solutions and keep abreast of the latest<br>
+                            advances in technology.TE.x:<br>
+                            -Promotes the use of the multiplying effect of collective intelligence.<br>
+                            -Co-creates ideas and coordinates activities.<br>
+                            -Provides the project with the appropriate digital platform.<br>
+                            -Sets up international, multicultural as well as local teams.<br>
+                            -Is present throughout, accompanying you from phase to phase, resolving problems<br>
+                            as and when they appear.<br>
+                            -Guarantees faster, better and cheaper solutions.<br>
+                        </div>
+                        <div class="caption lfr slide_desc slide_desc2"
+                             data-x="670"
+                             data-y="260"
+                             data-speed="400"
+                             data-start="2500"
+                             data-easing="easeOutExpo">
+                        </div>
+                    </li>
+                </ul>
+                <div class="tp-bannertimer tp-top"></div>
+            </div>
+        </div>        
+    </div>
+    <!--property end
+	<div class="container">
+        <div class="row">
+            <div class="quote">
+                <div class="col-lg-12">
+                    <div class="quote-info text-center feature-head">
+                        <h1>{% trans %}La Nostra Community{% endtrans %}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>   
+    <!--property end
+        <div class="row">
+            <div class="col-lg4 col-sm-4">
+                <section>
+                    <div id="community" class="f-box">
+                        <a target="_blank" href="http://www.community.collengworld.com/">
+                            <img id="commu_img" style="margin-top: 35px;" src="{{asset('web/bundles/backend/img/category/collengworldlogogriscio.png')}}" alt="">
+                        </a>
+                        {#<!--h2>{% trans %}Membri di Comunità{% endtrans %}</h2-->#}
+                    </div>
+                </section>
+            </div>
+            <div class="col-lg-4 col-sm-4">
+                <section>
+                    <div class="f-box">
+                        <i class=" fa fa-group"></i>
+                        <h2>{% trans %}Membri  Comunità{% endtrans %}</h2>
+						 <p class="counter-number">
+                             {{ count_member }}
+                        </p>
+                    </div>
+                </section>
+            </div>
+            <div class="col-lg-4 col-sm-4">
+                <section>
+                    <div class="f-box">
+                        <i class="fa fa-gears"></i>
+                       <a href="{{ path('page_about_tex')}}"><h2>{% trans %}About{% endtrans %}</h2></a>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <!--recent work start
+		<div class="gallery-container">
+			<div id="gallery" class="col-4">
+				<div class="element design development item view view-tenth" data-zlname="reverse-effect">
+						<img src="{{asset('web/bundles/backend/img/works/img1.jpg')}}" alt="" />
+						<div class="mask">
+							<a data-zl-popup="link2" class="fancybox" rel="group" href="{{asset('web/bundles/backend/img/works/img1.jpg')}}">
+								<i class="fa fa-search"></i>
+							</a>
+						</div>
+				</div>
+				<div class="element design development item view view-tenth" data-zlname="reverse-effect">
+						<img src="{{asset('web/bundles/backend/img/works/img2.jpg')}}" alt="" />
+						<div class="mask">
+							<a data-zl-popup="link2" class="fancybox" rel="group" href="{{asset('web/bundles/backend/img/works/img2.jpg')}}">
+								<i class="fa fa-search"></i>
+							</a>
+						</div>
+				</div>
+				<div class="element design development item view view-tenth" data-zlname="reverse-effect">
+						<img src="{{asset('web/bundles/backend/img/works/img3.jpg')}}" alt="" />
+						<div class="mask">
+							<a data-zl-popup="link2" class="fancybox" rel="group" href="{{asset('web/bundles/backend/img/works/img3.jpg')}}">
+								<i class="fa fa-search"></i>
+							</a>
+						</div>
+				</div>
+				<div class="element design development item view view-tenth" data-zlname="reverse-effect">
+						<img src="{{asset('web/bundles/backend/img/works/img4.jpg')}}" alt="" />
+						<div class="mask">
+							<a data-zl-popup="link2" class="fancybox" rel="group" href="{{asset('web/bundles/backend/img/works/img4.jpg')}}">
+								<i class="fa fa-search"></i>
+							</a>
+						</div>
+				</div>
+			</div>
+		</div>
+        <!--recent work end
+    </div-->
+    <section class="parallax1">
+        <div class="container">
+            <div class="row">
+                <h1>{% trans %}“TE.x fornisce servizi di ingegneria e architettura innovativi puntando su metodi e strumenti all’avanguardia, ricerca dettagliata e personale altamente qualificato.{% endtrans %}</br>
+                {% trans %} L’Ingegneria Collaborativa è un nuovissimo modello peer-to-peer nel quale queste risorse convergono e si interconnettono per rendere il tradizionale mondo dell’ingegneria più smart”{% endtrans %}
+                </h1>
+            </div>
+        </div>
+    </section>
+    <!--div class="container">
+        <!--clients start-->
+        <!--div class="clients">
+            <div class="container">
+                <div class="row">
+                    <!--div class="col-lg-12 text-center">
+                        <ul class="list-unstyled">
+                            <li><a href="#"><img src="{{asset('web/bundles/backend/img/clients/logo1.png')}}" alt=""></a></li>
+                            <li><a href="#"><img src="{{asset('web/bundles/backend/img/clients/logo2.png')}}" alt=""></a></li>
+                            <li><a href="#"><img src="{{asset('web/bundles/backend/img/clients/logo3.png')}}" alt=""></a></li>
+                            <li><a href="#"><img src="{{asset('web/bundles/backend/img/clients/logo4.png')}}" alt=""></a></li>
+                            <li><a href="#"><img src="{{asset('web/bundles/backend/img/clients/logo5.png')}}" alt=""></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div-->
+        <!--clients end-->
+    </div>
+{% endblock %}

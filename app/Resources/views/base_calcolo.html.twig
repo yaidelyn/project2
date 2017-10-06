@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% block title %}{% endblock %}  | TE.x Ingegneria collaborativa</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" type="text/css"  href="{{ asset('bundles/frontend/css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/frontend/css/style-custom.css') }}"/>
+        <link rel="stylesheet" type="text/css"  href="{{ asset('bundles/frontend/css/font-awesome/css/font-awesome.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/frontend/assets/bootstrap-datepicker/css/datepicker.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/frontend/css/style-responsive.css') }}"/>
+    {% endblock %}
+</head>
+<body id="{% block id '' %}">
+<section id="container" class="">
+    <!--header class="header white-bg">
+        <a class="logo" href="{{path('tex')}}">
+            <img alt="logo" src="{{ asset('bundles/frontend/img/logo-tex-engineering.png') }}">
+        </a>
+    </header-->
+    <section id="main-content">
+        <section class="wrapper site-min-height">
+            {% block body %}{% endblock %}
+        </section>
+    </section>
+</section>
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/frontend/js/jquery-1.12.0.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/frontend/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/frontend/js/jquery-function-plugin.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/frontend/js/funciones.js') }}"></script>
+
+    <!--DatePicker Component-->
+    <script src="{{ asset('bundles/frontend/assets/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+
+
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="{{ asset('bundles/frontend/js/app2.js') }}"></script>
+    <script src="{{ asset('bundles/frontend/js/form-components.js') }}"></script>
+    <!-- END PAGE LEVEL SCRIPTS -->
+
+    <!--common script for all pages-->
+    <script src="{{ asset('bundles/frontend/js/common-scripts.js') }}"></script>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,441 @@
+{% extends '::backend.html.twig' %}
+{% block title %}Result User Gara{% endblock %}
+  {%  block stylesheets %}
+      {{ parent() }}
+      <link href="{{asset('web/bundles/backend/assets/advanced-datatable/media/css/demo_page.css')}}" rel="stylesheet" />
+      <link href="{{asset('web/bundles/backend/assets/advanced-datatable/media/css/demo_table.css')}}" rel="stylesheet" />
+      <link  href="{{asset('web/bundles/backend/assets/data-tables/DT_bootstrap.css')}}" rel="stylesheet" />
+      <link href="{{asset('web/bundles/backend/assets/JAlert/jquery.alerts.css')}}" rel="StyleSheet" type="text/css" />	 
+	  <style>
+	  .base{
+		/*width:200px!important;
+		height:100px!important;*/
+	  }
+	   .rchart{
+              position: relative;
+              right: 65px;
+          }
+	  </style>
+  {%  endblock %}
+    {% block aside %}
+        <div class="row">
+            <aside class="profile-info col-lg-12">
+                <section class="panel">
+                    <h2 class="register-heading">Result Gara</h2>
+                    <div class="panel-body">
+                        <div class="adv-table">
+                            <div class="btn-group">
+                                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">Action<span class="caret"></span></button>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li><a id="newteam" href="javascript:;">CREA UN NUOVO TEAM</a></li>
+                                    <li><a href="#myModal" data-toggle="modal" id="oldteam">VUOI AGGIUNGERE A TEAM</a></li>
+                                </ul>
+                            </div><!-- /btn-group -->
+                            <table  class="display table table-bordered table-striped" id="example">
+                                <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="all-checked" name="all-checked"></th>
+                                    <th>Name Gara</th>
+                                    <th>Name User</th>
+                                    <th>Figure Richieste</th>
+                                    <th>% Acertation</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in acertions %}
+                                <tr id="{{ item.iduser }}" class="gradeX">
+                                    <td><input type="checkbox" id="{{ item.iduser }}" name="chekuser"></td>
+                                    <td>{{item.namegara }}</td>
+                                    <td>{{item.fullname }}</td>
+                                    <td class="rol-{{item.idgara }}">{{item.namerol  }}</td>
+                                    <td>{{item.perecent  }}</td>
+                                    <td>
+                                        <button id="{{ item.idgara }}" class="btn btn-primary btn-xs btn-checked"><i class="fa fa-check"></i></button>
+                                        <button id="{{  item.idformgara }}"  class="btn btn-danger btn-xs btn-delete"><i class="fa fa-trash-o "></i></button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                 </section>
+            </aside>
+        </div>
+		 <!--main content start-->
+         <div class="row">
+            {% set value = 0 %}
+            {%for item in namegaras%}				
+                <aside class="profile-info col-lg-2">
+                    <section class="panel">
+						<h2 class="register-heading">{{item.garas[0].label}}</h2>
+                        <canvas class="rchart" id="chart-area{{value}}" />
+                    </section>
+                </aside>
+                {% set value = value + 1 %}
+            {%endfor%}
+        </div>
+        <!--main content end-->
+        <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                        <h4 class="modal-title">List Teams</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <div class="conten-hidden">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Selezione Team</label>
+                                <select name="team" id="idteam" class="form-control">
+                                    <option>-------</option>
+                                    {% for item in teams %}
+                                        <option value="{{ item.id }}">{{ item.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button id="send_userteam" type="button" class="btn btn-default">Inviare</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <!--script for this page-->
+<script type="text/javascript" language="javascript" src="{{asset('web/bundles/backend/assets/advanced-datatable/media/js/jquery.dataTables.js')}}"></script>
+<script type="text/javascript" src="{{asset('web/bundles/backend/assets/data-tables/DT_bootstrap.js')}}"></script>
+<script src="{{asset('web/bundles/backend/assets/flot/jquery.flot.js')}}"></script>
+<script src="{{asset('web/bundles/backend/assets/flot/jquery.flot.resize.js')}}"></script>
+<script src="{{asset('web/bundles/backend/assets/flot/jquery.flot.pie.js')}}"></script>
+<script src="{{asset('web/bundles/backend/assets/flot/jquery.flot.stack.js')}}"></script>
+<script src="{{asset('web/bundles/backend/assets/flot/jquery.flot.crosshair.js')}}"></script>
+<script src="{{asset('web/bundles/backend/assets/JAlert/jquery.ui.draggable.js')}}"></script>
+<script src="{{asset('web/bundles/backend/assets/JAlert/jquery.alerts.mod.js')}}"></script>
+<script src="{{asset('web/bundles/backend/js/jquery.blockUI.js')}}"></script>	
+<script src="{{asset('web/bundles/backend/js/jquery.chart.js')}}"></script>
+
+<script src="{{asset('web/bundles/backend/js/chartnew/fusioncharts.js')}}"></script>
+<script src="{{asset('web/bundles/backend/js/chartnew/fusioncharts.charts.js')}}"></script>
+<script src="{{asset('web/bundles/backend/js/chartnew/fusioncharts.theme.zune.js')}}"></script>
+<script src="{{asset('web/bundles/backend/js/Chart.bundle.js')}}"></script>
+<script src="{{asset('web/bundles/backend/js/utils.js')}}"></script>
+
+    <!--script for this page only-->
+    {#<script src="{{asset('web/bundles/backend/js/flot-chart.js')}}"></script>#}
+    <script>
+        //step wizard
+        $(function() {
+		
+		 /*-------------ChartJS------------*/
+            var files = {{ result_gara|json_encode|raw }};
+            var myObject = eval('(' + files + ')');
+			
+			
+			for(i = 0;i<myObject.length;i++)
+			{
+				   /*Chart Nuevo*/
+				//var datos = new Array();					
+				var config = {
+					type: 'pie',
+					data: {
+						datasets: [{
+							data: [myObject[i].percents[0].data,myObject[i].percents[1].data],
+							backgroundColor: [
+								window.chartColors.red,
+								window.chartColors.yellow,
+							   /* window.chartColors.yellow,
+								window.chartColors.green,
+								window.chartColors.blue,*/
+							],
+							label: 'Dataset 1'
+						}],
+						labels: [myObject[i].percents[0].label,myObject[i].percents[1].label]
+					},
+					options: {
+						responsive: true
+					}
+				};
+				
+				var ctx = document.getElementById("chart-area"+i).getContext("2d");
+                window.myPie = new Chart(ctx, config);
+			}
+			
+			
+            
+
+			
+			
+          /*  $.ajax({
+                url: '',
+                type: 'GET',
+                success: function(data) {
+                    //chartData =
+
+                    for(i = 0;i<myObject.length;i++){
+                        //console.log(myObject);
+                        var chartProperties = {
+                            "caption": ""+myObject[i].garas[0].label+"",
+                            "xAxisName": "Player",
+                            "yAxisName": "Wickets Taken",
+                            "rotatevalues": "1",
+                            "theme": "zune"
+                        };
+                        chartData =  [
+                            {
+                                "label": myObject[i].percents[0].label,
+                                "value": myObject[i].percents[0].data
+                            },
+                            {
+                                "label": myObject[i].percents[1].label,
+                                "value": myObject[i].percents[1].data
+                            }
+
+                        ]
+                        apiChart = new FusionCharts({
+                            type: 'doughnut2d',
+                            renderAt: 'chart-container'+i,
+                            width: '550',
+                            height: '350',
+                            dataFormat: 'json',
+                            dataSource: {
+                                "chart": chartProperties,
+                                "data":chartData
+                            }
+                        });
+                        apiChart.render();
+                    }
+                }
+            });*/
+            /*--------------End ChartJS------------------*/
+
+            $('table tr th:first').removeClass('sorting');
+            $('table tr th:first').click(function(){
+                $(this).removeClass('sorting_asc');
+                $(this).removeClass('sorting_desc');
+                var checked = $(this);
+               if(checked.attr('checked',true)){
+                    $('input[name=chekuser]').each(function(){
+                        $(this).attr('checked',true);
+                    });
+                }else{
+                   if(checked.attr('checked')=='checked'){
+                       alert('dsdsdsd');
+                       $('input[name=chekuser]:checked').each(function(){
+                           // $(this).attr('checked',false);
+
+                       });
+                   }
+
+                }
+            });
+            //select all checkboxes
+            $("#all-checked").change(function(){  //"select all" change
+                var status = this.checked; // "select all" checked status
+                $('input[name=chekuser]').each(function(){ //iterate all listed checkbox items
+                    this.checked = status; //change ".checkbox" checked status
+                });
+            });
+
+            $('input[name=chekuser]').change(function(){ //".checkbox" change
+                //uncheck "select all", if one of the listed checkbox item is unchecked
+                if(this.checked == false){ //if this item is unchecked
+                    $("#all-checked")[0].checked = false; //change "select all" checked status to false
+                }
+
+                //check "select all" if all checkbox items are checked
+                if ($('input[name=chekuser]:checked').length == $('input[name=chekuser]').length ){
+                    $("#all-checked")[0].checked = true; //change "select all" checked status to true
+                }
+            });
+
+
+            //delete gara
+            $('.btn-delete').each(function(){
+                $(this).click(function(){
+                    var object = $(this).parent().parent();
+                    var value = $(this).attr('id');
+                    //alert(value);
+                    jConfirm('Sei sicuro di voler eliminare la Gara?', 'Dialogo di conferma', function(r) {
+                      if(r==true){
+                          //if(confirm('')) {
+                          var url = "{{ path('delete_result_gara',{'id':'text1'})}}";
+                          url = url.replace("text1", value);
+                          $.ajax({
+                              type: "POST",
+                              url: url,
+                              data: {},
+                              dataType: "json",
+                              beforeSend:function(request) {
+                                  $.blockUI({ css: {
+                                      border: 'none',
+                                      padding: '15px',
+                                      backgroundColor: '#000',
+                                      '-webkit-border-radius': '10px',
+                                      '-moz-border-radius': '10px',
+                                      opacity: .5,
+                                      color: '#fff'
+                                  }});
+                              },
+                              success: function (response) {
+                                  if (response.success) {
+                                      jAlert("Delete", 'Dialog Alert');
+                                      $(object).remove();
+                                  }
+                              },
+                              complete: function(data) {
+                                  // end of ajax call
+                                  $.unblockUI();
+                              }
+                          });
+                         }
+                    });
+                });
+            });
+
+            //select user
+            $('.btn-checked').each(function(){
+                $(this).click(function(){
+                    var object = $(this).parent().parent();
+                    var value =  $(this).parent().parent().attr('id');
+                    var url = "{{ path('select_person',{'id':'text1'})}}";
+                    url = url.replace("text1", value);
+                    var idgara = $(this).attr('id');
+                    //alert(value);
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data:{id:idgara},
+                        dataType:"json",
+                        success: function(response) {
+                            if(response.code==1){
+                                //$(object).remove();
+                                alert('Selezionato User');
+                            }else{
+                                //alert(response.mensaje);
+                            }
+                        //  location.reload();
+                            location.href="{{ path('view_acertation') }}"
+                        }
+                    });
+
+                });
+            });
+
+            //porcentuales Gara
+
+            // data
+         /*  var data = [
+                { label: "Gara 1",  data: 10},
+                { label: "Gara 2",  data: 10},
+
+            ];*/
+           /* var files = {{ result_gara|json_encode|raw }};
+
+            var myObject = eval('(' + files + ')');
+            //alert(myObject);
+			console.log(myObject);
+			
+			for(i = 0;i<myObject.length;i++){
+				var arrelement = [];
+				//arrelement.push(myObject[i]);
+			//console.log(myObject[0]);
+				 // GRAPH 2
+            $.plot($("#graph"+i+""), myObject[i].percents,
+                    {
+                        series: {
+                            pie: {
+                                show: true,
+                                radius: 1,
+                                label: {
+                                    show: true,
+                                    radius: 1,
+                                    formatter: function(label, series){
+                                        console.log(series);
+                                        return '<div style="font-size:8pt;text-align:center;padding:2px;color:white;">'+label+'<br/>'+Math.round(series.percent)+'%</div>';
+                                    },
+                                    background: { opacity: 0.8 }
+                                }
+                            }
+                        },
+                        legend: {
+                            show: false
+                        }
+                    });
+			}*/
+           
+
+
+            //crear los team
+            $('.dropdown-menu li a').each(function(){
+                $(this).click(function(){
+                    cant = $('input[name=chekuser]:checked').size();
+                    if(cant == 0){
+                        jAlert('Selezione User', 'Alert Dialog');
+                        return;
+                    }else{
+                        if($(this).attr('id')== 'newteam'){
+                            location.href = "{{ path('create_team') }}";
+                        }else{
+                            if($(this).attr('id')== 'oldteam'){
+                                var html = "";
+                                $('input[name=chekuser]:checked').each(function(){
+                                   // alert($(this).attr('id'));
+                                    var id = $(this).attr('id');
+                                    html+='<input type="hidden" name="hiduser" value="'+id+'">';
+                                });
+                                $('.conten-hidden').html(html);
+                              //  $('#myModal').css('display','block').addClass('in').attr('aria-hidden').val(true);
+                               // alert('Holaaa');
+                               // location.href = "{{ path('create_team') }}";
+
+                            }
+                        }
+                    }
+                });
+            });
+                        $('#send_userteam').click(function(){
+                var arr_user = new Array();
+                $('input[type=hidden]').each(function(){
+                    arr_user.push($(this).val());
+                });
+                console.log(arr_user);
+                var data = {
+                    idteam:$('#idteam').val(),
+                    users:arr_user
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "{{path('add_user_team')}}",
+                    data:data,
+                    dataType:"json",
+                    beforeSend:function(request) {
+                        $.blockUI({ css: {
+                            border: 'none',
+                            padding: '15px',
+                            backgroundColor: '#000',
+                            '-webkit-border-radius': '10px',
+                            '-moz-border-radius': '10px',
+                            opacity: .5,
+                            color: '#fff'
+                        }});
+                    },
+                    success: function(response) {
+                        jAlert(response.mensaje, 'Alert Dialog');
+                        location.reload();
+                    },
+                    complete: function(data) {
+                        // end of ajax call
+                        $.unblockUI();
+                    }
+                });
+
+            });
+        });
+
+    </script>
+{% endblock %}

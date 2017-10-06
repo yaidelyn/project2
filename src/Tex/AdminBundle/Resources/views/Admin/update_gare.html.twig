@@ -1,0 +1,405 @@
+{% extends '::backend.html.twig' %}
+{% block title %}Update Gara{% endblock %}
+  {%  block stylesheets %}
+      {{ parent() }}
+      <link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/assets/bootstrap-datepicker/css/datepicker.css')}}" />
+      <link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/assets/bootstrap-timepicker/compiled/timepicker.css')}}" />
+      <link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/assets/bootstrap-colorpicker/css/colorpicker.css')}}" />
+      <link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/assets/bootstrap-daterangepicker/daterangepicker-bs3.css')}}" />
+      <link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/assets/bootstrap-datetimepicker/css/datetimepicker.css')}}" />
+      <link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/assets/jquery-multi-select/css/multi-select.css')}}" />
+      <link href="{{asset('web/bundles/backend/assets/JAlert/jquery.alerts.css')}}" rel="StyleSheet" type="text/css" />
+      <style>
+          .input-cant{
+              float: right;
+              width: 85px;
+              margin-top: 2px;
+          }
+          .rowf{
+              margin-left: calc(25% - 275px);
+          }
+      </style>
+  {%  endblock %}
+    {% block aside %}
+        <div class="row">
+            <input type="hidden" id="idgare" value="{{ idgare }}">
+            <aside class="profile-info col-lg-12">
+                <section class="panel">
+                    <h2 class="register-heading">Update Gara</h2>
+                    <div class="panel-body bio-graph-info">
+                        <form class="form-horizontal" role="form">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Title</label>
+                                        <div class="col-lg-9">
+                                            <input type="text" name="title" id="txt_title" value="{{ datos.gara.title }}" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Id Opere</label>
+                                        <div class="col-md-9">
+                                            <select multiple="multiple" class="multi-select" id="my_multi_select2" name="my_multi_select2[]">
+                                                {% for item in subcategoperes %}
+                                                    <optgroup id="{{ item.subcategory.id }}" label="{{ item.subcategory.name }}">
+                                                        {% for item_oper in item.operes %}
+                                                            <option id="{{ item_oper.id }}">{{ item_oper.code }}</option>
+                                                        {% endfor %}
+                                                    </optgroup>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Rif. Bando</label>
+                                        <div class="col-lg-9">
+                                            <input type="text" name="title" id="txt_bando" value="{{ datos.gara.rifbando }}" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3"> Scadenza Gare</label>
+                                        <div class="col-md-6">
+                                            <div class="input-group date form_datetime-component">
+                                                <input type="text" id="scadenza_gare" value="{{ datos.gara.scadenzagara }}" class="form-control" readonly="" size="16">
+                                                <span class="input-group-btn">
+                                                <button type="button" class="btn btn-danger date-set"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3"> Scadenza Cadidatura</label>
+                                        <div class="col-md-6">
+                                            <div class="input-group date form_datetime-component">
+                                                <input type="text" id="scadenza_candi" value="{{ datos.gara.ecadenzacandi }}" class="form-control" readonly="" size="16">
+                                                <span class="input-group-btn">
+                                                <button type="button" class="btn btn-danger date-set"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Cod.Gara</label>
+                                        <div class="col-lg-6">
+                                            <div class="input-group m-bot15">
+                                                <input id="txt_codgara" value="{{ datos.gara.codgara }}" class="form-control" type="text" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Importo</label>
+                                        <div class="col-lg-6">
+                                            <div class="input-group m-bot15">
+                                                <span class="input-group-addon"><i class="fa fa-euro"></i></span>
+                                                <input  id="txt_importo" class="form-control" value="{{ datos.gara.importe }}" type="text">
+                                                <span class="input-group-addon">.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Tipologia di Gara</label>
+                                        <div class="col-lg-6">
+                                            <select id="tipologia" class="form-control">
+                                                <option>-Seleziona la tipologia gara-</option>
+                                                {% for item in tipologias %}
+                                                    {% if item.id == datos.gara.tipologia %}
+                                                    <option value="{{ item.id }}" selected>{{ item.name }}</option>
+                                                    {% else %}
+                                                        <option value="{{ item.id }}">{{ item.name }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-12 control-label">Oggetto</label>
+                                        <div class="col-lg-12">
+                                            <textarea class="form-control textarea" id="oggetto" name="oggetto" cols="60" rows="5">{{ datos.gara.objetive }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="col-lg-12 control-label">Gruppo di Lavoro minimo</label>
+                            <div class="field_wrapper">
+                                {% set i=0 %}
+                                {% for item in datos.gara.gareteam %}
+                                    {% if i== 0 %}
+                                    <div class="row rowf">
+                                        <div class="form-group">
+                                            <div class="col-lg-10">
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <input class="form-control figure" id="{{ item.id }}"  type="text" name="field_name[]" value="{{ item.name }}"/>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <input class="form-control cant_figure" name="field_name[]" placeholder="No" type="text" value="{{ item.cantidad }}">
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <a href="javascript:void(0);" class="add_button" title="Add field"><img src="{{asset('web/bundles/backend/img/add-icon.png')}}"/></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        {% set i= i+1 %}
+                                    {% else %}
+                                    <div class="row rowf">
+                                        <div class="form-group">
+                                            <div class="col-lg-10">
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <input class="form-control figure" id="{{ item.id }}"  type="text" name="field_name[]" value="{{ item.name }}"/>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <input class="form-control cant_figure" name="field_name[]" placeholder="No" type="text" value="{{ item.cantidad }}">
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <a  href="javascript:void(0);" class="remove_button" title="Remove field"><img src="{{asset('web/bundles/backend/img/remove-icon.png')}}"/></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <button id="btn_save" type="button" class="btn btn-info">Save</button>
+                            <button type="button" class="btn btn-default">Cancel</button>
+                        </form>
+                    </div>
+                </section>
+            </aside>
+        </div>
+    {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{asset('web/bundles/backend/assets/bootstrap-datepicker/js/bootstrap-datepicker.js')}}"></script>
+    <script type="text/javascript" src="{{asset('web/bundles/backend/assets/bootstrap-datepicker/js/bootstrap-datepicker.js')}}"></script>
+    <script type="text/javascript" src="{{asset('web/bundles/backend/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js')}}"></script>
+    <script type="text/javascript" src="{{asset('web/bundles/backend/assets/bootstrap-daterangepicker/moment.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('web/bundles/backend/assets/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+    <script type="text/javascript" src="{{asset('web/bundles/backend/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js')}}"></script>
+    <script type="text/javascript" src="{{asset('web/bundles/backend/assets/bootstrap-timepicker/js/bootstrap-timepicker.js')}}"></script>
+    <script type="text/javascript" src="{{asset('web/bundles/backend/assets/jquery-multi-select/js/jquery.multi-select.js')}}"></script>
+    <script type="text/javascript" src="{{asset('web/bundles/backend/assets/jquery-multi-select/js/jquery.quicksearch.js')}}"></script>
+
+    <script src="{{asset('web/bundles/backend/js/advanced-form-components.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/jquery.blockUI.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/JAlert/jquery.ui.draggable.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/JAlert/jquery.alerts.mod.js')}}"></script>
+    <script>
+    $(function(){
+        //datetime picker start
+        $(".form_datetime-component").datetimepicker({format: 'yyyy-mm-dd hh:mm:ss'});
+        $('#my_multi_select2').multiSelect({
+            selectableOptgroup: true
+        });
+
+
+
+        //create textfield
+        var maxField = 10; //Input fields increment limitation
+        var addButton = $('.add_button'); //Add button selector
+        var wrapper = $('.field_wrapper'); //Input field wrapper
+        var fieldHTML = '<div class="row rowf">' +
+                '<div class="form-group">' +
+                '<div class="col-lg-10">' +
+                '<div class="row">' +
+                '<div class="col-lg-4">' +
+                '<input class="form-control figure" type="text" name="field_name[]" value=""/>' +
+                '</div>' +
+                '<div class="col-lg-2">' +
+                '<input class="form-control cant_figure" name="field_name[]" placeholder="No" type="text">' +
+                '</div>' +
+                '<div class="col-lg-2">' +
+                ' <a  href="javascript:void(0);" class="remove_button" title="Remove field">' +
+                '<img src="{{asset('web/bundles/backend/img/remove-icon.png')}}"/></a>'+
+                '</div>'+
+                '</div>' +
+                ' </div>'+
+                '</div>'+
+                '</div>'; //New input field html
+        var x = 1; //Initial field counter is 1
+        $(addButton).click(function(){ //Once add button is clicked
+            if(x < maxField){ //Check maximum number of input fields
+                x++; //Increment field counter
+                $(wrapper).append(fieldHTML); // Add field html
+            }
+        });
+        $(wrapper).on('click', '.remove_button', function(e){ //Once remove button is clicked
+            e.preventDefault();
+            $(this).parent().parent().parent().parent().parent('div').remove(); //Remove field html
+            x--; //Decrement field counter
+        });
+
+        //onclick button
+        $('#btn_save').click(function(){
+            var role_job = new Array();
+
+            /*   $('.figure').each(function(){
+             //alert($(this).next().next().val());
+             var cant = $(this).parent().children().find('input[class=cant_figure]').val();
+             alert(cant);
+             //role_job.push({'name':$(this).val(),'cantidad':cant} );
+             });*/
+
+            if(validateDato()){
+                // alert(searchList());
+                var role_job = new Array();
+
+                $('.figure').each(function(){
+                    //alert($(this).next().next().val());
+                    //var cant = $(this).next('input[class=cant_figure]').val();
+                    //alert(cant);
+                    role_job.push({'name':$(this).val(),'cantidad':1} );
+                });
+
+                //alert(role_job);
+
+                var value =  $('#idgare').val();
+                //alert(value);
+                var url = "{{ path('update_gara',{'id':'text1'})}}";
+                url = url.replace("text1", value);
+
+                var data = {
+                    //category: $('#category').val(),
+                    title: $('#txt_title').val(),
+                    idopere: searchList(),
+                    rifbando:$('#txt_bando').val(),
+                    scadenza_gare:$('#scadenza_gare').val(),
+                    scadenza_candi:$('#scadenza_candi').val(),
+                    cod_gara:$('#txt_codgara').val(),
+                    importe: $('#txt_importo').val(),
+                    objetive: $('#oggetto').val(),
+                    tipologia: $('#tipologia').val(),
+                    cap_team: $('input[class=figure]').size(),
+                    name_rol:role_job
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data:{data:data},
+                    dataType:"json",
+                    beforeSend:function(request) {
+                        $.blockUI({ css: {
+                            border: 'none',
+                            padding: '15px',
+                            backgroundColor: '#000',
+                            '-webkit-border-radius': '10px',
+                            '-moz-border-radius': '10px',
+                            opacity: .5,
+                            color: '#fff'
+                        }});
+                    },
+                    success: function(response) {
+                        if(response.success){
+                            jAlert(response.mensaje, 'Alert Dialog');
+                        }
+                    },
+                    complete: function(data) {
+                        // end of ajax call
+                        $.unblockUI();
+                    }
+                });
+            }
+
+
+
+        });
+        //end onclick button
+
+        //multiselect start
+        $('#my_multi_select1').multiSelect();
+        /*  $('#my_multi_select2').multiSelect({
+         selectableOptgroup: true
+         });*/
+
+        $('#my_multi_select3').multiSelect({
+            selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+            selectionHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+            afterInit: function (ms) {
+                var that = this,
+                        $selectableSearch = that.$selectableUl.prev(),
+                        $selectionSearch = that.$selectionUl.prev(),
+                        selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+                        selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+
+                that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+                        .on('keydown', function (e) {
+                            if (e.which === 40) {
+                                that.$selectableUl.focus();
+                                return false;
+                            }
+                        });
+
+                that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+                        .on('keydown', function (e) {
+                            if (e.which == 40) {
+                                that.$selectionUl.focus();
+                                return false;
+                            }
+                        });
+            },
+            afterSelect: function () {
+                this.qs1.cache();
+                this.qs2.cache();
+            },
+            afterDeselect: function () {
+                this.qs1.cache();
+                this.qs2.cache();
+            }
+        });
+        //multiselect end
+    });
+    var temp = new Array();
+    var searchList = function(){
+        $('.ms-optgroup li').each(function(){
+            if($(this).hasClass('ms-selected')){
+                if(!siEsta(temp,$(this).children().html()))
+                    temp.push($(this).children().html());
+            }
+        });
+        return temp;
+    }
+
+    //buscar elemento for insertion sin repetir
+    function siEsta(array,elem){
+        var esta = false;
+        for(i = 0;i<array.length && !esta;i++){
+            if(array[i]=== elem){
+                esta = true;
+            }
+        }
+        return esta;
+    }
+    var validateDato = function(){
+        if($('#txt_title').val()===''){
+            $(this).focus();
+            return false;
+        }
+        if($('#txt_cig').val()===''){
+            $(this).focus();
+            return false;
+        }
+        if($('#txt_cupf').val()===''){
+            $(this).focus();
+            return false;
+        }
+        if($('#txt_capteam').val()===''){
+            $(this).focus();
+            return false;
+        }
+        return true;
+
+    }
+    </script>
+
+{% endblock %}

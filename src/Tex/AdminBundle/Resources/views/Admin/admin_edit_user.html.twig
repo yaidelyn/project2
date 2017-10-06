@@ -1,0 +1,267 @@
+{% extends '::backend.html.twig' %}
+{% block title %}Edit User{% endblock %}
+  {%  block stylesheets %}
+      {{ parent() }}
+  {%  endblock %}
+    {% block aside %}
+      <input type="hidden" id="iduser" value="{{ datacustom.iduser }}">
+      <div class="row">
+          <aside class="col-lg-12">
+              <!---Profile Info-->
+              <section class="panel">
+                  <h2 class="register-heading">Profile Info</h2>
+                  <div class="panel-body bio-graph-info">
+                      <form class="form-horizontal" role="form">
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">First Name</label>
+                              <div class="col-lg-8">
+                                  <input type="text" name="name" id="txt_name" class="form-control" value="{{ datacustom.firtname }}">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Last Name</label>
+                              <div class="col-lg-8">
+                                  <input type="text" name="lastname" id="txt_lastname" class="form-control" value="{{ datacustom.lastname }}">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label  class="col-lg-2 control-label">Birthday</label>
+                              <div class="col-lg-8">
+                                  <input type="text" class="form-control" name="birthday" id="txt_birthday" data-mask="99/99/9999" value="">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Country</label>
+                              <div class="col-lg-8">
+                                  <input type="text" name="country" id="txt_country" class="form-control" value="{{ user.country }}">
+                              </div>
+                          </div>
+						   <div class="form-group">
+                              <label class="col-lg-2 control-label">City</label>
+                              <div class="col-lg-8">
+                                  <input type="text" name="city" id="txt_city" class="form-control" value="{{ user.ciudad }}">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Email</label>
+                              <div class="col-lg-8">
+                                  <input type="email" name="email" id="txt_email" class="form-control" value="{{ datacustom.email }}">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Phone</label>
+                              <div class="col-lg-8">
+                                  <input type="text" name="phone" id="txt_phone" class="form-control" value="{{ datacustom.phone }}">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Mobile</label>
+                              <div class="col-lg-8">
+                                  <input type="text" name="mobile" id="txt_mobile" class="form-control" value="{{ datacustom.mobile }}">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Address</label>
+                              <div class="col-lg-8">
+                                  <textarea class="form-control textarea" id="txt_address" name="address" cols="60" rows="5">{{ datacustom.address }}</textarea>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Job-related skills</label>
+                              <div class="col-lg-8">
+                                  <input type="text" id="skills" class="form-control" value="{{user.skills}}">
+                              </div>
+                          </div>
+                         <div class="form-group">
+                              <label class="col-lg-2 control-label">Categorie</label>
+                              <div class="col-lg-8">
+                                  <select name="txt_category" id="txt_category" class="form-control">
+                                      {% for item in categories %}
+                                          <option {{ item.selected }} value="{{ item.id }}">{{ item.name }}</option>
+                                      {% endfor %}
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Roles</label>
+                              <div class="col-lg-8">
+                                  <select name="role" id="idrol" class="form-control">
+                                      {% for item in datos.roles %}
+                                          <option {{ item.selected }} value="{{ item.id_rol }}" >{{ item.value }}</option>
+                                      {% endfor %}
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <div class="col-lg-offset-2 col-lg-10">
+                                  <button type="button" class="btn btn-info" id="btn-ok-prof">Save</button>
+                                  <button type="button" class="btn btn-default">Cancel</button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </section>
+              <!--End Profile Info-->
+              <!--Formation User-->
+              <!--section class="panel">
+                  <h2 class="register-heading">Formation Info</h2>
+                  <div class="panel-body bio-graph-info">
+                      <form role="form" enctype="multipart/form-data" class="form-horizontal">
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Occupation</label>
+                              <div class="col-lg-8">
+                                  <input type="text" value="Analista" class="form-control" id="txt_occupation" name="occupation">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Education</label>
+                              <div class="colleft">
+                                  <div class="col-lg-4 col1199_4">
+                                      <input type="text" value="Ing. Informatico" class="form-control" id="txt_education" name="education">
+                                  </div>
+                                  <div class="col-lg-2 col1199_2">
+                                      <input type="text" value="02/09/2003" placeholder="Start" data-mask="99/99/9999" class="form-control" id="txt_start" name="start">
+                                  </div>
+                                  <div class="col-lg-2 col1199_2">
+                                      <input type="text" value="19/07/2008" placeholder="End" data-mask="99/99/9999" class="form-control" id="txt_end" name="end">
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Abstract</label>
+                              <div class="col-lg-8">
+                                  <textarea rows="5" cols="60" id="txt_abstract" name="abstract" class="form-control textarea">Ekssddkdsñdsdñsd</textarea>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Job-related skills</label>
+                              <div class="col-lg-8">
+                                  <input type="text" value="c++, js, html5" class="form-control" id="skills" style="display: none;"><div class="tagsinput form-control" id="skills_tagsinput" style="height: 100%;"><span class="tag"><span>c++&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><span class="tag"><span>js&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><span class="tag"><span>html5&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><div id="skills_addTag" class="tagsinput-add-container"><div class="tagsinput-add"></div><input data-default="" value="" id="skills_tag" style="color: rgb(102, 102, 102); width: 7px;"></div></div>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Upload CV</label>
+                              <div class="col-lg-8">
+                                  <div class="row">
+                                      <div class="col-lg-8 col1199_6">
+                                          <input type="text" readonly="" class="form-control" id="mfile" name="mfile" value="guia_config_red_opensuse.pdf">
+                                      </div>
+                                      <div class="col-lg-4 col1199_2">
+                                          <div class="btnfile">
+                                              <a href="javascript:;" class="btn btn-primary btn-file">
+                                                  Choose File...
+                                                  <input type="file" onchange="$('#mfile').val($(this).val());" name="file_source" class="mfile">
+                                              </a>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <input type="hidden" value="0" id="id_formation">
+                          <input type="hidden" value="0" id="id_skill">
+                          <div class="form-group">
+                              <div class="col-lg-offset-2 col-lg-10">
+                                  <button class="btn btn-info" id="btn-ok-form" type="button">Save</button>
+                                  <button class="btn btn-default" type="button">Cancel</button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </section-->
+              <!--End Formation User-->
+          </aside>
+      </div>
+    {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('web/bundles/backend/js/input-mask.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/jquery.tagsinput.js')}}"></script>
+	 <script src="{{asset('web/bundles/backend/js/jquery.blockUI.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/jquery.bootpag.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/JAlert/jquery.ui.draggable.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/JAlert/jquery.alerts.mod.js')}}"></script>
+    <script>
+        $(function(){
+
+            options = "";
+            $('#skills').tagsInput(options);
+
+            $('#btn-ok-prof').click(function(){
+
+                var data = {
+                    iduser: $('#iduser').val(),
+                    name: $('#txt_name').val(),
+                    lastname: $('#txt_lastname').val(),
+                    birthday: $('#txt_birthday').val(),
+                    country: $('#txt_country').val(),
+                    city: $('#txt_city').val(),
+                    email: $('#txt_email').val(),
+                    phone: $('#txt_phone').val(),
+                    mobile: $('#txt_mobile').val(),
+                    address:$('#txt_address').val(),
+                    category:$('#txt_category').val(),
+                    rol:$('#idrol').val()
+                };
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{path('admin_update_profile')}}",
+                    data:{data:data},
+                    dataType:"json",
+                    success: function(result) {
+                        if(result.code == 1){
+                            alert('Okkkkkk!!!');
+                        }
+                    }
+                });
+            });
+
+
+            //update formation
+          /*  $('#btn-ok').click(function(e){
+
+                e.preventDefault();
+                var fd = new FormData();
+                var file = $(document).find('input[type="file"]');
+
+                var individual_file = file[0].files[0];
+
+
+                fd.append('ocupation',$('#txt_occupation').val());
+                fd.append('education',$('#txt_education').val());
+                fd.append('start_date',$('#txt_start').val());
+                fd.append('end_date',$('#txt_end').val());
+                fd.append('abtract',$('#txt_abstract').val());
+                fd.append('skill',searchSkills());
+                fd.append("file", individual_file);
+
+                //alert(searchSkills().length);
+                /* var data = {
+                 ocupation: $('#txt_occupation').val(),
+                 education: $('#txt_education').val(),
+                 start_date: $('#txt_start').val(),
+                 end_date: $('#txt_end').val(),
+                 abtract: $('#txt_abstract').val(),
+                 curriculum: $('#mfile').val(),
+                 skill: searchSkills()
+                 };
+
+                $.ajax({
+                    type: "POST",
+                    url: "",
+                    data:fd,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        console.log(response);
+                        if(response.code == 1){
+                            //alert('Okkkkkk!!!');
+                        }
+                    }
+                });
+            });*/
+
+        });
+    </script>
+{% endblock %}

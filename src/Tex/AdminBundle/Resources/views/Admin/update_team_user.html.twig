@@ -1,0 +1,120 @@
+{% extends '::backend.html.twig' %}
+{% block title %}Update Team User{% endblock %}
+  {%  block stylesheets %}
+      {{ parent() }}
+      <link href="{{asset('bundles/backend/assets/jquery-multi-select/css/multi-select.css') }}" rel="stylesheet" />
+  {%  endblock %}
+{% block aside %}
+<div class="row">
+    <aside class="profile-info col-lg-12">
+        <section class="panel">
+            <h2 class="register-heading">Update Team User</h2>
+            <div class="panel-body bio-graph-info">
+                <form class="form-horizontal" action="{{path('update_team_user',{'id':2}) }}" role="form" method="post">
+                    <input type="hidden" id="user_id" value="{{ user_id }}">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Name Team</label>
+                            <div class="col-lg-9">
+                                <select id="team_name" name="txt_name" class="form-control">
+                                    <option>-----</option>
+                                    {% for item in datos.team %}
+                                        <option value="{{ item.idteam }}">{{ item.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Team Leader</label>
+                            <div class="col-lg-9">
+                                <select name="user_leader" id="user_leader" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <button id="btn_save" type="button" class="btn btn-info">Save</button>
+                                <button type="button" class="btn btn-default">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </aside>
+</div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+<!--script for this page-->
+<script type="text/javascript" src="{{asset('bundles/backend/assets/jquery-multi-select/js/jquery.multi-select.js')}}"></script>
+<script type="text/javascript" src="{{asset('bundles/backend/assets/jquery-multi-select/js/jquery.quicksearch.js')}}"></script>
+<script>
+    $(function(){
+
+
+        $("#user_leader").prop('disabled', 'disabled');
+
+        //load option user leader
+        $('#team_name').change(function(){
+            var value = $(this).val();
+            //alert(value);
+            var url = "{{ path('leader_per_id',{'id':'text1'})}}";
+            url = url.replace("text1", value);
+            var html= "";
+            $.ajax({
+                type: "POST",
+                url: url,
+                data:{},
+                dataType:"json",
+                success: function(response) {
+
+                    $('#user_leader').html("");
+                        html+='<option value="'+response.data.id+'">'+response.data.name+'</option>';
+                    //alert(response.mensaje);
+                    $('#user_leader').html(html);
+                  // $("#user_leader").removeAttr('disabled');
+
+                }
+            });
+
+
+        });
+
+        //save information
+        $('#btn_save').click(function(){
+            var data = {
+                id_team: $('#team_name').val()
+
+            }
+            var val_user = $('#user_id').val();
+            //alert(value);
+            var url = "{{ path('update_team_user',{'id':'text'})}}";
+            url = url.replace("text", val_user);
+           $.ajax({
+                type: "POST",
+                url: url,
+                data:{data:data},
+                dataType:"json",
+                success: function(response) {
+
+                    alert(response.mensaje);
+                   // $('#description').val("");
+                    //$('#txt_name').val()
+
+                }
+            });
+
+        });
+
+
+//multiselect end
+    });
+
+
+
+</script>
+{% endblock %}
+

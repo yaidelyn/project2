@@ -1,0 +1,136 @@
+{% extends '::backend.html.twig' %}
+{% block title %}Add Opere{% endblock %}
+  {%  block stylesheets %}
+      {{ parent() }}
+  {%  endblock %}
+    {% block aside %}
+        <div class="row">
+            <aside class="profile-info col-lg-12">
+                <section class="panel">
+                    <h2 class="register-heading">Create Opere</h2>
+                    <div class="panel-body bio-graph-info">
+                        <form class="form-horizontal" role="form">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Category</label>
+                                    <div class="col-lg-9">
+                                        <select name="category" id="category" class="form-control">
+                                            <option>------</option>
+                                            {% for item in datos.category %}
+                                                <option value="{{ item.id }}">{{ item.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">SubCategory Opere</label>
+                                    <div class="col-lg-9">
+                                        <select name="subcategory" id="subcategory" class="form-control">
+                                            <option>------</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Code</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" name="title" id="txt_code" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Gradi</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" name="title" id="gradi" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-12 control-label">Identificazione</label>
+                                    <div class="col-lg-12">
+                                        <textarea class="form-control textarea" id="identificazione" name="description" cols="60" rows="5" required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        <button id="btn_save" type="button" class="btn btn-info">Save</button>
+                                        <button type="button" class="btn btn-default">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </aside>
+        </div>
+    {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function(){
+
+            $('#category').change(function(){
+
+                // alert($(this).val());
+                var id = $(this).val();
+                // alert(id);
+                var html= "";
+                $.ajax({
+                    type: "POST",
+                    url: "{{path('categ_per_id')}}",
+                    data:{id:id},
+                    dataType:"json",
+                    success: function(response) {
+
+                        $('#subcategory').html("");
+
+                        $.each(response.result,function(i,value){
+                            html+='<option value="'+value.id+'">'+value.description+'</option>'
+                        });
+                        //alert('OKKK!!!');
+
+                        $('#subcategory').html(html);
+                    }
+                });
+
+            });
+
+
+            //onclick button
+            $('#btn_save').click(function(){
+                var data = {
+                    subcategory: $('#subcategory').val(),
+                    code: $('#txt_code').val(),
+                    identificazione:$('#identificazione').val(),
+                    gradi: $('#gradi').val()
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{path('create_opere')}}",
+                    data:{data:data},
+                    dataType:"json",
+                    success: function(response) {
+                        alert('Ha inserito correttamente el Opere');
+                        //location.reload();
+                    }
+                });
+
+
+
+            });
+            //end onclick button
+
+
+
+
+
+
+        });
+
+    </script>
+
+{% endblock %}

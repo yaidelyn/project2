@@ -1,0 +1,281 @@
+{% extends '::frontend.html.twig' %}
+{% block title %}{{ category }}{% endblock %}
+  {%  block stylesheets %}
+    {{ parent() }}
+	<link href="{{asset('web/bundles/backend/css/style-index.css')}}" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/assets/bootstrap-datepicker/css/datepicker.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/assets/bootstrap-timepicker/compiled/timepicker.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/assets/bootstrap-colorpicker/css/colorpicker.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/assets/bootstrap-daterangepicker/daterangepicker-bs3.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/assets/bootstrap-datetimepicker/css/datetimepicker.css')}}" />
+  
+    <style>
+          a{
+              cursor:pointer;
+          }
+          .tree ul {
+              list-style: none outside none;
+          }
+          .tree li a {
+              line-height: 25px;
+          }
+          .tree > ul > li > a {
+              color: #3B4C56;
+              display: block;
+              font-weight: normal;
+              position: relative;
+              text-decoration: none;
+          }
+          .tree li.parent > a {
+              padding: 0 0 0 28px;
+          }
+          .tree li.parent > a:before {
+              background-image: url("../images/plus_minus_icons.png");
+              background-position: 25px center;
+              content: "";
+              display: block;
+              height: 21px;
+              left: 0;
+              position: absolute;
+              top: 2px;
+              vertical-align: middle;
+              width: 23px;
+          }
+          .tree ul li.active > a:before {
+              background-position: 0 center;
+          }
+          .tree ul li ul {
+              /* border-left: 1px solid #D9DADB;*/
+              display: none;
+              margin: 0 0 0 12px;
+              overflow: hidden;
+              padding: 0 0 0 25px;
+          }
+          .tree ul li ul li {
+              position: relative;
+          }
+          /*.tree ul li ul li:before {
+              border-bottom: 1px dashed #E2E2E3;
+              content: "-";
+              left: -20px;
+              position: absolute;
+              top: 12px;
+              width: 15px;
+          }*/
+          #wrapper {
+              margin: 0 auto;
+              width: 300px;
+          }
+		   .actionsubcat{
+              background: #F77B6F;
+              color: #fff;!important;
+          }
+      </style>
+  {%  endblock %}
+{% block javascripts %}
+    {{ parent() }}
+	<script type="text/javascript" src="{{asset('web/bundles/backend/assets/bootstrap-datepicker/js/bootstrap-datepicker.js')}}"></script>
+    <script type="text/javascript" src="{{asset('web/bundles/backend/assets/bootstrap-datepicker/js/bootstrap-datepicker.js')}}"></script>
+    <script type="text/javascript" src="{{asset('web/bundles/backend/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js')}}"></script>
+    <script type="text/javascript" src="{{asset('web/bundles/backend/assets/bootstrap-daterangepicker/moment.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('web/bundles/backend/assets/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+    <script>
+        $(function(){
+		
+		 $(".form_datetime-component").datetimepicker({format: 'yyyy-mm-dd hh:mm:ss'});
+            var idoffer;
+			    //Menu Tree
+            $( '.tree li' ).each( function() {
+                if( $( this ).children( 'ul' ).length > 0 ) {
+                    $( this ).addClass( 'parent' );
+                }
+            });
+
+            $( '.tree li.parent > a' ).click( function( ) {
+                $( this ).parent().toggleClass( 'active' );
+                $( this ).parent().children( 'ul' ).slideToggle( 'fast' );
+            });
+			
+			 $( "ul.subcateg li" )
+                    .mouseover(function() {
+                        $(this).addClass('actionsubcat');
+                        //alert('Holaaa');
+                      //  $( "p:first", this ).text( "mouse out" );
+                        //$( "p:last", this ).text( ++i );
+                    })
+                    .mouseout(function() {
+                        $(this).removeClass('actionsubcat');
+                        //alert('Ciaooo');
+                       //$( "p:first", this ).text( "mouse over" );
+            });
+			 //recorrer todas las subcategorias
+            $("ul.subcateg li").each(function(){
+                $(this).click(function(){
+
+                    var value = $(this).attr('id');
+                    var id_category = $(this).parent().attr('id');
+                    var url = "{{ path('offer_for_subcategory',{'id_category':'text1','id_subcategory': 'text2'})}}";
+                    url = url.replace("text1", id_category);
+                    url = url.replace("text2", value);
+                   // alert(url);
+                    window.location.href = url;
+                });
+            });
+			 //btn-display
+            $('#btn-display').click(function(){
+                $('#form-sagnalazione').css('display','block');
+            });
+        });
+    </script>
+{% endblock %}
+{% block bodypage %}
+    <!--breadcrumbs start-->
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-sm-4">
+                    <h1>{{ category }}</h1>
+                </div>
+                <div class="col-lg-8 col-sm-8">
+                    <ol class="breadcrumb pull-right">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Pages</a></li>
+                        <li class="active">Contact</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--breadcrumbs end-->
+    <!--container start-->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+             {% if datos.garas is defined  %}
+                {% for item in datos.garas %}
+                <div class="blog-item">
+                    <div class="row">
+                        <div class="col-lg-12 oportunity">
+                            <h1>{{ item.title }}</h1>
+                            <p id="pdescription">{{ item.objetive }}</p>
+                            <!--budget-->
+                            <div class="blog-side-item">
+                                <div class="tags">
+                                    <h3>Importo: <span class="value">${{ item.importe }}</span></h3>
+                                </div>
+                            </div>
+                            <!--End budget-->
+                            <!--Skills-->
+                            <div class="blog-side-item dskills">
+                                <div class="tags">
+                                    <h3>Figure:
+                                    <ul class="list-unstyled tag">
+                                        {% for data in item.figures %}
+                                        <li>
+                                            <a href="#">{{ data.name_figure }}</a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul></h3>
+                                </div>
+                            </div>
+                            <!--End Skills-->
+                                {% if  datos.login == 1 %}
+                                    <a id="{{ item.id }}" class="btn btn-danger open-news"  href="{{ path('execute_gara',{'id':item.id}) }}">{% trans %}Candidati{% endtrans %}</a>
+                                {% else %}
+                                    <a class="btn btn-danger" data-toggle="modal" href="{{path('Base_site',{'offer': {'id':item.id}})}}">{% trans %}Candidati{% endtrans %}</a>
+                                {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+               {% endif %}
+            </div>
+             <div class="col-lg-4">
+                <div class="btn-toolbar">
+                    <div class="btn-group stackControls">
+                        <input id="btn-display" class="btn btn-info" style="width: 100%;top: -20px;" value="Segnala una gara di tuo interesse!!" type="button">
+                        <!--input class="btn btn-danger" value="Without stacking" type="button"-->
+                    </div>
+                    <div class="space5"></div>
+                </div>
+                <section id="form-sagnalazione" class="panel" style="display: none;">
+                    <header class="panel-heading">
+                       Segnalazione Gara
+                    </header>
+                    <div class="panel-body" style="background: #f1f2f7;">
+                        <form role="form" method="post" action="{{ path('send_form_gara') }}">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Nome e Cognome</label>
+                                <input class="form-control" name="name" id="name" placeholder="Enter email" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Email</label>
+                                <input class="form-control" name="email" id="email" placeholder="Email" type="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Cellulare</label>
+                                <input class="form-control" name="cell" id="cell" placeholder="Cellulare" type="tel">
+                            </div>
+                            <div class="form-group">
+                                <p class="help-block">*Di cosa hai bisogmo?</p>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input name="requisiti" type="checkbox"> Requisiti
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input name="componentidelteam" type="checkbox"> Componenti del Team
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input name="coordinamento" type="checkbox"> Coordinamento
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input name="altro" type="checkbox"> Altro
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <textarea  class="form-control" placeholder="*Titolo del bando di gara ed ente appaltante" id="title" name="title" cols="60" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" name="riferimento" id="ref" placeholder="Riferimento al bando" type="tex">
+                            </div>
+                            <div class="form-group">
+                                <select id="tipologia" name="tipologia" class="form-control">
+                                    <option>-Seleziona la tipologia gara-</option>
+                                    {% for item in tipologias %}
+                                        <option value="{{ item.id }}">{{ item.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label"> Scadenza della gara</label>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-6" style="width: 85%">
+                                    <div class="input-group date form_datetime-component">
+                                        <input type="text" name="scadenza_gara" id="scadenza_gara" class="form-control" readonly="" size="16">
+                                            <span class="input-group-btn">
+                                            <button type="button" class="btn btn-danger date-set"><i class="fa fa-calendar"></i></button>
+                                            </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height: 50px;"></div>
+                            <div class="form-group">
+                                <textarea class="form-control" placeholder="Informazione aggiuntive" id="informazione" name="title" cols="60" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-info">Invia</button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!--container end-->
+{% endblock %}

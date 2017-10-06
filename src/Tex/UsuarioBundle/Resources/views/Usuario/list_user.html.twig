@@ -1,0 +1,222 @@
+{% extends '::backend.html.twig' %}
+{% block title %}List Users{% endblock %}
+  {%  block stylesheets %}
+     {{ parent() }}
+<style>
+	#page_navigation{
+		text-align:center;
+	}
+	#page_navigation a{
+		padding:3px;
+		border:1px solid gray;
+		margin:2px;
+		color:black;
+		text-decoration:none
+	}
+	.active_page{
+		background:darkblue;
+		color:white !important;
+	}
+</style>
+ {%  endblock %}
+   {% block aside %}
+      <div class="row">
+        <aside class="col-lg-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    Search by:
+                </header>
+                <div class="panel-body">
+                    <form action="{{ path('search_user') }}" class="form-inline" id="default" method="post">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <input type="text" name="name" id="txt_name" class="form-control" placeholder="Name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="occupation" id="txt_occupation" class="form-control" placeholder="Title">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="skill" id="txt_skill" class="form-control" placeholder="Skill">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="country" id="txt_country" class="form-control" placeholder="Country">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="city" id="txt_city" class="form-control" placeholder="City">
+                                </div>
+                                <div class="form-group">
+                                    <select name="category" id="id_category" class="form-control">
+                                        <option>------</option>
+                                        <option value="1">Professional Junior</option>
+                                        <option value="2">Professional Senior</option>
+                                        <option value="3">Volunteer</option>
+                                        <option value="4">Supporter</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row rowbtnsearch">
+                            <button type="submit" class="btn btn-info btnsearch">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </aside>
+      </div>
+      <div class="row">
+          <aside class="col-lg-12">
+              <section class="panel">
+                <div class="panel-body">
+                  <div id='content' class="gallery-view">
+                      {% for dato in users %}
+                    <div  class="col-lg-4 user-details">
+                      <a href="{{path('view_profile')}}?id={{ dato.iduser }}">
+                        {% if (dato.avatar) %}
+                          <img style="border-radius: 50%;" src="{{asset('web/bundles/backend/img/avatars/large')}}/{{dato.avatar}}" class="avatar-view">
+                        {% else %}
+                          <img style="border-radius: 50%;" src="{{asset('web/bundles/backend/img/profile-avatar.jpg')}}" class="avatar-view">
+                        {% endif %}
+                      </a>
+                      <div class="info-view">
+                        <h4>{{ dato.fullname }}</h4>
+                        <div class="text-span">
+                          <span><strong>Occupation: </strong>{{ dato.occupation }}</span>
+                          <br>
+                          <span><strong>Rol: </strong>{{ dato.rol }}</span><br>
+                          <span><strong>Email: </strong>{{ dato.email }}</span><br>
+                          <span><strong>Location: </strong>{{ dato.location }}</span><br>
+						   {% if is_granted('ROLE_ADMIN') %}
+                            <div class="btn-group" style="margin-left: 88px;">
+                              {% if dato.team %}
+                                  <strong>Team: </strong>{{ dato.team }}
+                              {% else %}
+                                      <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn-sm" type="button">Team <span class="caret"></span></button>
+                                      <ul role="menu" class="dropdown-menu">
+                                          <li><a href="{{path('add_team')}}">New Team</a></li>
+                                          <li><a href="{{path('update_team_user',{'id': dato.iduser})}}">Another Team</a></li>
+                                      </ul>
+                              {% endif %}
+                          </div>
+						  {% endif %}
+                        </div>
+                      </div>
+                      <a href="{{path('view_profile')}}?id={{ dato.iduser }}">
+                          <button class="btn btn-success" type="button"><i class="fa fa-eye"></i> View </button>
+                      </a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{path('admin_edit_user',{'id':dato.iduser} )  }}">
+                                <button class="btn btn-info " type="button"><i class="fa fa-refresh"></i> Edit</button>
+                            </a>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{path('admin_delete_user',{'id':dato.iduser} )  }}">
+                                <button class="btn btn-danger" type="button"><i class="fa fa-times"></i></i> Delete</button>
+                            </a>
+                        {% endif %}
+                    </div>
+                      {% endfor %}
+                  </div>
+				  <div id='page_navigation'></div>
+				  	<!-- the input fields that will hold the variables we will use -->
+				<input type='hidden' id='current_page' />
+				<input type='hidden' id='show_per_page' />
+                </div>
+              </section>
+          </aside>
+      </div>      
+   {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <!--script for this page-->
+    <!--<script src="{{asset('web/bundles/backend/js/input-mask.js')}}"></script> -->
+    <script>
+	$(document).ready(function(){
+	
+	//how much items per page to show
+	var show_per_page = 9; 
+	//getting the amount of elements inside content div
+	var number_of_items = $('#content').children().size();
+	if(number_of_items <=show_per_page){
+		$('#page_navigation').css('display','none');
+		
+	}
+	//calculate the number of pages we are going to have
+	//var number_of_pages = Math.ceil(number_of_items/show_per_page);
+	var number_of_pages = 20;
+	
+	//set the value of our hidden input fields
+	$('#current_page').val(0);
+	$('#show_per_page').val(show_per_page);
+	
+	//now when we got all we need for the navigation let's make it '
+	
+	/* 
+	what are we going to have in the navigation?
+		- link to previous page
+		- links to specific pages
+		- link to next page
+	*/
+	var navigation_html = '<a class="previous_link" href="javascript:previous();">Prev</a>';
+	var current_link = 0;
+	while(number_of_pages > current_link){
+		navigation_html += '<a class="page_link" href="javascript:go_to_page(' + current_link +')" longdesc="' + current_link +'">'+ (current_link + 1) +'</a>';
+		current_link++;
+	}
+	navigation_html += '<a class="next_link" href="javascript:next();">Next</a>';
+	
+	$('#page_navigation').html(navigation_html);
+	
+	//add active_page class to the first page link
+	$('#page_navigation .page_link:first').addClass('active_page');
+	
+	//hide all the elements inside content div
+	$('#content').children().css('display', 'none');
+	
+	//and show the first n (show_per_page) elements
+	$('#content').children().slice(0, show_per_page).css('display', 'block');
+	
+});
+
+function previous(){
+	
+	new_page = parseInt($('#current_page').val()) - 1;
+	//if there is an item before the current active link run the function
+	if($('.active_page').prev('.page_link').length==true){
+		go_to_page(new_page);
+	}
+	
+}
+
+function next(){
+	new_page = parseInt($('#current_page').val()) + 1;
+	//if there is an item after the current active link run the function
+	if($('.active_page').next('.page_link').length==true){
+		go_to_page(new_page);
+	}
+	
+}
+function go_to_page(page_num){
+	//get the number of items shown per page
+	var show_per_page = parseInt($('#show_per_page').val());
+	
+	//get the element number where to start the slice from
+	start_from = page_num * show_per_page;
+	
+	//get the element number where to end the slice
+	end_on = start_from + show_per_page;
+	
+	//hide all children elements of content div, get specific items and show them
+	$('#content').children().css('display', 'none').slice(start_from, end_on).css('display', 'block');
+	
+	/*get the page link that has longdesc attribute of the current page and add active_page class to it
+	and remove that class from previously active page link*/
+	$('.page_link[longdesc=' + page_num +']').addClass('active_page').siblings('.active_page').removeClass('active_page');
+	
+	//update the current page input field
+	$('#current_page').val(page_num);
+}
+	
+
+    </script>
+{% endblock %}

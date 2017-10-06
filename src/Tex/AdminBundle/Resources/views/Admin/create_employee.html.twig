@@ -1,0 +1,157 @@
+{% extends '::backend.html.twig' %}
+{% block title %}Create Employee{% endblock %}
+  {%  block stylesheets %}
+      {{ parent() }}
+  {%  endblock %}
+    {% block aside %}
+        <div class="register">
+            <div class="col-lg-12">
+                <section class="panel">
+                    <h2 class="register-heading">Create User</h2>
+                    <div class="panel-body">
+                        <div class="stepy-tab">
+                            <ul id="default-titles" class="stepy-titles clearfix">
+                                <li id="default-title-0" class="current-step">
+                                    <div>Step 1</div>
+                                </li>
+                                <li id="default-title-1" class="">
+                                    <div>Step 2</div>
+                                </li>
+                                <li id="default-title-2" class="">
+                                    <div>Step 3</div>
+                                </li>
+                            </ul>
+                        </div>
+                       <form action="{{ path('create_user') }}" class="form-horizontal" id="default" method="post">
+                               <div class="form-group">
+                                   <label class="col-lg-3 control-label">Email</label>
+                                   <div class="col-lg-6">
+                                       <input type="email" name="email" id="txt_email" class="form-control" required>
+                                   </div>
+                               </div>
+                               <div class="form-group">
+                                   <label class="col-lg-3 control-label">Password</label>
+                                   <div class="col-lg-6">
+                                       <input type="password" name="password" id="txt_pasword" class="form-control" required>
+                                   </div>
+                               </div>
+                           <input type="submit" class="finish btn btn-danger" value="Inviare"/>
+                       </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+    {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <!--script for this page-->
+    <script src="{{ asset('web/bundles/backend/js/jquery.stepy.js')}}"></script>
+    <script>
+        //step wizard
+        $(function() {
+            $('#default').stepy({
+                backLabel: 'Previous',
+                block: true,
+                nextLabel: 'Next',
+                titleClick: true,
+                titleTarget: '.stepy-tab'
+            });
+            //Limpiar formulario
+            $("#txt_name").val('');
+            $("#txt_lastname").val('');
+            $("#txt_country").val('');
+            $("#txt_email").val('');
+            $("#txt_phone").val('');
+            $("#txt_mobile").val('');
+            $("#txt_address").val('');
+            //Validaciones
+            $("#default-next-0").click(function(){
+                if ($("#txt_pasword").val() != $("#txt_repasword").val()){
+                    $("#default-title-0").click();
+                    alert("Password not match");
+                }
+                if ($("#txt_repasword").val().trim() == ''){
+                    $("#default-title-0").click();
+                    $("#txt_repasword").focus();
+                }
+                if ($("#txt_pasword").val().trim() == ''){
+                    $("#default-title-0").click();
+                    $("#txt_pasword").focus();
+                }
+                if ($("#txt_email").val().trim() == ''){
+                    $("#default-title-0").click();
+                    $("#txt_email").focus();
+                }
+                if ($("#txt_country").val().trim() == ''){
+                    $("#default-title-0").click();
+                    $("#txt_country").focus();
+                }
+                if ($("#txt_lastname").val().trim() == ''){
+                    $("#default-title-0").click();
+                    $("#txt_lastname").focus();
+                }
+                if ($("#txt_name").val().trim() == ''){
+                    $("#default-title-0").click();
+                    $("#txt_name").focus();
+                }
+            });
+
+            $("#default-title-1").click(function(){
+                if ($("#txt_pasword").val() != $("#txt_repasword").val()){
+                    $("#default-title-0").click();
+                    alert("Password not match");
+                }
+                if ($("#txt_repasword").val().trim() == ''){
+                    $("#default-title-0").click();
+                    $("#txt_repasword").focus();
+                }
+                if ($("#txt_pasword").val().trim() == ''){
+                    $("#default-title-0").click();
+                    $("#txt_pasword").focus();
+                }
+                if ($("#txt_email").val().trim() == ''){
+                    $("#default-title-0").click();
+                    $("#txt_email").focus();
+                }
+                if ($("#txt_country").val().trim() == ''){
+                    $("#default-title-0").click();
+                    $("#txt_country").focus();
+                }
+                if ($("#txt_lastname").val().trim() == ''){
+                    $("#default-title-0").click();
+                    $("#txt_lastname").focus();
+                }
+                if ($("#txt_name").val().trim() == ''){
+                    $("#default-title-0").click();
+                    $("#txt_name").focus();
+                }
+            });
+
+
+            $("#default-next-1").click(function(){
+                if ($("#txt_address").val().trim() == ''){
+                    $("#default-title-1").click();
+                    $("#txt_address").focus();
+                }
+                $("#prev-fullname").text($("#txt_name").val()+" "+$("#txt_lastname").val());
+                $("#prev-country").text($("#txt_country").val());
+                $("#prev-email").text($("#txt_email").val());
+                $("#prev-phone").text($("#txt_phone").val());
+                $("#prev-mobile").text($("#txt_mobile").val());
+                $("#prev-address").text($("#txt_address").val());
+            });
+
+            $("#default-title-2").click(function(){
+                $("#prev-fullname").text($("#txt_name").val()+" "+$("#txt_lastname").val());
+                $("#prev-country").text($("#txt_country").val());
+                $("#prev-email").text($("#txt_email").val());
+                $("#prev-phone").text($("#txt_phone").val());
+                $("#prev-mobile").text($("#txt_mobile").val());
+                $("#prev-address").text($("#txt_address").val());
+            });
+            //Creacion del usuario en la BD
+
+        });
+    </script>
+{% endblock %}

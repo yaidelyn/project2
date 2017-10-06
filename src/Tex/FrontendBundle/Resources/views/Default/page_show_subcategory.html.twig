@@ -1,0 +1,273 @@
+{% extends '::frontend.html.twig' %}
+{% block title %}{{ title_page }}{% endblock %}
+  {%  block stylesheets %}
+    {{ parent() }}
+  <link href="{{asset('bundles/backend/css/style-index.css')}}" rel="stylesheet">
+    <style>
+          a{
+              cursor:pointer;
+          }
+          .tree ul {
+              list-style: none outside none;
+          }
+          .tree li a {
+              line-height: 25px;
+          }
+          .tree > ul > li > a {
+              color: #3B4C56;
+              display: block;
+              font-weight: normal;
+              position: relative;
+              text-decoration: none;
+          }
+          .tree li.parent > a {
+              padding: 0 0 0 28px;
+          }
+          .tree li.parent > a:before {
+              background-image: url("../images/plus_minus_icons.png");
+              background-position: 25px center;
+              content: "";
+              display: block;
+              height: 21px;
+              left: 0;
+              position: absolute;
+              top: 2px;
+              vertical-align: middle;
+              width: 23px;
+          }
+          .tree ul li.active > a:before {
+              background-position: 0 center;
+          }
+          .tree ul li ul {
+              /* border-left: 1px solid #D9DADB;*/
+              display: none;
+              margin: 0 0 0 12px;
+              overflow: hidden;
+              padding: 0 0 0 25px;
+          }
+          .tree ul li ul li {
+              position: relative;
+          }
+          /*.tree ul li ul li:before {
+              border-bottom: 1px dashed #E2E2E3;
+              content: "-";
+              left: -20px;
+              position: absolute;
+              top: 12px;
+              width: 15px;
+          }*/
+          #wrapper {
+              margin: 0 auto;
+              width: 300px;
+          }
+		   .actionsubcat{
+              background: #F77B6F;
+              color: #fff;!important;
+          }
+      </style>
+  {%  endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function(){
+            var idoffer;
+
+            {#$('.open-news').each(function(){#}
+                  {#$(this).click(function(e){#}
+                      {#e.preventDefault();#}
+                     {#idoffer = $(this).attr('id');#}
+                      {#//alert(idoffer);#}
+                      {#$.ajax({#}
+                          {#type:'POST',#}
+                          {#url:'{{path('show_offer')}}',#}
+                          {#data:{idoffer},#}
+                          {#dataType:'json',#}
+                          {#success: function(result) {#}
+                              {#if(result.code == 1){#}
+                                  {#$('#pdescription').text(result.text);#}
+                                  {#alert($(this).text());#}
+                              {#}#}
+                          {#}#}
+                      {#});#}
+
+
+                  {#});#}
+               {#});#}
+			   
+			    //Menu Tree
+            $( '.tree li' ).each( function() {
+                if( $( this ).children( 'ul' ).length > 0 ) {
+                    $( this ).addClass( 'parent' );
+                }
+            });
+
+            $( '.tree li.parent > a' ).click( function( ) {
+                $( this ).parent().toggleClass( 'active' );
+                $( this ).parent().children( 'ul' ).slideToggle( 'fast' );
+            });
+			
+			 $( "ul.subcateg li" )
+                    .mouseover(function() {
+                        $(this).addClass('actionsubcat');
+                        //alert('Holaaa');
+                      //  $( "p:first", this ).text( "mouse out" );
+                        //$( "p:last", this ).text( ++i );
+                    })
+                    .mouseout(function() {
+                        $(this).removeClass('actionsubcat');
+                        //alert('Ciaooo');
+                       //$( "p:first", this ).text( "mouse over" );
+            });
+			 //recorrer todas las subcategorias
+            $("ul.subcateg li").each(function(){
+                $(this).click(function(){
+
+                    var value = $(this).attr('id');
+                    var id_category = $(this).parent().attr('id');
+                    var url = "{{ path('offer_for_subcategory',{'id_category':'text1','id_subcategory': 'text2'})}}";
+                    url = url.replace("text1", id_category);
+                    url = url.replace("text2", value);
+                   // alert(url);
+                    window.location.href = url;
+                });
+            });
+        });
+    </script>
+{% endblock %}
+{% block bodypage %}
+    <!--breadcrumbs start-->
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-sm-4">
+                    <h1>{{ category }}</h1>
+                </div>
+                <div class="col-lg-8 col-sm-8">
+                    <ol class="breadcrumb pull-right">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Pages</a></li>
+                        <li class="active">Contact</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--breadcrumbs end-->
+    <!--container start-->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                {% for item in datos.offer %}
+                <div class="blog-item">
+                    <div class="row">
+                        <div class="col-lg-12 oportunity">
+                            <h1>{{ item.title }}</h1>
+                            <p id="pdescription">{{ item.description }}</p>
+                            <!--budget-->
+                        {% if item.budget > 0 %}
+                            <div class="blog-side-item">
+                                <div class="tags">
+                                    <h3>Budget: <span class="value">${{ item.budget }}</span></h3>
+                                </div>
+                            </div>
+                            <!--End budget-->
+                           {% endif %}
+                            <!--Skills-->
+                            <div class="blog-side-item dskills">
+                                <div class="tags">
+                                    <h3>Skills:
+                                    <ul class="list-unstyled tag">
+                                        {% for data in item.skill %}
+                                        <li>
+                                            <a href="#">{{ data }}</a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul></h3>
+                                </div>
+                            </div>
+                            <!--End Skills-->
+                                {% if  is_granted('ROLE_ADMIN') %}
+                                    <a id="{{ item.id }}" class="btn btn-danger open-news"  href="{{ path('show_offer',{'id':item.id}) }}">{% trans %}Continua a Leggere{% endtrans %}</a>
+                                {% else %}
+                                    <a class="btn btn-danger" data-toggle="modal" href="{{path('Base_site',{'offer': {'id':item.id}})}}">{% trans %}Continua a Leggere{% endtrans %}</a>
+                                {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-4">
+                <div class="blog-side-item">
+                    <div class="search-row">
+                        <input type="text" placeholder="Search here" class="form-control">
+                    </div>
+                    <div class="category">
+                        <h3>Categories</h3>
+                        <div class="tree">
+                                <ul class="list-unstyled">
+                                    {% for item in datos.categories %}
+                                        <li>
+                                            <a>
+                                                <i class="fa fa-angle-right"></i>
+                                                {{ item.name }}
+                                            </a>
+                                            <ul id="{{ item.id }}" class="subcateg">
+                                                {% for eleme in item.subcategory %}
+                                                    <li><a>{{ eleme.name }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--container end-->
+    <!-- modal Login-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Login to your account</h4>
+                </div>
+                <div class="modal-body">
+                       <div class="container">
+                           <div class="row">
+                               <div class="col-lg-6">
+                                   <form role="form" id="flogin" action="">
+                                       <div class="form-group">
+                                           <!--label for="exampleInputEmail1">Email</label--->
+                                           <input type="email" placeholder="Enter email" id="username" class="form-control">
+                                       </div>
+                                       <div class="form-group">
+                                           <!--label for="exampleInputEmail1">Password </label-->
+                                           <input type="password" placeholder="Enter Password" id="password" class="form-control">
+                                       </div>
+                                       <div class="col-lg-10">
+                                           <div class="checkbox">
+                                               <label>
+                                                   <input type="checkbox"> Remember me
+                                               </label>
+                                           </div>
+                                       </div>
+                                   </form>
+                                </div>
+                           </div>
+                       </div>
+                    <div class="modal-footer">
+                        <!--button data-dismiss="modal" class="btn btn-default" type="button">Close</button-->
+                        <button class="btn btn-danger" type="button">Login</button>
+                       <a href="{{ path('create_user') }}">
+                           <button id="btn-register" class="btn btn-primary" type="button">Register</button>
+                       </a>
+                    </div>
+             </div>
+        </div>
+		</div>
+    </div>
+    <!--End modal Login -->
+{% endblock %}

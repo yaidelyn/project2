@@ -1,0 +1,265 @@
+{% extends '::frontend.html.twig' %}
+{% block title %}{{ category }}{% endblock %}
+  {%  block stylesheets %}
+    {{ parent() }}
+      <!-- SELECT2 -->
+      <link href="{{asset('bundles/backend/css/style-index.css')}}" rel="stylesheet">
+      <link href="{{asset('bundles/backend/css/style.css')}}" rel="stylesheet">
+      <link href="{{asset('bundles/backend/css/style-responsive.css')}}" rel="stylesheet" />
+    <style>
+        .button-add{
+            float: right;
+            margin-right: 10px;
+        }
+    </style>
+  {%  endblock %}
+{% block javascripts %}
+        {{ parent() }}
+            <!--script for this page-->
+        <script src="{{asset('bundles/backend/js/jquery.stepcustom.js')}}"></script>
+    <script>
+        $(function(){
+
+            var array_opere = new Array();
+            $('#default').stepy({
+                backLabel: 'Previous',
+                block: true,
+                nextLabel: 'Next',
+                addLabel: 'Add',
+                titleClick: true,
+                titleTarget: '.stepy-tab'
+            });
+            //create opere
+            var arrayOpere = new Array();
+            $('.button-add').click(function(){
+                $('input[name=marked]:checked').each(function(){
+                    //alert($(this).attr('id'));
+                    arrayOpere.push({'subcategory':$('#subcategory').val(),'id_opere':$(this).attr('id')});
+                });
+                //alert(arrayOpere.length);
+            });
+            //subcategory
+            $('#subcategory').change(function(){
+                var value = $(this).val();
+                //alert(value);
+                var url = "{{ path('subcategory_opere',{'id':'text1'})}}";
+                url = url.replace("text1", value);
+
+                // alert($(this).val());
+                var id = $(this).val();
+                // alert(id);
+                var html= "";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data:{},
+                    dataType:"json",
+                    success: function(response) {
+                        $('#idopere').html("");
+                        $.each(response.result,function(i,value){
+                            html+='<div class="input-group m-bot15">' +
+                            '<span class="input-group-addon" style="background-color: #bec3c7;">' +
+                            '<input id="'+value.id+'" class="rdomark" name="marked" type="radio">' +
+                            '</span>' +
+                             ' <textarea id="opere-'+value.id+'" class="form-control textarea"' +
+                            ' disabled cols="60" rows="3">'+value.identificazione+'</textarea>'+
+                            '</div>';
+                        });
+                        //alert('OKKK!!!');
+                        $('#idopere').html(html);
+
+
+                    }
+                });
+
+            });
+            //finished
+
+            $('.finish').click(function(){
+                var idrol =  $('input[name=role_name]:checked').val();
+                var value = $('#idgara').val();
+                //alert(value);
+                var url = "{{ path('create_competencia',{'id':'text1'})}}";
+                url = url.replace("text1", value);
+                var data = {
+                    idopere:arrayOpere,
+                    idrol:idrol
+                }
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data:data,
+                    dataType:"json",
+                    success: function(response) {
+                        alert(response.mensaje);
+                        window.location.href = "{{ path('User_index') }}";
+                    }
+                });
+        });
+
+            $('input[name=role_name]').click(function(){
+               //alert($(this).html());
+            });
+
+            $("#default-next-1").click(function(){
+                $('#prev-fullname').text($('#username').val());
+                $('#prev-email').text($('#email').val());
+                $('#prev-fullname').text($('#username').val());
+
+            });
+
+
+
+        });
+    </script>
+{% endblock %}
+{% block bodypage %}
+    <!--breadcrumbs start-->
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-sm-4">
+                    <h1>{{ category }}</h1>
+                </div>
+                <div class="col-lg-8 col-sm-8">
+                    <ol class="breadcrumb pull-right">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Pages</a></li>
+                        <li class="active">Contact</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--breadcrumbs end-->
+    <!--container start-->
+    <input type="hidden" id="idgara" value="{{ idgara }}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+               <section class="panel">
+                   <header class="panel-heading panel-gara">
+                       Gara-{{ category }}
+                   </header>
+                   <div class="panel-body">
+                       <div class="stepy-tab">
+                           <ul id="default-titles" class="stepy-titles clearfix">
+                               <li id="default-title-0" class="current-step">
+                                   <div>Step 1</div>
+                               </li>
+                               <li id="default-title-1" class="">
+                                   <div>Step 2</div>
+                               </li>
+                               <li id="default-title-2" class="">
+                                   <div>Step 3</div>
+                               </li>
+                           </ul>
+                       </div>
+                       <form class="form-horizontal" id="default">
+                           <fieldset title="Step1" class="step" id="default-step-0">
+                               <legend> </legend>
+                               <div class="form-group">
+                                   <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">Select Role</label>
+                                   <div class="col-lg-10">
+                                       {% for rol in role_team %}
+                                           {% if rol.active==0 %}
+                                               <div class="checkbox">
+                                                   <label>
+                                                       <input class="name-rol" name="role_name"  value="{{ rol.id }}" type="radio"> {{ rol.name_rol }}
+                                                   </label>
+                                               </div>
+                                           {% endif  %}
+                                       {% endfor %}
+                                   </div>
+                               </div>
+                               <div class="form-group">
+                                   <label class="col-lg-2 control-label">Full Name</label>
+                                   <div class="col-lg-10">
+                                       <input type="text" id="username" value="{{ datos.user.name }}"   class="form-control" placeholder="Full Name">
+                                   </div>
+                               </div>
+                               <div class="form-group">
+                                   <label class="col-lg-2 control-label">Email Address</label>
+                                   <div class="col-lg-10">
+                                       <input type="text" id="email" value="{{ datos.user.user }}" class="form-control" placeholder="Email Address">
+                                   </div>
+                               </div>
+                               <div class="form-group">
+                                   <label class="col-lg-2 control-label">User Name</label>
+                                   <div class="col-lg-10">
+                                       <input type="text" class="form-control" placeholder="Username">
+                                   </div>
+                               </div>
+                           </fieldset>
+                           <fieldset title="Step 2" class="step" id="default-step-1" >
+                               <legend> </legend>
+                               <div class="form-group">
+                                   <label class="col-lg-2 control-label">Destinazione Funzionale</label>
+                                   <div class="col-lg-10">
+                                       <select id="subcategory" class="form-control m-bot15">
+                                           <option>-----------</option>
+                                            {% for item in subcategories %}
+                                                <option value="{{ item.id }}">{{ item.description }}</option>
+                                            {%endfor  %}
+                                       </select>
+                                   </div>
+                               </div>
+                               <div class="form-group">
+                                   <label class="col-sm-2 control-label col-lg-2" >Mark level of knowledge</label>
+                                   <div class="col-lg-10">
+                                       <div id="idopere">
+                                       </div>
+                                   </div>
+                               </div>
+                           </fieldset>
+                           <fieldset title="Step 3" class="step" id="default-step-2" >
+                               <legend> </legend>
+                               <div class="form-group">
+                                   <label class="col-lg-2 control-label">Full Name</label>
+                                   <div class="col-lg-10">
+                                       <p id="prev-fullname" class="form-control-static"></p>
+                                   </div>
+                               </div>
+                               <div class="form-group">
+                                   <label class="col-lg-2 control-label">Email Address</label>
+                                   <div class="col-lg-10">
+                                       <p id="prev-email" class="form-control-static"></p>
+                                   </div>
+                               </div>
+                               <div class="form-group">
+                                   <label class="col-lg-2 control-label">Name Gara</label>
+                                   <div class="col-lg-10">
+                                       <p  id="prev-namegara" class="form-control-static">Gara-{{ category }}</p>
+                                   </div>
+                               </div>
+                               <div class="form-group">
+                                   <label class="col-lg-2 control-label">Rol</label>
+                                   <div class="col-lg-10">
+                                       <p  id="prev-role" class="form-control-static"></p>
+                                   </div>
+                               </div>
+                               <div class="form-group">
+                                   <label class="col-lg-2 control-label">Id. Opere</label>
+                                   <div class="col-lg-10">
+                                       <p  id="prev-idopere" class="form-control-static"></p>
+                                   </div>
+                               </div>
+                               <!--div class="form-group">
+                                   <label class="col-lg-2 control-label">Address</label>
+                                   <div class="col-lg-10">
+                                       <p class="form-control-static">
+                                           Dreamland Ave, Suite 73
+                                           AU, PC 1361
+                                           P: (123) 456-7891 </p>
+                                   </div>
+                               </div-->
+                           </fieldset>
+                           <input type="button" class="finish btn btn-danger" value="Finish"/>
+                       </form>
+                   </div>
+               </section>
+            </div>
+        </div>
+    </div>
+    <!--container end-->
+{% endblock %}

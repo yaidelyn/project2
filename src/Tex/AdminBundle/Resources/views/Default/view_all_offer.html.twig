@@ -1,0 +1,82 @@
+{% extends '::backend.html.twig' %}
+{% block title %}All Offer Job{% endblock %}
+  {%  block stylesheets %}
+      {{ parent() }}
+      <link rel="stylesheet" href="{{asset('web/bundles/backend/assets/data-tables/DT_bootstrap.css')}}" />
+  {%  endblock %}
+    {% block aside %}
+        <!-- page start-->
+        <section class="panel">
+            <header class="panel-heading">
+                Offers
+            </header>
+            <div class="panel-body">
+                <div class="adv-table editable-table ">
+                    <div class="clearfix">
+                        <!--div class="btn-group">
+                            <button id="editable-sample_new" class="btn green">
+                                Add New <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                        <!--div class="btn-group pull-right">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="#">Print</a></li>
+                                <li><a href="#">Save as PDF</a></li>
+                                <li><a href="#">Export to Excel</a></li>
+                            </ul>
+                        </div-->
+                    </div>
+                    <div class="space15"></div>
+                    <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Budget</th>
+                            <th>Description</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+						{% if datos.offer is defined %}
+                        {% for item in datos.offer %}
+                        <tr class="data-table" id="{{ item.id }}">
+                            <td>{{ item.title }}</td>
+                            <td>{{ item.categoria }}</td>
+                            <td>{{ item.budget }}</td>
+                            <td>{{ item.description }}</td>
+                            <td><a class="edit" href="javascript:;">Edit</a></td>
+                            <td><a class="delete" href="javascript:;">Delete</a></td>
+                        </tr>
+                        {% endfor %}
+                        {% endif %}						
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <!-- page end-->
+
+    {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <!--script for this page-->
+    <script src="{{asset('web/bundles/backend/js/input-mask.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/jquery.tagsinput.js')}}"></script>
+    <script type="text/javascript" src="{{asset('web/bundles/backend/assets/data-tables/jquery.dataTables.js')}}"></script>
+    <script type="text/javascript" src="{{asset('web/bundles/backend/assets/data-tables/DT_bootstrap.js')}}"></script>
+    <script type="text/javascript" src="{{asset('web/bundles/backend/js/editable-table.js')}}"></script>
+
+    <script>
+        //step wizard
+        $(function() {
+
+            EditableTable.init();
+
+
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,333 @@
+{% extends '::frontend.html.twig' %}
+{% block title %}{{ datos.title }}{% endblock %}
+  {%  block stylesheets %}
+    {{ parent() }}
+    <link href="{{asset('bundles/backend/css/style-index.css')}}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/assets/bootstrap-fileupload/bootstrap-fileupload.css')}}" />
+      <style>
+          a{
+              cursor:pointer;
+          }
+          .tree ul {
+              list-style: none outside none;
+          }
+          .tree li a {
+              line-height: 25px;
+          }
+          .tree > ul > li > a {
+              color: #3B4C56;
+              display: block;
+              font-weight: normal;
+              position: relative;
+              text-decoration: none;
+          }
+          .tree li.parent > a {
+              padding: 0 0 0 28px;
+          }
+          .tree li.parent > a:before {
+              background-image: url("../images/plus_minus_icons.png");
+              background-position: 25px center;
+              content: "";
+              display: block;
+              height: 21px;
+              left: 0;
+              position: absolute;
+              top: 2px;
+              vertical-align: middle;
+              width: 23px;
+          }
+          .tree ul li.active > a:before {
+              background-position: 0 center;
+          }
+          .tree ul li ul {
+              /* border-left: 1px solid #D9DADB;*/
+              display: none;
+              margin: 0 0 0 12px;
+              overflow: hidden;
+              padding: 0 0 0 25px;
+          }
+          .tree ul li ul li {
+              position: relative;
+          }
+          /*.tree ul li ul li:before {
+              border-bottom: 1px dashed #E2E2E3;
+              content: "-";
+              left: -20px;
+              position: absolute;
+              top: 12px;
+              width: 15px;
+          }*/
+          #wrapper {
+              margin: 0 auto;
+              width: 300px;
+          }
+		   .actionsubcat{
+              background: #F77B6F;
+              color: #fff;!important;
+          }
+      </style>
+  {%  endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('web/bundles/backend/js/jquery.stepy2.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('web/bundles/backend/assets/bootstrap-fileupload/bootstrap-fileupload.js')}}"></script>
+    <script>
+	  $(function(){
+
+
+		$('#btn_ok').click(function(e) {
+
+
+			var array_question = new Array();
+			var result = new Array();
+
+			$("input[type=radio]:checked").each(function(){
+
+				//array_question = new Array({'id_question':$(this).attr('id'),'id_answer':$(this).val()});
+				array_question.push($(this).val());
+
+				//result.push(array_question);
+
+			});
+
+			//alert($('#message').val());
+			e.preventDefault();
+			var fd = new FormData();
+			var file = $(document).find('input[type="file"]');
+			var individual_file = file[0].files[0];
+			var idoffer;
+			fd.append("file", individual_file);
+			fd.append("message",$('#message').val());
+			fd.append("name_offer",$('#name_offer').val());
+			fd.append("questions",array_question);
+			fd.append("id_test",$('#id_test').val());
+
+			$.ajax({
+				type: "POST",
+				url: "{{path('upload_file_frontend')}}",
+				data: fd,
+				contentType: false,
+				processData: false,
+				success: function (response) {
+					//console.log(response);
+					if (code == 1) {
+						//alert('Okkkkkk!!!');
+					}
+				}
+			});
+		});
+
+
+		//Menu Tree
+		$( '.tree li' ).each( function() {
+			if( $( this ).children( 'ul' ).length > 0 ) {
+				$( this ).addClass( 'parent' );
+			}
+		});
+
+		$( '.tree li.parent > a' ).click( function( ) {
+			$( this ).parent().toggleClass( 'active' );
+			$( this ).parent().children( 'ul' ).slideToggle( 'fast' );
+		});
+
+		/* $( '.tree li' ).each( function() {
+		 $( this ).toggleClass( 'active' );
+		 $( this ).children( 'ul' ).slideToggle( 'fast' );
+		 });*/
+
+
+		$('#default').stepy({
+			backLabel: 'Previous',
+			block: true,
+			nextLabel: 'Next',
+			titleClick: true,
+			titleTarget: '.stepy-tab'
+		});
+
+		/*$("#default-next-0").click(function(){
+		   alert('Holaaaaaaa');
+		});*/
+		
+		 $( "ul.subcateg li" )
+                    .mouseout(function() {
+                        alert('Holaaa');
+                        //  $( "p:first", this ).text( "mouse out" );
+                        //$( "p:last", this ).text( ++i );
+                    })
+                    .mouseover(function() {
+                        alert('Ciaooo');
+                        //$( "p:first", this ).text( "mouse over" );
+            });
+
+	});
+    </script>
+{% endblock %}
+{% block bodypage %}
+    <!--breadcrumbs start-->
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-sm-4">
+                    <h1>{{ datos.title }}</h1>
+                    <input type="hidden" id="name_offer" value="{{datos.title  }}">
+                </div>
+                <div class="col-lg-8 col-sm-8">
+                    <ol class="breadcrumb pull-right">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Pages</a></li>
+                        <li class="active">Contact</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--breadcrumbs end-->
+    <!--container start-->
+    <div class="container">
+	 {% if message is defined %}
+            <div class="alert alert-block alert-danger fade in">
+                <button data-dismiss="alert" class="close close-sm" type="button">
+                    <i class="fa fa-times"></i>
+                </button>
+                <strong>{{ message }}</strong>
+            </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-lg-8 oportunity">
+                <div class="blog-item">
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <h1>{{ datos.title }}</h1>
+							<input type="hidden" id="id_test" value="{{datos.id_test }}">
+                            <p id="pdescription">{{ datos.description }}</p>
+                            <!--budget-->
+							<div class="blog-side-item">
+                                <div class="tags">
+                                   <h3>Budget: <span class="value">${{ datos.budget }}</span></h3>    
+                                </div>
+                            </div>                          
+                            <!--End budget-->
+                            <!--Skills-->
+							 <div class="blog-side-item dskills">
+                                <div class="tags">
+                                    <h3>Skills:
+                                    <ul class="list-unstyled tag">
+                                         {% for data in datos.skills %}
+                                        <li>
+                                            <a href="#">{{ data }}</a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul></h3>
+                                </div>
+                            </div>
+                            <!--End Skills-->
+                             <a class="btn btn-danger" data-toggle="modal" href="{{ path('offer_test',{'id_offer':datos.id,'id_test':datos.id_test})}}">Applica</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="blog-side-item">
+                    <div class="search-row">
+                        <input type="text" placeholder="Search here" class="form-control">
+                    </div>
+                    <div class="category">
+                        <h3>Categories</h3>
+                        <div class="tree">
+                            <ul class="list-unstyled">
+                                {% for item in datos.categories %}
+                                    <li>
+                                        <a>
+                                            <i class="fa fa-angle-right"></i>
+                                            {{ item.name }}
+                                        </a>
+                                        <ul class="subcateg">
+                                            {% for eleme in item.subcategory %}
+                                                <li><a>{{ eleme.name }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--container end-->
+    {#<!-- modal Login-->#}
+    {#<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">#}
+        {#<div class="modal-dialog">#}
+            {#<div class="modal-content">#}
+                {#<div class="modal-header">#}
+                    {#<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>#}
+                    {#<h4 class="modal-title">Aplica</h4>#}
+                {#</div>#}
+                {#<div class="row">#}
+                    {#<div class="col-lg-12">#}
+                        {#<section class="panel">#}
+                            {#<div class="panel-body">#}
+                                {#<form class="form-horizontal" id="default">#}
+                                    {#<fieldset title="Step1" class="step" id="default-step-0">#}
+                                        {#<legend>{{ datos.name_test }}</legend>#}
+                                        {#<input type="hidden" id="id_test" value="{{datos.id_test }}">#}
+                                        {#{% set cont = 1 %}#}
+                                        {#{% for value in datos.test %}#}
+                                            {#<div class="form-group">#}
+                                                {#<label for="inputSuccess" class="col-sm-3 control-label col-lg-3">{{ cont }} - {{ value.title }}</label>#}
+                                                {#<div class="col-lg-10">#}
+                                                    {#<div class="radiotest">#}
+                                                        {#{% for radio in value.questions %}#}
+                                                            {#<div class="radio">#}
+                                                                {#<label>#}
+                                                                    {#<input type="radio"  value="{{radio.id }}" id="{{ value.id }}" name="optionsRadios{{ value.id }}">#}
+                                                                    {#{{ radio.value }}#}
+                                                                {#</label>#}
+                                                            {#</div>#}
+                                                        {#{% endfor %}#}
+                                                    {#</div>#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                            {#{% set cont = cont + 1 %}#}
+                                        {#{% endfor %}#}
+                                    {#</fieldset>#}
+                                    {#<fieldset title="Step 2" class="step" id="default-step-1" >#}
+                                        {#<div class="form-group">#}
+                                            {#<label class="col-lg-2 control-label">Raccontaci la tua sperienza in questo campo</label>#}
+                                            {#<div class="col-lg-10">#}
+                                                {#<textarea id="message" rows="5" cols="60" class="form-control"></textarea>#}
+                                            {#</div>#}
+                                        {#</div>#}
+                                        {#<legend>Upload CV</legend>#}
+                                        {#<div class="form-group">#}
+                                            {#<label class="control-label col-md-3">File</label>#}
+                                            {#<div class="controls col-md-9">#}
+                                                {#<div class="fileupload fileupload-new" data-provides="fileupload">#}
+                                                {#<span class="btn btn-white btn-file">#}
+                                                {#<span class="fileupload-new"><i class="fa fa-paper-clip"></i> Select file</span>#}
+                                                {#<span class="fileupload-exists"><i class="fa fa-undo"></i> Change</span>#}
+                                                {#<input type="file" class="default" id="mfile" name="mfile" value="">#}
+                                                {#</span>#}
+                                                    {#<span class="fileupload-preview" style="margin-left:5px;"></span>#}
+                                                    {#<a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none; margin-left:5px;"></a>#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                        {#</div>#}
+                                    {#</fieldset>#}
+                                    {#<input id="btn_ok" style="float: right;" type="button" class="btn btn-danger" value="Inviare"/>#}
+                                 {#</form>#}
+                             {#</div>#}
+                         {#</section>#}
+                     {#</div>#}
+                 {#</div>#}
+                 {#<!--div class="modal-footer">#}
+                     {#<!--button data-dismiss="modal" class="btn btn-default" type="button">Close</button-->#}
+                    {#<!--button id="btn_ok" class="btn btn-danger" type="button">Inviare</button-->#}
+                    {#<!--input id="btn_ok" type="button" class="finish btn btn-danger" value="Inviare"/>#}
+                {#</div-->#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
+    {#<!--End modal Login -->#}
+{% endblock %}

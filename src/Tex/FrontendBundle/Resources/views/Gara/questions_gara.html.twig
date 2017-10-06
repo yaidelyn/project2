@@ -1,0 +1,289 @@
+<!-- SELECT2 -->
+<link href="{{asset('bundles/backend/css/style-index.css')}}" rel="stylesheet">
+<link href="{{asset('bundles/backend/css/style.css')}}" rel="stylesheet">
+<link href="{{asset('bundles/backend/css/style-responsive.css')}}" rel="stylesheet" />
+<style>
+    .button-add{
+        float: right;
+        margin-right: 10px;
+    }
+</style>
+<!--script for this page-->
+<script src="{{asset('bundles/backend/js/jquery.stepcustom.js')}}"></script>
+<script src="{{asset('bundles/backend/js/jquery.blockUI.js')}}"></script>
+<script>
+    $(function(){
+        $('#default').stepy({
+            backLabel: 'Previous',
+            block: true,
+            nextLabel: 'Next',
+            addLabel: 'Add',
+            titleClick: true,
+            titleTarget: '.stepy-tab'
+        });
+
+        //add operes
+        var temp = [];
+        var html="";
+        $('.finish').click(function(e){
+          $('input[type=checkbox]:checked').each(function(i){
+              temp[i]= $(this).val();
+          });
+            //alert(temp.length);
+            var url = "{{ path('data_opere') }}";
+            var data = {
+                idopere:temp
+            }
+            $.ajax({
+                type: "POST",
+                url: url,
+                data:data,
+                dataType:"json",
+                beforeSend:function(request) {
+                    alert("TRA LE PARTI PROGETTUALI COSI' IDENTIFICATE, EVIDENZIA  QUELLE CHE SVILUPPI CON PARTICOLARE PASSIONE ED ENTUSIASMO");
+                },
+                success: function(response) {
+                    $('.modal-body').html("");
+                    $.each(response.result,function(i,value){
+                        html+='<div  class="checkbox checkbox-opere">' +
+                        '<label>' +
+                        '<input name="opere" value="'+value.id+'" type="checkbox">'+value.name+'</label></div>';
+                    });
+                    $('.modal-body').html(html);
+                }
+            });
+
+        });
+
+        $('.btn-success').click(function(e){
+            e.preventDefault();
+            var fd = new FormData();
+            var file = $(document).find('input[type="file"]');
+            var individual_file = file[0].files[0];
+            var idrol =  $('input[name=role_name]:checked').val();
+            var value = $('#idgara').val();
+            var url = "{{ path('create_competencia',{'id':'text1'})}}";
+            url = url.replace("text1", value);
+
+            /* var data = {
+             idopere:listOpere(),
+             idrol:idrol,
+             file:individual_file
+             }*/
+          if(validate()){
+              fd.append('idopere',listOpere());
+              fd.append('idrol',idrol);
+              fd.append("file", individual_file);
+              $.ajax({
+                  type: "POST",
+                  url: url,
+                  data:fd,
+                  dataType:"json",
+                  contentType: false,
+                  processData: false,
+                  beforeSend:function(request) {
+                      $.blockUI({ css: {
+                          border: 'none',
+                          padding: '15px',
+                          backgroundColor: '#000',
+                          '-webkit-border-radius': '10px',
+                          '-moz-border-radius': '10px',
+                          opacity: .5,
+                          color: '#fff'
+                      }});
+                  },
+                  success: function(response) {
+                      $('#myModal').css('display','none');
+                      //alert(response.mensaje);
+                      window.location.href = "{{ path('User_index') }}";
+                  },
+                  complete: function(data) {
+                      // end of ajax call
+                      $.unblockUI();
+                  }
+              });
+
+          }
+
+        });
+        //validate step
+        var pos = 1;
+
+      $("#default-title-1").click(function(){
+            var cant = 0;
+            $('#default-step-0').children().find('input[type=checkbox]:checked').each(function(){
+                cant++;
+            });
+          if(cant == 0){
+              $("#default-title-0").click();
+              alert('Messagio Error!!');
+          }
+        });
+        $("#default-title-2").click(function(){
+            var cant = 0;
+            $('#default-step-1').children().find('input[type=checkbox]:checked').each(function(){
+                cant++;
+            });
+            if(cant == 0){
+                $("#default-title-1").click();
+                alert('Messagio Error!!');
+            }
+        });
+        $("#default-title-3").click(function(){
+            var cant = 0;
+            $('#default-step-2').children().find('input[type=checkbox]:checked').each(function(){
+                cant++;
+            });
+            if(cant == 0){
+                $("#default-title-2").click();
+                alert('Messagio Error!!');
+            }
+        });
+
+        //btn-next
+        $("#default-next-0").click(function(){
+            var cant = 0;
+            $('#default-step-0').children().find('input[type=checkbox]:checked').each(function(){
+                cant++;
+            });
+            if(cant == 0){
+                $("#default-title-0").click();
+                alert('Messagio Error!!');
+            }
+
+        });
+        $("#default-next-1").click(function(){
+            var cant = 0;
+            $('#default-step-1').children().find('input[type=checkbox]:checked').each(function(){
+                cant++;
+            });
+            if(cant == 0){
+                $("#default-title-1").click();
+                alert('Messagio Error!!');
+            }
+
+        });
+        $("#default-next-2").click(function(){
+            var cant = 0;
+            $('#default-step-2').children().find('input[type=checkbox]:checked').each(function(){
+                cant++;
+            });
+            if(cant == 0){
+                $("#default-title-2").click();
+                alert('Messagio Error!!');
+            }
+
+        });
+        //end btn-next
+
+    });
+    //retorna todas los id opere
+    var listOpere = function(){
+        var result =[];
+        var j = 0;
+        $('div .check-mark').each(function(){
+            //alert( $(this).children().find('input[type=checkbox]:checked').size());
+            var idsubcat = $(this).attr('id');
+            var i = 0;
+            var  arrayOpere =new Array();
+            var  temp =new Array();
+            $(this).children().find('input[type=checkbox]:checked').each(function(){
+                temp[i] = $(this).val();
+                i++;
+            });
+            arrayOpere.push(temp);
+            result[j]= {'subcategory':idsubcat,'operes':arrayOpere};
+            j++;
+        });
+
+        return JSON.stringify(result);
+    }
+    validate = function(){
+        if($('input[name=role_name]:checked').size()==0){
+            alert('Select Figure Richieste!!');
+            return false;
+        }
+        return true;
+
+    }
+</script>
+<section class="panel">
+    <header class="panel-heading">
+        Questa è la procedura guidata per determinare le tue competenze e preferenze
+    </header>
+    <div class="panel-body">
+        <div class="stepy-tab">
+            <ul id="default-titles" class="stepy-titles clearfix">
+                {% set myVal = 0 %}
+                {% for item in result.data %}
+                    <li id="default-title-0" class="current-step">
+                        <div>{% set myVal = myVal + 10 %}</div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <form class="form-horizontal" id="default">
+            {% set a=result.data|length %}
+            {% for key in result.data|keys %}
+                <fieldset  title="{{ "Step #{key+1}" }}" class="step" id="default-step-{{"{key}"}}">
+                    <legend></legend>
+                    <div id="{{result.data[key].subcategory.id }}" class="check-mark form-group">
+                        <label  class="col-sm-2 control-label col-lg-2" for="inputSuccess">{{ result.data[key].subcategory.name }}</label>
+                        <div class="col-lg-10">
+                            {% for item in result.data[key].operes %}
+                                <div  class="checkbox checkbox-opere">
+                                    <label>
+                                        <input name="opere" value="{{ item.id }}" type="checkbox">
+                                        {{ item.identificazione }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </fieldset>
+            {% endfor %}
+            <fieldset title="Step {{a+1}}" class="step" id="default-step-{{"{a}"}}">
+                <legend> </legend>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Upload CV</label>
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-lg-8 col1199_6">
+                                <input type="text" value="" name="mfile" id="mfile" class="form-control" readonly>
+                            </div>
+                            <div class="col-lg-4 col1199_2">
+                                <div class="btnfile">
+                                    <a class='btn btn-primary btn-file' href='javascript:;'>
+                                        Choose File...
+                                        <input type="file" class="mfile" name="file_source" onchange='$("#mfile").val($(this).val());'>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <a class="finish btn btn-danger" data-toggle="modal" href="#myModal">
+                Finish
+            </a>
+            <!--input type="button" class="finish btn btn-danger" value="Finish"/-->
+        </form>
+    </div>
+</section>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Modal Tittle</h4>
+            </div>
+            <div class="modal-body">
+                Body goes here...
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="button">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

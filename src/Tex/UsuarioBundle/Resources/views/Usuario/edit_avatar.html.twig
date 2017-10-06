@@ -1,0 +1,71 @@
+{% extends '::backend.html.twig' %}
+{% block title %}Edit Avatar{% endblock %}
+  {%  block stylesheets %}
+     {{ parent() }}
+      <link href="{{asset('web/bundles/backend/assets/jcrop/css/jquery.Jcrop.min.css')}}" rel="stylesheet" />
+      <link href="{{asset('web/bundles/backend/css/image-crop.css')}}" rel="stylesheet" />
+ {%  endblock %}
+   {% block aside %}
+      <div class="row">
+        <aside class="col-md-12">
+          <section class="panel">
+              <header class="panel-heading">
+              <form enctype="multipart/form-data" action="{{path('upload_avatar')}}" class="form-horizontal" method="post">
+                <div class="row">
+                    <div class="col-lg-4 col1199_a4">
+                        <input type="text" name="mfile" id="mfile" class="form-control" readonly>
+                        <input type="hidden" id="imgurl" name="imgurl" value="{{asset('web/bundles/backend/img/')}}"/>
+                        <input type="hidden" id="imgpath" value="{{path('crop_image')}}"/>
+                        <input type="hidden" id="editp" value="{{path('edit_profile')}}"/>
+                    </div>
+                    <div class="col-lg-2 col1199_a2">
+                        <div class="btnfile">
+                            <a class='btn btn-primary btn-file' href='javascript:;'>
+                            Choose File...
+                            <input type="file" class="mfile" name="pfile" onchange='$("#mfile").val($(this).val());'>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col1199_a2">
+                        <button type="submit" class="btn btn-info">Save</button>
+                    </div>
+                </div>
+              </form>
+              </header>
+              <div class="line"></div>
+              {% if (datos.crop == 1) %}
+              <div id="panel-crop" class="panel-body">
+              {% else %}
+              <div id="panel-crop" class="panel-body" style="display:none;">
+              {% endif %}
+                  <!--<div class="col-md-8">-->
+                  <div style="width:{{datos.width}}px;height:{{datos.height}}px;max-width:80%;">
+                    {% if (datos.imgcrop) %}
+                      <img src="{{asset('web/bundles/backend/img/avatars/large')}}/{{datos.imgcrop}}" id="demo3" width="100%"/>
+                    {% endif %}
+                  </div>
+                  <div class="col-md-2">
+                      <div id="preview-pane">
+                          <div class="preview-container">
+                              <img src="{{asset('web/bundles/backend/img/avatars/large')}}/{{datos.imgcrop}}" class="jcrop-preview"/>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </section>
+        </aside>
+      </div>
+   {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <!--script for this page-->
+    <script src="{{asset('web/bundles/backend/assets/jcrop/js/jquery.color.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/assets/jcrop/js/jquery.Jcrop.min.js')}}"></script>
+    <script src="{{asset('web/bundles/backend/js/form-image-crop.js')}}"></script>
+    <script>
+      jQuery(document).ready(function() {
+          // initiate layout and plugins
+          FormImageCrop.init();
+      });
+    </script>
+{% endblock %}

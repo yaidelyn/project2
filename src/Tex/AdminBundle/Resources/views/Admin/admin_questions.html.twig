@@ -1,0 +1,64 @@
+<!-- SELECT2 -->
+<link href="{{asset('web/bundles/backend/css/style-index.css')}}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{{asset('web/bundles/backend/assets/nestable/jquery.nestable.css')}}" />
+
+<style>
+    .button-add{
+        float: right;
+        margin-right: 10px;
+    }
+    .col-opere{
+        border: 1px solid #F1F2F7;
+        margin-bottom: 25px;
+    }
+    .heading-gara{
+        background-color: #6DBB4A;
+        color: #fff;
+    }
+</style>
+<!--script for this page-->
+<script>
+    $(function(){
+        $('.content-form').css('display','none');
+        var i = 0;
+        $('.parti').each(function(){
+            $(this).click(function(){
+                //var temp = arrPartiAll;
+                $('#tex_opere').val($(this).attr('id'));
+                array[i] = arrPartiAll;
+                temp = [];
+                i++;
+
+            });
+        });
+
+        });
+</script>
+{% for item in result.data %}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading heading-gara">
+               {{ item.name_categ }}
+            </header>
+            <div class="panel-body">
+                {% for subcate in item.subcategories %}
+                <div id="{{ subcate.subcategory.id  }}" class="form-group check-mark">
+                    <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">{{ subcate.subcategory.name }}</label>
+                    <div id="{{ subcate.subcategory.id  }}" class="col-lg-10 col-opere">
+                    {% for opere in subcate.operes %}
+                        <div id="{{ subcate.subcategory.id  }}"  class="checkbox">
+                                <label>
+                                    <input name="opere" value="{{opere.id}}" type="checkbox">
+                                    {{ opere.identificazione }}
+                                </label>
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+</div>
+{% endfor %}

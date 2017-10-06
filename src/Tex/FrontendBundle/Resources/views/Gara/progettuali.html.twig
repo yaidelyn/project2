@@ -1,0 +1,50 @@
+<!-- SELECT2 -->
+<link href="{{asset('bundles/backend/css/style-index.css')}}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{{asset('bundles/backend/assets/nestable/jquery.nestable.css')}}" />
+
+<style>
+    .col15{
+        width: 20%;
+    }
+    .content-result{
+        margin-bottom: 5px;
+        border-bottom: 1px solid #eff2f7;
+    }
+    .label-proge{
+        font-weight: 600!important;
+    }
+</style>
+<!--script for this page-->
+<script>
+    $(function(){
+
+
+    });
+</script>
+{% for data in result.operes %}
+<div id="{{ data.id }}" class="content-result">
+     <div class="row">
+         <div  class="col-lg-12 opere">
+             <label>{{ data.name }}</label>
+         </div>
+     </div>
+    <div class="row">
+        {% for item in result.data %}
+        <div class="col-lg-2 col15">
+            <label id="{{ item.progettuali.id }}" class="control-label label-proge">{{ item.progettuali.name }}</label>
+                {% for type in item.type_progettuali %}
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input name="typeprogett" value="{{ type.id }}" type="checkbox">  {{ type.name }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}

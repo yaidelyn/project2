@@ -1,0 +1,222 @@
+<?php
+
+namespace Tex\FrontendBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Tex\AdminBundle\Entity\Opere;
+
+/**
+ * FormGara
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class FormGara
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="date")
+     */
+    private $created;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="createBy", type="string", length=255)
+     */
+    private $createBy;
+
+
+    /**
+     * @var \PartiProgettuali
+     *
+     * @ORM\ManyToMany(targetEntity="PartiProgettuali",inversedBy="parti_progettuali")
+     * @ORM\JoinTable(
+     *      joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
+     * )
+     */
+    private $parti_progettuali;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Tex\AdminBundle\Entity\GareTeam")
+     * @ORM\JoinColumn(name="gareteam_id", referencedColumnName="id")
+     */
+    protected $gareteam;
+
+
+    /**
+     * @var \Opere
+     *
+     * @ORM\ManyToMany(targetEntity="\Tex\AdminBundle\Opere",inversedBy="operes")
+     * @ORM\JoinTable(
+     *      joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
+     * )
+     */
+    private $operes;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->parti_progettuali = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->operes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return FormGara
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set createBy
+     *
+     * @param string $createBy
+     * @return FormGara
+     */
+    public function setCreateBy($createBy)
+    {
+        $this->createBy = $createBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createBy
+     *
+     * @return string 
+     */
+    public function getCreateBy()
+    {
+        return $this->createBy;
+    }
+
+    /**
+     * Add parti_progettuali
+     *
+     * @param \Tex\FrontendBundle\Entity\PartiProgettuali $partiProgettuali
+     * @return FormGara
+     */
+    public function addPartiProgettuali(\Tex\FrontendBundle\Entity\PartiProgettuali $partiProgettuali)
+    {
+        $this->parti_progettuali[] = $partiProgettuali;
+
+        return $this;
+    }
+
+    /**
+     * Remove parti_progettuali
+     *
+     * @param \Tex\FrontendBundle\Entity\PartiProgettuali $partiProgettuali
+     */
+    public function removePartiProgettuali(\Tex\FrontendBundle\Entity\PartiProgettuali $partiProgettuali)
+    {
+        $this->parti_progettuali->removeElement($partiProgettuali);
+    }
+
+    /**
+     * Get parti_progettuali
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPartiProgettuali()
+    {
+        return $this->parti_progettuali;
+    }
+
+
+    /**
+     * Add operes
+     *
+     * @param \Tex\AdminBundle\Opere $operes
+     * @return FormGara
+     */
+    public function addOpere(\Tex\AdminBundle\Opere $operes)
+    {
+        $this->operes[] = $operes;
+
+        return $this;
+    }
+
+    /**
+     * Remove operes
+     *
+     * @param \Tex\AdminBundle\Opere $operes
+     */
+    public function removeOpere(\Tex\AdminBundle\Opere $operes)
+    {
+        $this->operes->removeElement($operes);
+    }
+
+    /**
+     * Get operes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOperes()
+    {
+        return $this->operes;
+    }
+
+    /**
+     * Set gareteam
+     *
+     * @param \Tex\AdminBundle\Entity\GareTeam $gareteam
+     * @return FormGara
+     */
+    public function setGareteam(\Tex\AdminBundle\Entity\GareTeam $gareteam = null)
+    {
+        $this->gareteam = $gareteam;
+
+        return $this;
+    }
+
+    /**
+     * Get gareteam
+     *
+     * @return \Tex\AdminBundle\Entity\GareTeam 
+     */
+    public function getGareteam()
+    {
+        return $this->gareteam;
+    }
+}

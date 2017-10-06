@@ -1,0 +1,7 @@
+index_project:
+    path: /create_project/
+    defaults: { _controller: ProyectoBundle:Default:index }
+
+create_project:
+    path: /new_project/
+    defaults: { _controller: ProyectoBundle:Default:createProject }
